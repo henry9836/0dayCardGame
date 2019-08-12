@@ -9,7 +9,12 @@ public:
 	~Game();
 
 	Scenes currentScene;
-	vector<GameObject*> gameObjects;
+	
+	//scenes
+	vector<GameObject*> gameObjects; //global
+	vector<GameObject*> maingameObjects; //main menu
+	vector<GameObject*> playgameObjects; //game
+	
 	glm::vec2 ScreenSize = {750	,750};
 	glm::vec2 MousePosition;
 

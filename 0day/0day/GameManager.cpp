@@ -7,9 +7,26 @@ bool DEBUG_MODE = true;
 void Render() {
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
-	for (size_t i = 0; i < game->gameObjects.size(); i++) //Render Objects
+	//Render Objects
+
+	for (size_t i = 0; i < game->gameObjects.size(); i++) 
 	{
 		game->gameObjects.at(i)->Render();
+	}
+
+	//Render Based On Current Scene
+
+	if (game->currentScene == Scenes::SCENE_MAIN) {
+		for (size_t i = 0; i < game->maingameObjects.size(); i++)
+		{
+			game->maingameObjects.at(i)->Render();
+		}
+	}
+	else if (game->currentScene == Scenes::SCENE_GAME) {
+		for (size_t i = 0; i < game->playgameObjects.size(); i++)
+		{
+			game->playgameObjects.at(i)->Render();
+		}
 	}
 
 	glutSwapBuffers();
@@ -17,14 +34,44 @@ void Render() {
 
 void Update() {
 	Render();
+
+	//Tick Objects
+
+	for (size_t i = 0; i < game->gameObjects.size(); i++)
+	{
+		game->gameObjects.at(i)->Tick();
+	}
+
+	//Tick Based On Current Scene
+
+	if (game->currentScene == Scenes::SCENE_MAIN) {
+		for (size_t i = 0; i < game->maingameObjects.size(); i++)
+		{
+			game->maingameObjects.at(i)->Tick();
+		}
+	}
+	else if (game->currentScene == Scenes::SCENE_GAME) {
+		for (size_t i = 0; i < game->playgameObjects.size(); i++)
+		{
+			game->playgameObjects.at(i)->Tick();
+		}
+	}
 }
 
 void keyboard(unsigned char key, int, int) {
+	if (key == 49) {
+		Console_OutputLog(L"Switching to main menu", LOGINFO);
+		game->currentScene = Scenes::SCENE_MAIN;
+	}
+	else if (key == 50) {
+		Console_OutputLog(L"Switching to game", LOGINFO);
+		game->currentScene = Scenes::SCENE_GAME;
+	}
 	wcout << "KEY: " << key << endl;
 }
 
 void keyboardSpecial(int key, int, int) {
-
+	
 }
 
 void mouseMovement(int x, int y) {
@@ -39,9 +86,20 @@ void mouse(int button, int state, int x, int y) { //Click
 }
 
 void populateGameObjectList() {
-	game->gameObjects.push_back(new GameObject(SimpleTriangle(glm::vec3(0.0f,0.8f,0.0f), glm::vec3(-0.4f,0.0f,0.0f), glm::vec3(0.4f,0.0f,0.0f)), glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), "Test Triangle"));
-	game->gameObjects.push_back(new GameObject(SimpleLine(glm::vec3(-0.8f, 0.9f, 0.0f), glm::vec3(-0.6f, 0.7f, 0.0f)), glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), "Test Line"));
-	game->gameObjects.push_back(new GameObject(SimpleFan(glm::vec3(0.8f, 0.9f, 0.0f), vector<glm::vec3>{glm::vec3(0.8f, 0.6f, 0.0f), glm::vec3(0.7f, 0.65f, 0.0f), glm::vec3(0.6f, 0.6f, 0.0f)}), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), "Test Fan"));
+	Console_OutputLog(L"Creating GameObjects...", LOGINFO);
+
+	//GLOBALS
+
+	game->gameObjects.push_back(new GameObject(SimpleTriangle(glm::vec3(0.0f, 0.8f, 0.0f), glm::vec3(-0.4f, 0.0f, 0.0f), glm::vec3(0.4f, 0.0f, 0.0f)), glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), "Test Triangle", vector<GameObject::objectBehaviours>{GameObject::NONE}));
+
+	//MAINMENU OBJECTS
+
+	game->maingameObjects.push_back(new GameObject(SimpleLine(glm::vec3(-0.8f, 0.9f, 0.0f), glm::vec3(-0.6f, 0.7f, 0.0f)), glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), "Test Line", vector<GameObject::objectBehaviours>{GameObject::DEMO}));
+
+	//GAMEPLAY OBJECTS
+
+	game->playgameObjects.push_back(new GameObject(SimpleFan(glm::vec3(0.7f, 0.5f, 0.0f), vector<glm::vec3>{glm::vec3(0.8f, 0.6f, 0.0f), glm::vec3(0.7f, 0.65f, 0.0f), glm::vec3(0.6f, 0.6f, 0.0f)}), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), "Test Fan", vector<GameObject::objectBehaviours>{GameObject::NONE}));
+
 }
 
 void Start(int argc, char** argv)

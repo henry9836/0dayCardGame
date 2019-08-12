@@ -8,43 +8,81 @@ GameObject::GameObject(string _name)
 	this->type = UNASSIGNEDTYPE;
 }
 
-GameObject::GameObject(SimpleTriangle _triangleData, glm::vec4 color, string _name)
+GameObject::GameObject(SimpleTriangle _triangleData, glm::vec4 color, string _name, vector<objectBehaviours> _behaviours)
 {
 	Console_OutputLog(to_wstring("Creating Simple Triangle Object: " + _name), LOGINFO);
 	this->color = color;
 	this->name = _name;
 	this->simpleTriangleData = _triangleData;
 	this->type = SIMPLETRI;
+	this->behaviours.clear();
+	for (size_t i = 0; i < _behaviours.size(); i++)
+	{
+		this->behaviours.push_back(_behaviours.at(i));
+	}
 }
 
-GameObject::GameObject(SimpleLine _simpleLineData, glm::vec4 color, string _name)
+GameObject::GameObject(SimpleLine _simpleLineData, glm::vec4 color, string _name, vector<objectBehaviours> _behaviours)
 {
 	Console_OutputLog(to_wstring("Creating Simple Line Object: " + _name), LOGINFO);
 	this->color = color;
 	this->name = _name;
 	this->simpleLineData = _simpleLineData;
 	this->type = SIMPLELINE;
+	this->behaviours.clear();
+	for (size_t i = 0; i < _behaviours.size(); i++)
+	{
+		this->behaviours.push_back(_behaviours.at(i));
+	}
 }
 
-GameObject::GameObject(SimpleFan _simpleFanData, glm::vec4 color, string _name)
+GameObject::GameObject(SimpleFan _simpleFanData, glm::vec4 color, string _name, vector<objectBehaviours> _behaviours)
 {
 	Console_OutputLog(to_wstring("Creating Simple Triangle Fan Object: " + _name), LOGINFO);
 	this->color = color;
 	this->name = _name;
 	this->simpleFanData = _simpleFanData;
 	this->type = SIMPLEFAN;
+	this->behaviours.clear();
+	for (size_t i = 0; i < _behaviours.size(); i++)
+	{
+		this->behaviours.push_back(_behaviours.at(i));
+	}
 }
 
 GameObject::~GameObject()
 {
+
 }
 
 void GameObject::Tick()
 {
+	for (size_t i = 0; i < this->behaviours.size(); i++)
+	{
+		if (this->behaviours.at(i) == GameObject::DEMO) {
+			if (this->type == objectTypes::SIMPLELINE) {
+				if (demoMode) {
+					this->simpleLineData.secondPoint.x += 0.01f;
+					this->simpleLineData.firstPoint.y -= 0.01f;
+				}
+				else {
+					this->simpleLineData.secondPoint.x -= 0.01f;
+					this->simpleLineData.firstPoint.y += 0.01f;
+				}
+				if (this->simpleLineData.secondPoint.x > 0.9f) {
+					demoMode = false;
+				}
+				else if (this->simpleLineData.secondPoint.x < -0.9f) {
+					demoMode = true;
+				}
+			}
+		}
+	}
 }
 
 void GameObject::Render()
 {
+	
 	if (this->type == objectTypes::SIMPLETRI) {
 		glBegin(GL_TRIANGLES);
 
