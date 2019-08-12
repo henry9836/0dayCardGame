@@ -39,7 +39,9 @@ void mouse(int button, int state, int x, int y) { //Click
 }
 
 void populateGameObjectList() {
-	game->gameObjects.push_back(new GameObject(SimpleTriangle(glm::vec3(0.0f,0.8f,0.0f), glm::vec3(-0.4f,0.0f,0.0f), glm::vec3(0.4f,0.0f,0.0f)), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), "Test Triangle"));
+	game->gameObjects.push_back(new GameObject(SimpleTriangle(glm::vec3(0.0f,0.8f,0.0f), glm::vec3(-0.4f,0.0f,0.0f), glm::vec3(0.4f,0.0f,0.0f)), glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), "Test Triangle"));
+	game->gameObjects.push_back(new GameObject(SimpleLine(glm::vec3(-0.8f, 0.9f, 0.0f), glm::vec3(-0.6f, 0.7f, 0.0f)), glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), "Test Line"));
+	game->gameObjects.push_back(new GameObject(SimpleFan(glm::vec3(0.8f, 0.9f, 0.0f), vector<glm::vec3>{glm::vec3(0.8f, 0.6f, 0.0f), glm::vec3(0.7f, 0.65f, 0.0f), glm::vec3(0.6f, 0.6f, 0.0f)}), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), "Test Fan"));
 }
 
 void Start(int argc, char** argv)

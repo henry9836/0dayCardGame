@@ -6,12 +6,16 @@ public:
 	
 	enum objectTypes {
 		UNASSIGNEDTYPE,
-		SIMPLETRI
+		SIMPLETRI,
+		SIMPLELINE,
+		SIMPLEFAN
 	};
 
 	//Constructors
 	GameObject(string _name);
 	GameObject(SimpleTriangle _triangleData, glm::vec4 color, string _name); //Simple Triangle
+	GameObject(SimpleLine _simpleLineData, glm::vec4 color, string _name); //Simple Line
+	GameObject(SimpleFan _simpleFanData, glm::vec4 color, string _name); //Simple Fan
 	~GameObject();
 
 	void Tick();
@@ -24,6 +28,8 @@ public:
 	vector<Scenes> assignedScenes;
 
 	SimpleTriangle simpleTriangleData;
+	SimpleLine simpleLineData;
+	SimpleFan simpleFanData;
 	
 	
 
