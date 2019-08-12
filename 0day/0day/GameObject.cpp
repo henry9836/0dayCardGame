@@ -55,19 +55,19 @@ GameObject::~GameObject()
 
 }
 
-void GameObject::Tick()
+void GameObject::Tick(float deltaTime)
 {
 	for (size_t i = 0; i < this->behaviours.size(); i++)
 	{
 		if (this->behaviours.at(i) == GameObject::DEMO) {
 			if (this->type == objectTypes::SIMPLELINE) {
 				if (demoMode) {
-					this->simpleLineData.secondPoint.x += 0.01f;
-					this->simpleLineData.firstPoint.y -= 0.01f;
+					this->simpleLineData.secondPoint.x += (0.01f * deltaTime);
+					this->simpleLineData.firstPoint.y -= (0.01f * deltaTime);
 				}
 				else {
-					this->simpleLineData.secondPoint.x -= 0.01f;
-					this->simpleLineData.firstPoint.y += 0.01f;
+					this->simpleLineData.secondPoint.x -= (0.01f * deltaTime);
+					this->simpleLineData.firstPoint.y += (0.01f * deltaTime);
 				}
 				if (this->simpleLineData.secondPoint.x > 0.9f) {
 					demoMode = false;

@@ -23,7 +23,7 @@ public:
 	GameObject(SimpleFan _simpleFanData, glm::vec4 color, string _name, vector<objectBehaviours> _behaviours); //Simple Fan
 	~GameObject();
 
-	void Tick();
+	void Tick(float deltaTime);
 	void Render();
 
 	//Variables needed for all gameobjects

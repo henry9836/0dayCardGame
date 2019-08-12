@@ -3,6 +3,9 @@
 Game* game;
 
 bool DEBUG_MODE = true;
+float currentTime;
+float deltaTime;
+float pasttime;
 
 void Render() {
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
@@ -34,12 +37,15 @@ void Render() {
 
 void Update() {
 	Render();
+	currentTime = static_cast<float>(glutGet(GLUT_ELAPSED_TIME));
+	deltaTime = (currentTime - pasttime) * 0.1f;
+	pasttime = currentTime;
 
 	//Tick Objects
 
 	for (size_t i = 0; i < game->gameObjects.size(); i++)
 	{
-		game->gameObjects.at(i)->Tick();
+		game->gameObjects.at(i)->Tick(deltaTime);
 	}
 
 	//Tick Based On Current Scene
@@ -47,13 +53,13 @@ void Update() {
 	if (game->currentScene == Scenes::SCENE_MAIN) {
 		for (size_t i = 0; i < game->maingameObjects.size(); i++)
 		{
-			game->maingameObjects.at(i)->Tick();
+			game->maingameObjects.at(i)->Tick(deltaTime);
 		}
 	}
 	else if (game->currentScene == Scenes::SCENE_GAME) {
 		for (size_t i = 0; i < game->playgameObjects.size(); i++)
 		{
-			game->playgameObjects.at(i)->Tick();
+			game->playgameObjects.at(i)->Tick(deltaTime);
 		}
 	}
 }
