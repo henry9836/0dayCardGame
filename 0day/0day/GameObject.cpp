@@ -14,6 +14,7 @@ GameObject::GameObject(SimpleTriangle _triangleData, glm::vec4 color, string _na
 	this->color = color;
 	this->name = _name;
 	this->simpleTriangleData = _triangleData;
+	this->type = SIMPLETRI;
 }
 
 GameObject::~GameObject()
@@ -26,4 +27,15 @@ void GameObject::Tick()
 
 void GameObject::Render()
 {
+	if (this->type == objectTypes::SIMPLETRI) {
+		glBegin(GL_TRIANGLES);
+
+		glColor4f(this->color.x, this->color.y, this->color.z, this->color.w);
+
+		glVertex3f(this->simpleTriangleData.firstPoint.x, this->simpleTriangleData.firstPoint.y, this->simpleTriangleData.firstPoint.z);
+		glVertex3f(this->simpleTriangleData.secondPoint.x, this->simpleTriangleData.secondPoint.y, this->simpleTriangleData.secondPoint.z);
+		glVertex3f(this->simpleTriangleData.thirdPoint.x, this->simpleTriangleData.thirdPoint.y, this->simpleTriangleData.thirdPoint.z);
+
+		glEnd();
+	}
 }
