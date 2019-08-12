@@ -9,7 +9,7 @@ public:
 	~Game();
 
 	Scenes currentScene;
-	vector<GameObject>* gameObjects;
+	vector<GameObject*> gameObjects;
 
 	void switchScene(Scenes newScene);
 };

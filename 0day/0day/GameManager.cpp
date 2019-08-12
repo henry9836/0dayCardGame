@@ -7,8 +7,12 @@ bool DEBUG_MODE = true;
 void Start()
 {
 	
-
 	Console_OutputLog(L"Initialising OpenGL Components...", LOGINFO);
+
+	//Testing
+
+	game.gameObjects.push_back(new GameObject("Hello World"));
+
 
 
 }
