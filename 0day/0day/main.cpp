@@ -1,13 +1,13 @@
 #include "Util.h"
 #include "GameManager.h"
 
-int main(int argc, char* argv[]) {
+int main(int argc, char** argv) {
 
 	//Initalise Console Controller
 	Banner();
 
 	//Start Game
-	Start();
+	Start(argc, argv);
 
 	system("pause");
 

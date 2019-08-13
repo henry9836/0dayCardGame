@@ -9,9 +9,16 @@ public:
 	~Game();
 
 	Scenes currentScene;
-	vector<GameObject*> gameObjects;
+	
+	//scenes
+	vector<GameObject*> gameObjects; //global
+	vector<GameObject*> maingameObjects; //main menu
+	vector<GameObject*> playgameObjects; //game
+	
+	glm::vec2 ScreenSize = {750	,750};
+	glm::vec2 MousePosition;
 
 	void switchScene(Scenes newScene);
 };
 
-void Start();
+void Start(int argc, char** argv);
