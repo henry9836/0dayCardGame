@@ -13,7 +13,7 @@ void Start()
 
 	game.gameObjects.push_back(new GameObject("Hello World"));
 	game.gameObjects.push_back(new GameObject("Fab says hi"));
-
+	game.gameObjects.push_back(new GameObject("Howdy"));
 
 }
 
