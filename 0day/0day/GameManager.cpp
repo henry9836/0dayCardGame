@@ -136,7 +136,7 @@ void populateGameObjectList() {
 	//GLOBALS
 
 	game->gameObjects.push_back(new GameObject(SimpleTriangle(glm::vec3(0.0f, 0.8f, 0.0f), glm::vec3(-0.4f, 0.0f, 0.0f), glm::vec3(0.4f, 0.0f, 0.0f)), glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), "Test Triangle", vector<GameObject::objectBehaviours>{GameObject::NONE}));
-	//game->gameObjects.push_back(new GameObject(new CTextLabel("Hello World", ""), "Hello World Text", vector<GameObject::objectBehaviours>{GameObject::NONE}));
+	game->gameObjects.push_back(new GameObject(new CTextLabel("Hello World", "/Resources/Fonts/TerminusTTF-4.47.0.ttf", glm::vec2(0,0), glm::vec3(0.4f, 0.0f, 0.0f), 1.0f, game, "Hello World Test"), "Hello World Text", vector<GameObject::objectBehaviours>{GameObject::NONE}));
 
 
 	//MAINMENU OBJECTS

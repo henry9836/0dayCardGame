@@ -8,9 +8,9 @@ CTextLabel::CTextLabel()
 
 }
 //Init the class fully
-CTextLabel::CTextLabel(std::string newText, std::string newFont, glm::vec2 pos, glm::vec3 color, float scale, Game* game)
+CTextLabel::CTextLabel(std::string newText, std::string newFont, glm::vec2 pos, glm::vec3 color, float scale, Game* game, string _name)
 {
-
+	Console_OutputLog(to_wstring("Creating Text Object: " + _name), LOGINFO);
 	text = newText;
 	SetColor(color);
 	SetScale(scale);
@@ -36,6 +36,7 @@ CTextLabel::CTextLabel(std::string newText, std::string newFont, glm::vec2 pos, 
 	if (FT_New_Face(ft, newFont.c_str(), 0, &face) != 0)
 	{
 		Console_OutputLog(L"Could not load font", LOGWARN);
+		return;
 	}
 	FT_Set_Pixel_Sizes(face, 0, 48);
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);

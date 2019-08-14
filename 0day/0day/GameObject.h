@@ -1,6 +1,7 @@
 #pragma once
 #include "Util.h"
-#include "TextManager.h"
+
+class CTextLabel;
 
 class GameObject {
 public:
@@ -45,3 +46,5 @@ public:
 	bool demoMode = true;
 
 };
+
+#include "TextManager.h"

@@ -1,4 +1,4 @@
-#pragma once
+//#pragma once
 
 #ifndef TEXTMANAGER_H
 #define TEXTMANAGER_H
@@ -20,7 +20,7 @@
 
 //Local Includes
 #include "ShaderLoader.h"
-#include "GameManager.h"
+
 
 struct FontChar
 {
@@ -30,12 +30,14 @@ struct FontChar
 	GLuint Advance;
 };
 
+class Game;
+
 class CTextLabel
 {
 
 public:
 	CTextLabel();
-	CTextLabel(std::string newText, std::string newFont, glm::vec2 pos, glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f), float scale = 1.0f, Game* game = NULL);
+	CTextLabel(std::string newText, std::string newFont, glm::vec2 pos, glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f), float scale = 1.0f, Game* game = NULL, string _name = "Untilted Text");
 	~CTextLabel() { Characters.clear(); };
 
 	void Render();
@@ -55,4 +57,7 @@ private:
 	glm::mat4 proj;
 	std::map<GLchar, FontChar> Characters;
 };
+
+#include "GameManager.h"
+
 #endif

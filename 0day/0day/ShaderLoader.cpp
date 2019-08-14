@@ -87,7 +87,7 @@ std::string ShaderLoader::ReadShaderFile(const char* filename)
 
 	// Ensure the file is open and readable
 	if (!file.good()) {
-		std::cout << "Cannot read file:  " << filename << std::endl;
+		Console_OutputLog(to_wstring("Cannot read file: " + (string)filename), LOGWARN);
 		return "";
 	}
 
