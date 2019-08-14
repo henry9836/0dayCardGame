@@ -8,7 +8,7 @@ CTextLabel::CTextLabel()
 
 }
 //Init the class fully
-CTextLabel::CTextLabel(std::string newText, std::string newFont, glm::vec2 pos, glm::vec3 color, float scale, Game* game, string _name)
+CTextLabel::CTextLabel(std::string newText, std::string newFont, glm::vec2 pos, glm::vec3 color, float scale, Game* game, std::string _name)
 {
 	Console_OutputLog(to_wstring("Creating Text Object: " + _name), LOGINFO);
 	text = newText;
