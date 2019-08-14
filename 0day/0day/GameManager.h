@@ -15,7 +15,7 @@ public:
 	vector<GameObject*> maingameObjects; //main menu
 	vector<GameObject*> playgameObjects; //game
 	
-	glm::vec2 ScreenSize = {1000,750};
+	glm::vec2 ScreenSize = {950,750};
 	glm::vec2 MousePosition;
 
 	void switchScene(Scenes newScene);
