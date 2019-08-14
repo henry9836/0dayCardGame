@@ -21,7 +21,6 @@
 //Local Includes
 #include "ShaderLoader.h"
 #include "GameManager.h"
-//#include "Utility.h"
 
 struct FontChar
 {
