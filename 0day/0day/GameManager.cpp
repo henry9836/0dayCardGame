@@ -2,7 +2,7 @@
 
 Game* game;
 
-bool DEBUG_MODE = true;
+bool mouseDown = false;
 float currentTime;
 float deltaTime;
 float pasttime;
@@ -88,7 +88,13 @@ void mouseMovement(int x, int y) {
 }
 
 void mouse(int button, int state, int x, int y) { //Click
-	wcout << "Mouse Clicked: " << button << endl;
+	if (!mouseDown) {
+		wcout << "Mouse Clicked: " << button << endl;
+		mouseDown = true;
+	}
+	else {
+		mouseDown = false;
+	}
 }
 
 void populateGameObjectList() {
