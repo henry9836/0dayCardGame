@@ -152,7 +152,7 @@ inline void Console_OutputLog(std::wstring log, int type) {
 }
 
 inline void Banner() {
-	_setmode(_fileno(stdout), _O_U16TEXT);
+	int retVal = _setmode(_fileno(stdout), _O_U16TEXT);
 	srand((unsigned int)time(NULL));
 	int color = rand() % 15 + 1;
 	Console_ColoredTEXT(L"===============================================================\n", color);
@@ -162,9 +162,8 @@ inline void Banner() {
 	Console_ColoredTEXT(L" / /___/ /_/ / / / (__  ) /_/ / /  __/  / /___/ /_/ /  / /  \n", color);
 	Console_ColoredTEXT(L" \\____/\\____/_/ /_/____/\\____/_/\\___/   \\____/\\__/_/  /_/   \n", color);
 	Console_ColoredTEXT(L" ~ Henry Oliver                                    v 4.1\n", color); \
-		Console_ColoredTEXT(L"===============================================================\n", color);
+	Console_ColoredTEXT(L"===============================================================\n", color);
 	Console_ColoredTEXT(L"\n", 15);
-
 }
 
 inline wstring to_wstring(string str)
