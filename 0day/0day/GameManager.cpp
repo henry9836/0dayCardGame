@@ -65,6 +65,39 @@ void Update() {
 }
 
 void keyboard(unsigned char key, int, int) {
+
+	//Main Menu
+	if (game->currentScene == Scenes::SCENE_MAIN) {
+		//Quit
+		if (key == 27 || key == 113 || key == 81) { // ESC/Q 
+
+			Console_OutputLog(L"Exiting Game...", LOGINFO);
+
+			for (size_t i = 0; i < game->gameObjects.size(); i++)
+			{
+				game->gameObjects.at(i)->~GameObject();
+				game->gameObjects.erase(game->gameObjects.begin() + i);
+				i--;
+			}
+
+			for (size_t i = 0; i < game->playgameObjects.size(); i++)
+			{
+				game->playgameObjects.at(i)->~GameObject();
+				game->playgameObjects.erase(game->playgameObjects.begin() + i);
+				i--;
+			}
+
+			for (size_t i = 0; i < game->maingameObjects.size(); i++)
+			{
+				game->maingameObjects.at(i)->~GameObject();
+				game->maingameObjects.erase(game->maingameObjects.begin() + i);
+				i--;
+			}
+
+			glutLeaveMainLoop();
+		}
+	}
+
 	if (key == 49) {
 		Console_OutputLog(L"Switching to main menu", LOGINFO);
 		game->currentScene = Scenes::SCENE_MAIN;

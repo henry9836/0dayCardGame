@@ -98,6 +98,8 @@ void GameObject::Render()
 	else if (this->type == objectTypes::SIMPLELINE) {
 		glBegin(GL_LINES);
 
+		glLineWidth(100.0f);
+
 		glColor4f(this->color.x, this->color.y, this->color.z, this->color.w);
 
 		glVertex3f(this->simpleLineData.firstPoint.x, this->simpleLineData.firstPoint.y, this->simpleLineData.firstPoint.z);
