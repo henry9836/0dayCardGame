@@ -2,10 +2,29 @@
 
 GameObject::GameObject(string _name)
 {
-	
 	Console_OutputLog(to_wstring("Creating GameObject But GameObject (\"" + _name + "\") Has No Type"), LOGWARN);
 	this->name = _name;
 	this->type = UNASSIGNEDTYPE;
+}
+
+GameObject::GameObject(BasicCard _cardData, string _name, vector<objectBehaviours> _behaviours)
+{
+	this->name = _name;
+	this->cardData = _cardData;
+	this->behaviours.clear();
+	this->type = BASICCARD;
+	for (size_t i = 0; i < _behaviours.size(); i++)
+	{
+		this->behaviours.push_back(_behaviours.at(i));
+	}
+	/*Scale = glm::vec3(1.0f, 1.0f, 1.0f);
+	Rotation = glm::vec3(0.0f, 0.0f, 0.0f);
+	Pos = _Pos;
+	VAO = MeshManager::GetMesh(_ObjectType)->VAO;
+	IndicesCount = MeshManager::GetMesh(_ObjectType)->IndicesCount;
+	Texture = MeshManager::GetMesh(_ObjectType)->Texture;
+	Shader = MeshManager::GetMesh(_ObjectType)->Shader;
+	Type = _ObjectType;*/
 }
 
 GameObject::GameObject(SimpleTriangle _triangleData, glm::vec4 color, string _name, vector<objectBehaviours> _behaviours)
@@ -50,6 +69,18 @@ GameObject::GameObject(SimpleFan _simpleFanData, glm::vec4 color, string _name, 
 	}
 }
 
+GameObject::GameObject(CTextLabel* _text, string _name, vector<objectBehaviours> _behaviours)
+{
+	this->type = TEXT;
+	this->name = _name;
+	this->behaviours.clear();
+	this->text = _text;
+	for (size_t i = 0; i < _behaviours.size(); i++)
+	{
+		this->behaviours.push_back(_behaviours.at(i));
+	}
+}
+
 GameObject::~GameObject()
 {
 
@@ -80,9 +111,9 @@ void GameObject::Tick(float deltaTime)
 	}
 }
 
-void GameObject::Render()
+void GameObject::Render(Game* game)
 {
-	
+
 	if (this->type == objectTypes::SIMPLETRI) {
 		glBegin(GL_TRIANGLES);
 
@@ -97,6 +128,8 @@ void GameObject::Render()
 
 	else if (this->type == objectTypes::SIMPLELINE) {
 		glBegin(GL_LINES);
+
+		glLineWidth(100.0f);
 
 		glColor4f(this->color.x, this->color.y, this->color.z, this->color.w);
 
@@ -119,8 +152,75 @@ void GameObject::Render()
 
 		glEnd();
 	}
+	else if (this->type == objectTypes::BASICCARD)
+	{
+		glUseProgram(cardData.Shader);
+
+		//Binding the array
+		glBindVertexArray(cardData.VAO);
+
+		//Setting back face culling
+		glCullFace(GL_BACK);
+		glFrontFace(GL_CW);
+		glEnable(GL_CULL_FACE);
+
+		//Enable blending
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		//Setting and binding the correct texture
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, cardData.Texture);
+
+		//Sending the texture to the GPU via uniform
+		glUniform1i(glGetUniformLocation(cardData.Shader, "tex"), 0);
+
+		//Translating the cube (x,y,z)
+		glm::mat4 TranslationMatrix = glm::translate(glm::mat4(), cardData.Pos / 375.0f);
+
+		//Y Rotation
+		glm::mat4 RotateY =
+			glm::rotate(
+				glm::mat4(),
+				glm::radians(cardData.Rotation.y),
+				glm::vec3(0.0f, 1.0f, 0.0f)
+			);
+
+		//X Rotation
+		glm::mat4 RotateX =
+			glm::rotate(
+				glm::mat4(),
+				glm::radians(cardData.Rotation.x),
+				glm::vec3(1.0f, 0.0f, 0.0f)
+			);
+
+		glm::mat4 RotationMatrix = RotateX * RotateY;
+		glm::mat4 ScaleMatrix = glm::scale(glm::mat4(), cardData.Scale);
+
+		cardData.ModelMatrix = TranslationMatrix * RotationMatrix * ScaleMatrix;
+
+		glm::mat4 MVP = game->camera.getMVP(this->cardData.Pos, this->cardData.Scale, glm::mat4()) * cardData.ModelMatrix;
+
+		glUniformMatrix4fv(glGetUniformLocation(cardData.Shader, "MVP"), 1, GL_FALSE, glm::value_ptr(MVP));
+		glUniformMatrix4fv(glGetUniformLocation(cardData.Shader, "model"), 1, GL_FALSE, glm::value_ptr(cardData.ModelMatrix));
+		glUniform3fv(glGetUniformLocation(cardData.Shader, "camPos"), 1, glm::value_ptr(game->camera.camPos));
+		//Drawing the entity
+		glDrawElements(GL_TRIANGLES, cardData.IndicesCount, GL_UNSIGNED_INT, 0);
+
+		//Disabling backface culling
+		glDisable(GL_CULL_FACE);
+
+		glDisable(GL_BLEND);
+
+		//Clearing the vertex array
+		glBindVertexArray(0);
+	}
+
+	else if (this->type == objectTypes::TEXT) {
+		this->text->Render();
+	}
 
 	else {
-		Console_OutputLog(to_wstring("GameObject \""+this->name+"\" cannot be rendered as it's type is either unassigned or unknown to the render function."),LOGWARN);
+		Console_OutputLog(to_wstring("GameObject \"" + this->name + "\" cannot be rendered as it's type is either unassigned or unknown to the render function."), LOGWARN);
 	}
 }

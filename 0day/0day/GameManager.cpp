@@ -14,7 +14,7 @@ void Render() {
 
 	for (size_t i = 0; i < game->gameObjects.size(); i++) 
 	{
-		game->gameObjects.at(i)->Render();
+		game->gameObjects.at(i)->Render(game);
 	}
 
 	//Render Based On Current Scene
@@ -22,13 +22,13 @@ void Render() {
 	if (game->currentScene == Scenes::SCENE_MAIN) {
 		for (size_t i = 0; i < game->maingameObjects.size(); i++)
 		{
-			game->maingameObjects.at(i)->Render();
+			game->maingameObjects.at(i)->Render(game);
 		}
 	}
 	else if (game->currentScene == Scenes::SCENE_GAME) {
 		for (size_t i = 0; i < game->playgameObjects.size(); i++)
 		{
-			game->playgameObjects.at(i)->Render();
+			game->playgameObjects.at(i)->Render(game);
 		}
 	}
 
@@ -65,6 +65,39 @@ void Update() {
 }
 
 void keyboard(unsigned char key, int, int) {
+
+	//Main Menu
+	if (game->currentScene == Scenes::SCENE_MAIN) {
+		//Quit
+		if (key == 27 || key == 113 || key == 81) { // ESC/Q 
+
+			Console_OutputLog(L"Exiting Game...", LOGINFO);
+
+			for (size_t i = 0; i < game->gameObjects.size(); i++)
+			{
+				game->gameObjects.at(i)->~GameObject();
+				game->gameObjects.erase(game->gameObjects.begin() + i);
+				i--;
+			}
+
+			for (size_t i = 0; i < game->playgameObjects.size(); i++)
+			{
+				game->playgameObjects.at(i)->~GameObject();
+				game->playgameObjects.erase(game->playgameObjects.begin() + i);
+				i--;
+			}
+
+			for (size_t i = 0; i < game->maingameObjects.size(); i++)
+			{
+				game->maingameObjects.at(i)->~GameObject();
+				game->maingameObjects.erase(game->maingameObjects.begin() + i);
+				i--;
+			}
+
+			glutLeaveMainLoop();
+		}
+	}
+
 	if (key == 49) {
 		Console_OutputLog(L"Switching to main menu", LOGINFO);
 		game->currentScene = Scenes::SCENE_MAIN;
@@ -103,22 +136,24 @@ void populateGameObjectList() {
 	//GLOBALS
 
 	game->gameObjects.push_back(new GameObject(SimpleTriangle(glm::vec3(0.0f, 0.8f, 0.0f), glm::vec3(-0.4f, 0.0f, 0.0f), glm::vec3(0.4f, 0.0f, 0.0f)), glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), "Test Triangle", vector<GameObject::objectBehaviours>{GameObject::NONE}));
+	
 
 	//MAINMENU OBJECTS
-
 	game->maingameObjects.push_back(new GameObject(SimpleLine(glm::vec3(-0.8f, 0.9f, 0.0f), glm::vec3(-0.6f, 0.7f, 0.0f)), glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), "Test Line", vector<GameObject::objectBehaviours>{GameObject::DEMO}));
 
 	//GAMEPLAY OBJECTS
-
+	game->playgameObjects.push_back(new GameObject(new CTextLabel("Wow what a great prototype", "Resources/Fonts/TerminusTTF-4.47.0.ttf", glm::vec2(-10, 0), glm::vec3(0.4f, 0.0f, 0.0f), 1.0f, game, "Hello World Test"), "Hello World Text", vector<GameObject::objectBehaviours>{GameObject::NONE}));
 	game->playgameObjects.push_back(new GameObject(SimpleFan(glm::vec3(0.7f, 0.5f, 0.0f), vector<glm::vec3>{glm::vec3(0.8f, 0.6f, 0.0f), glm::vec3(0.7f, 0.65f, 0.0f), glm::vec3(0.6f, 0.6f, 0.0f)}), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), "Test Fan", vector<GameObject::objectBehaviours>{GameObject::NONE}));
-
+	game->playgameObjects.push_back(new GameObject(BasicCard(glm::vec3(0,0,0),glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0,0,0), MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER), MeshManager::SetTexture("Resources/Textures/test.png")), "Card", vector<GameObject::objectBehaviours>{GameObject::NONE}));
 }
 
 void Start(int argc, char** argv)
 {
 
+
 	//Init OpenGL
 	game = new Game;
+	
 	Console_OutputLog(L"Initialising OpenGL Components...", LOGINFO);
 
 	glutInit(&argc, argv);
@@ -137,11 +172,14 @@ void Start(int argc, char** argv)
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 
-	glClearColor(0.0, 0.0, 0.0, 1.0);
-
+	glClearColor(1.0, 1.0, 0.0, 1.0);
+	MeshManager::GetInstance();
 	//create GameObjects
-
+	game->camera.initializeCamera();
+	game->camera.SwitchMode(Camera::ORTH, glm::vec3(0,0,0), glm::vec3(0,0,-2), glm::vec3(0,0,0), 2.0f, 0.0f);
 	populateGameObjectList();
+	//Start MeshManager
+
 
 	//Start OpenGL
 
