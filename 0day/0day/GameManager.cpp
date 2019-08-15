@@ -152,6 +152,7 @@ void Start(int argc, char** argv)
 
 	//Init OpenGL
 	game = new Game;
+	
 	Console_OutputLog(L"Initialising OpenGL Components...", LOGINFO);
 
 	glutInit(&argc, argv);
@@ -173,7 +174,8 @@ void Start(int argc, char** argv)
 	glClearColor(1.0, 1.0, 0.0, 1.0);
 
 	//create GameObjects
-
+	game->camera.initializeCamera();
+	game->camera.SwitchMode(Camera::ORTH, glm::vec3(0,0,0), glm::vec3(0,0,-2), glm::vec3(0,0,0), 2.0f, 0.0f);
 	populateGameObjectList();
 
 	//Start OpenGL

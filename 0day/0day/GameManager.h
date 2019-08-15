@@ -2,6 +2,7 @@
 #include "Util.h"
 #include "GameObject.h"
 #include "TextManager.h" 
+#include "Camera.h"
 
 class Game {
 public:
@@ -10,7 +11,7 @@ public:
 	~Game();
 
 	Scenes currentScene;
-	
+	Camera camera;
 	//scenes
 	vector<GameObject*> gameObjects; //global
 	vector<GameObject*> maingameObjects; //main menu
