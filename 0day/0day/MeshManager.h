@@ -21,12 +21,6 @@ enum Shader_Attributes
 	BASIC_SHADER
 };
 
-struct MESH
-{
-	GLuint VAO;
-	unsigned int IndicesCount;
-};
-
 class MeshManager
 {
 public:
@@ -36,9 +30,9 @@ public:
 
 	static std::shared_ptr<MESH> GetMesh(Object_Attributes _ObjectType);
 
-	GLuint GetShaderProgram(Shader_Attributes _ShaderType);
+	static GLuint GetShaderProgram(Shader_Attributes _ShaderType);
 
-	GLuint SetTexture(const char* _Texture);
+	static GLuint SetTexture(const char* _Texture);
 
 private:
 	MeshManager();
@@ -46,6 +40,8 @@ private:
 	static std::shared_ptr<MeshManager> MeshManagerptr;
 
 	static GLuint BasicShader;
+
+	static GLuint Texture;
 
 	// Mesh ptrs
 	static std::shared_ptr<MESH> SquareMesh;

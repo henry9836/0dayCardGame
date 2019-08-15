@@ -4,7 +4,10 @@ std::shared_ptr<MESH> MeshManager::SquareMesh = nullptr;
 
 std::shared_ptr<MeshManager> MeshManager::MeshManagerptr = nullptr;
 
-inline std::shared_ptr<MESH> MeshManager::GetMesh(Object_Attributes _ObjectType)
+GLuint MeshManager::BasicShader;
+
+GLuint MeshManager::Texture;
+std::shared_ptr<MESH> MeshManager::GetMesh(Object_Attributes _ObjectType)
 {
 	if (_ObjectType == CARD_ENTITY) return SquareMesh;
 

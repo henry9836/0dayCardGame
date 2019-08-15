@@ -1,7 +1,5 @@
 #include "TextManager.h"
 
-
-
 //temp Constructor
 CTextLabel::CTextLabel()
 {

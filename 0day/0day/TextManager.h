@@ -20,7 +20,7 @@
 
 //Local Includes
 #include "ShaderLoader.h"
-
+#include "Util.h"
 
 struct FontChar
 {
@@ -37,7 +37,7 @@ class CTextLabel
 
 public:
 	CTextLabel();
-	CTextLabel(std::string newText, std::string newFont, glm::vec2 pos, glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f), float scale = 1.0f, Game* game = NULL, std::string _name = "Untilted Text");
+	CTextLabel(std::string newText, std::string newFont, glm::vec2 pos, glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f), float scale = 1.0f, Game * game = NULL, std::string _name = "Untilted Text");
 	~CTextLabel() { Characters.clear(); };
 
 	void Render();
