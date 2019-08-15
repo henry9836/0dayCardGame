@@ -1,19 +1,20 @@
 #include "ShaderLoader.h" 
-#include<iostream>
-#include<fstream>
-#include<vector>
+#include <iostream>
+#include <fstream>
+#include <vector>
 #include <map>
 
-ShaderLoader::ShaderLoader(void) {}
-ShaderLoader::~ShaderLoader(void) {}
+ShaderLoader::ShaderLoader(void){}
+ShaderLoader::~ShaderLoader(void){}
 
+//Used to store already made shaders and programs 
 std::map<std::string, GLuint> shaderMap;
 std::map<std::string, GLuint> programMap;
 
 GLuint ShaderLoader::CreateProgram(const char* vertexShaderFilename, const char* fragmentShaderFilename)
 {
-	std::string programFilename = vertexShaderFilename + *fragmentShaderFilename;
-	std::map<std::string, GLuint>::iterator it = shaderMap.find(vertexShaderFilename);
+	std::string programFilename = static_cast<std::string>(vertexShaderFilename) + static_cast<std::string>(fragmentShaderFilename);
+	std::map<std::string, GLuint>::iterator it = shaderMap.find(programFilename);
 	if (it != shaderMap.end())
 	{
 		return (*it).second; // pair.second
@@ -38,7 +39,7 @@ GLuint ShaderLoader::CreateProgram(const char* vertexShaderFilename, const char*
 			PrintErrorDetails(false, program, programName.c_str());
 			return 0;
 		}
-		programMap.insert({ vertexShaderFilename, program });
+		programMap.insert({ programFilename, program });
 		return program;
 	}
 }
@@ -61,7 +62,7 @@ GLuint ShaderLoader::CreateShader(GLenum shaderType, const char* shaderName)
 	{
 		std::string shaderSource = ReadShaderFile(shaderName);
 		GLuint shaderID = glCreateShader(shaderType);
-		const char* shader_code_ptr = shaderSource.c_str();
+		const char *shader_code_ptr = shaderSource.c_str();
 		const int shader_code_size = shaderSource.size();
 		glShaderSource(shaderID, 1, &shader_code_ptr, &shader_code_size);
 		glCompileShader(shaderID);
@@ -79,7 +80,7 @@ GLuint ShaderLoader::CreateShader(GLenum shaderType, const char* shaderName)
 	}
 }
 
-std::string ShaderLoader::ReadShaderFile(const char* filename)
+std::string ShaderLoader::ReadShaderFile(const char *filename)
 {
 	// Open the file for reading
 	std::ifstream file(filename, std::ios::in);
@@ -87,7 +88,7 @@ std::string ShaderLoader::ReadShaderFile(const char* filename)
 
 	// Ensure the file is open and readable
 	if (!file.good()) {
-		Console_OutputLog(to_wstring("Cannot read file: " + (string)filename), LOGWARN);
+		std::cout << "Cannot read file:  " << filename << std::endl;
 		return "";
 	}
 
@@ -111,8 +112,7 @@ void ShaderLoader::PrintErrorDetails(bool isShader, GLuint id, const char* name)
 	std::vector<char> log(infoLogLength);
 
 	// Retrieve the log info and populate log variable
-	Console_OutputLog(to_wstring("Error compiling " + (string)name + ", Error Output is as follows: \n"), LOGWARN);
-	(isShader == true) ? glGetShaderInfoLog(id, infoLogLength, NULL, &log[0]) : glGetProgramInfoLog(id, infoLogLength, NULL, &log[0]);
-	std::wcout << L"Error compiling " << ((isShader == true) ? L"shader" : L"program") << L": " << name << std::endl;
-	std::wcout << &log[0] << std::endl;
+	(isShader == true) ? glGetShaderInfoLog(id, infoLogLength, NULL, &log[0]) : glGetProgramInfoLog(id, infoLogLength, NULL, &log[0]);		
+	std::cout << "Error compiling " << ((isShader == true) ? "shader" : "program") << ": " << name << std::endl;
+	std::cout << &log[0] << std::endl;
 }

@@ -7,11 +7,9 @@
 // Library Includes
 #include <iostream>
 
-#include "ConsoleController.h"
-
 class ShaderLoader
 {
-
+	
 public:
 	ShaderLoader(void);
 	~ShaderLoader(void);
@@ -19,6 +17,6 @@ public:
 
 private:
 	static GLuint CreateShader(GLenum shaderType, const char* shaderName);
-	static std::string ReadShaderFile(const char* filename);
+	static std::string ReadShaderFile(const char *filename);
 	static void PrintErrorDetails(bool isShader, GLuint id, const char* name);
 };
