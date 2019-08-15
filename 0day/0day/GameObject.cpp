@@ -50,6 +50,18 @@ GameObject::GameObject(SimpleFan _simpleFanData, glm::vec4 color, string _name, 
 	}
 }
 
+GameObject::GameObject(CTextLabel* _text, string _name, vector<objectBehaviours> _behaviours)
+{
+	this->type = TEXT;
+	this->name = _name;
+	this->behaviours.clear();
+	this->text = _text;
+	for (size_t i = 0; i < _behaviours.size(); i++)
+	{
+		this->behaviours.push_back(_behaviours.at(i));
+	}
+}
+
 GameObject::~GameObject()
 {
 
@@ -120,6 +132,10 @@ void GameObject::Render()
 		}
 
 		glEnd();
+	}
+
+	else if (this->type == objectTypes::TEXT) {
+		this->text->Render();
 	}
 
 	else {
