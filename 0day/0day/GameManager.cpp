@@ -150,6 +150,7 @@ void populateGameObjectList() {
 void Start(int argc, char** argv)
 {
 
+
 	//Init OpenGL
 	game = new Game;
 	
@@ -177,6 +178,8 @@ void Start(int argc, char** argv)
 	game->camera.initializeCamera();
 	game->camera.SwitchMode(Camera::ORTH, glm::vec3(0,0,0), glm::vec3(0,0,-2), glm::vec3(0,0,0), 2.0f, 0.0f);
 	populateGameObjectList();
+	//Start MeshManager
+	MeshManager::GetInstance();
 
 	//Start OpenGL
 
