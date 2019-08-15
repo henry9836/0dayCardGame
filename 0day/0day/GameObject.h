@@ -2,6 +2,8 @@
 #include "Util.h"
 #include "MeshManager.h"
 
+class CTextLabel;
+
 class GameObject {
 public:
 	
@@ -9,7 +11,8 @@ public:
 		UNASSIGNEDTYPE,
 		SIMPLETRI,
 		SIMPLELINE,
-		SIMPLEFAN
+		SIMPLEFAN,
+		TEXT
 	};
 
 	enum objectBehaviours {
@@ -22,6 +25,7 @@ public:
 	GameObject(SimpleTriangle _triangleData, glm::vec4 color, string _name, vector<objectBehaviours> _behaviours); //Simple Triangle
 	GameObject(SimpleLine _simpleLineData, glm::vec4 color, string _name, vector<objectBehaviours> _behaviours); //Simple Line
 	GameObject(SimpleFan _simpleFanData, glm::vec4 color, string _name, vector<objectBehaviours> _behaviours); //Simple Fan
+	GameObject(CTextLabel* _text, string _name, vector<objectBehaviours> _behaviours);
 	~GameObject();
 
 	void Tick(float deltaTime);
@@ -36,7 +40,8 @@ public:
 	SimpleTriangle simpleTriangleData;
 	SimpleLine simpleLineData;
 	SimpleFan simpleFanData;
-	
+	CTextLabel* text;
+
 	glm::vec3 position;
 
 	bool demoMode = true;
@@ -56,3 +61,5 @@ private:
 	glm::mat4 VPMatrix;
 
 };
+
+#include "TextManager.h"
