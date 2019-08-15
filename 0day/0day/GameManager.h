@@ -1,6 +1,7 @@
 #pragma once
 #include "Util.h"
 #include "GameObject.h"
+#include "MeshManager.h"
 
 class Game {
 public:
@@ -19,6 +20,9 @@ public:
 	glm::vec2 MousePosition;
 
 	void switchScene(Scenes newScene);
+
+private:
+
 };
 
 void Start(int argc, char** argv);

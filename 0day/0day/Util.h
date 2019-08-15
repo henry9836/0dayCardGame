@@ -6,6 +6,7 @@
 #include <vector>
 #include <SOIL.h>
 #include <glm.hpp>
+#include <glut.h>
 #include <gtc/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
 #include <ft2build.h>
@@ -72,3 +73,15 @@ struct SimpleFan {
 		this->points = _points;
 	}
 };
+
+namespace Utility
+{
+	const unsigned int SCR_WIDTH = 800;
+	const unsigned int SCR_HEIGHT = 800;
+	const std::string ObjectShaderVert = "Resources/Shaders/ObjectShaderV.vs";
+	const std::string ObjectShaderFrag = "Resources/Shaders/ObjectShaderF.fs";
+	const std::string DesertTexture = "Resources/Textures/desert.jpg";
+	const std::string NormalFontString = "Resources/Fonts/arial.ttf";
+	const std::string TextShaderVert = "Resources/Shaders/Text.vs";
+	const std::string TextShaderFrag = "Resources/Shaders/Text.fs";
+}

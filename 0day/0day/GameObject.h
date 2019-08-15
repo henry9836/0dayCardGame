@@ -1,5 +1,6 @@
 #pragma once
 #include "Util.h"
+#include "MeshManager.h"
 
 class GameObject {
 public:
@@ -39,5 +40,19 @@ public:
 	glm::vec3 position;
 
 	bool demoMode = true;
+
+private:
+	unsigned IndicesCount;
+
+	GLuint VAO;
+	GLuint Shader;
+	GLuint Texture;
+
+	glm::vec3 Pos;
+	glm::vec3 Scale;
+	glm::vec3 Rotation;
+
+	glm::mat4 ModelMatrix;
+	glm::mat4 VPMatrix;
 
 };

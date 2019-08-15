@@ -122,6 +122,8 @@ void GameObject::Render()
 		glEnd();
 	}
 
+
+
 	else {
 		Console_OutputLog(to_wstring("GameObject \""+this->name+"\" cannot be rendered as it's type is either unassigned or unknown to the render function."),LOGWARN);
 	}

@@ -150,6 +150,7 @@ void populateGameObjectList() {
 void Start(int argc, char** argv)
 {
 
+
 	//Init OpenGL
 	game = new Game;
 	Console_OutputLog(L"Initialising OpenGL Components...", LOGINFO);
@@ -175,6 +176,8 @@ void Start(int argc, char** argv)
 	//create GameObjects
 
 	populateGameObjectList();
+	//Start MeshManager
+	MeshManager::GetInstance();
 
 	//Start OpenGL
 
