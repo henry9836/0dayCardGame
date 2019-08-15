@@ -36,12 +36,30 @@ void Render() {
 }
 
 void Update() {
+
+	if (game->currentScene == Scenes::SCENE_MAIN) {
+		bool hasCard = false;
+		for (size_t i = 0; i < game->playgameObjects.size(); i++)
+		{
+			if (game->playgameObjects.at(i)->type == GameObject::SIMPLEFAN) {
+				hasCard = true;
+			}
+		}
+		if (!hasCard) {
+			Console_OutputLog(L"Dealing Cards To Player", LOGINFO);
+			game->playgameObjects.push_back(new GameObject(SimpleFan(glm::vec3(0, 0, 0), vector<glm::vec3>{glm::vec3(-0.4f, 0.6f, 0.0f), glm::vec3(0.4f, 0.6f, 0.0f), glm::vec3(0.4f, -0.6f, 0.0f), glm::vec3(-0.4f, -0.6f, 0.0f), glm::vec3(-0.4f, 0.6f, 0.0f)}), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), "Card", vector<GameObject::objectBehaviours>{GameObject::DEMOCARD}));
+		}
+	}
+
+
 	Render();
 	currentTime = static_cast<float>(glutGet(GLUT_ELAPSED_TIME));
 	deltaTime = (currentTime - pasttime) * 0.1f;
 	pasttime = currentTime;
 
 	//Tick Objects
+
+	game->camera.Tick(game->ScreenSize, deltaTime);
 
 	for (size_t i = 0; i < game->gameObjects.size(); i++)
 	{
@@ -96,8 +114,30 @@ void keyboard(unsigned char key, int, int) {
 
 			glutLeaveMainLoop();
 		}
-	}
 
+		
+	}
+	if (game->currentScene == Scenes::SCENE_GAME){
+		if (key == 119 || key == 87) {
+				bool hasCard = false;
+				for (size_t i = 0; i < game->playgameObjects.size(); i++)
+				{
+					Console_OutputLog(L"Checking For Cards In Hand", LOGINFO);
+					if (game->playgameObjects.at(i)->type == GameObject::SIMPLEFAN) {
+						hasCard = true;
+						Console_OutputLog(L"Player Delt 50 damage to enemy", LOGINFO);
+						Console_OutputLog(L"Enemy health = 50/100", LOGINFO);
+						Console_OutputLog(L"Taken Card Away From Player", LOGINFO);
+						game->playgameObjects.at(i)->~GameObject();
+						game->playgameObjects.erase(game->playgameObjects.begin() + i);
+						i--;
+					}
+				}
+				if (!hasCard) {
+					Console_OutputLog(L"Player has no card remaing", LOGINFO);
+				}
+			}
+	}
 	if (key == 49) {
 		Console_OutputLog(L"Switching to main menu", LOGINFO);
 		game->currentScene = Scenes::SCENE_MAIN;
@@ -135,16 +175,17 @@ void populateGameObjectList() {
 
 	//GLOBALS
 
-	game->gameObjects.push_back(new GameObject(SimpleTriangle(glm::vec3(0.0f, 0.8f, 0.0f), glm::vec3(-0.4f, 0.0f, 0.0f), glm::vec3(0.4f, 0.0f, 0.0f)), glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), "Test Triangle", vector<GameObject::objectBehaviours>{GameObject::NONE}));
+	//game->gameObjects.push_back(new GameObject(SimpleTriangle(glm::vec3(0.0f, 0.8f, 0.0f), glm::vec3(-0.4f, 0.0f, 0.0f), glm::vec3(0.4f, 0.0f, 0.0f)), glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), "Test Triangle", vector<GameObject::objectBehaviours>{GameObject::NONE}));
 	
 
 	//MAINMENU OBJECTS
 	game->maingameObjects.push_back(new GameObject(SimpleLine(glm::vec3(-0.8f, 0.9f, 0.0f), glm::vec3(-0.6f, 0.7f, 0.0f)), glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), "Test Line", vector<GameObject::objectBehaviours>{GameObject::DEMO}));
+	game->maingameObjects.push_back(new GameObject(new CTextLabel("Main Menu\n 1. Go To Main Menu\n 2. Go To Game\n ESC - Quit", "Resources/Fonts/TerminusTTF-4.47.0.ttf", glm::vec2(-10, 0), glm::vec3(0.4f, 0.0f, 0.0f), 1.0f, game, "Main Menu Text"), "Main Menu Text", vector<GameObject::objectBehaviours>{GameObject::NONE}));
 
 	//GAMEPLAY OBJECTS
-	game->playgameObjects.push_back(new GameObject(new CTextLabel("Wow what a great prototype", "Resources/Fonts/TerminusTTF-4.47.0.ttf", glm::vec2(-10, 0), glm::vec3(0.4f, 0.0f, 0.0f), 1.0f, game, "Hello World Test"), "Hello World Text", vector<GameObject::objectBehaviours>{GameObject::NONE}));
-	game->playgameObjects.push_back(new GameObject(SimpleFan(glm::vec3(0.7f, 0.5f, 0.0f), vector<glm::vec3>{glm::vec3(0.8f, 0.6f, 0.0f), glm::vec3(0.7f, 0.65f, 0.0f), glm::vec3(0.6f, 0.6f, 0.0f)}), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), "Test Fan", vector<GameObject::objectBehaviours>{GameObject::NONE}));
+	//game->playgameObjects.push_back(new GameObject(SimpleFan(glm::vec3(0.7f, 0.5f, 0.0f), vector<glm::vec3>{glm::vec3(0.8f, 0.6f, 0.0f), glm::vec3(0.7f, 0.65f, 0.0f), glm::vec3(0.6f, 0.6f, 0.0f)}), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), "Test Fan", vector<GameObject::objectBehaviours>{GameObject::NONE}));
 	game->playgameObjects.push_back(new GameObject(BasicCard(glm::vec3(0,0,0),glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0,0,0), MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER), MeshManager::SetTexture("Resources/Textures/test.png")), "Card", vector<GameObject::objectBehaviours>{GameObject::NONE}));
+	game->playgameObjects.push_back(new GameObject(SimpleFan(glm::vec3(0, 0, 0), vector<glm::vec3>{glm::vec3(-0.4f, 0.6f, 0.0f), glm::vec3(0.4f, 0.6f, 0.0f),glm::vec3(0.4f, -0.6f, 0.0f),glm::vec3(-0.4f, -0.6f, 0.0f), glm::vec3(-0.4f, 0.6f, 0.0f)}), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), "Card", vector<GameObject::objectBehaviours>{GameObject::DEMOCARD}));
 }
 
 void Start(int argc, char** argv)

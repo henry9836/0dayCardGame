@@ -108,6 +108,9 @@ void GameObject::Tick(float deltaTime)
 				}
 			}
 		}
+		if (this->behaviours.at(i) == GameObject::DEMOCARD) {
+			
+		}
 	}
 }
 
@@ -199,7 +202,9 @@ void GameObject::Render(Game* game)
 
 		cardData.ModelMatrix = TranslationMatrix * RotationMatrix * ScaleMatrix;
 
-		glm::mat4 MVP = game->camera.getMVP(this->cardData.Pos, this->cardData.Scale, glm::mat4()) * cardData.ModelMatrix;
+		//glm::mat4 MVP = game->camera.getMVP(this->cardData.Pos, this->cardData.Scale, glm::mat4()) * cardData.ModelMatrix;
+		//auto MVP = game->camera.proj * game->camera.view * cardData.ModelMatrix;
+		auto MVP = glm::ortho<float>(-1, 1, -1, 1, 0.1f, 1000.0f) * glm::translate(glm::mat4(), glm::vec3(0, 0, -1));
 
 		glUniformMatrix4fv(glGetUniformLocation(cardData.Shader, "MVP"), 1, GL_FALSE, glm::value_ptr(MVP));
 		glUniformMatrix4fv(glGetUniformLocation(cardData.Shader, "model"), 1, GL_FALSE, glm::value_ptr(cardData.ModelMatrix));
@@ -214,6 +219,7 @@ void GameObject::Render(Game* game)
 
 		//Clearing the vertex array
 		glBindVertexArray(0);
+		glUseProgram(0);
 	}
 
 	else if (this->type == objectTypes::TEXT) {

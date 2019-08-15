@@ -19,7 +19,8 @@ public:
 
 	enum objectBehaviours {
 		NONE,
-		DEMO
+		DEMO,
+		DEMOCARD
 	};
 
 	//Constructors
