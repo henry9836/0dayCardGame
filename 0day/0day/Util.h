@@ -123,6 +123,8 @@ namespace Utility
 	const unsigned int SCR_HEIGHT = 800;
 	const std::string ObjectShaderVert = "Resources/Shaders/ObjectShaderV.vs";
 	const std::string ObjectShaderFrag = "Resources/Shaders/ObjectShaderF.fs";
+	const std::string BasicShaderVert = "Resources/Shaders/BasicShader.vs";
+	const std::string BasicShaderFrag = "Resources/Shaders/BasicShader.vs";
 	const std::string DesertTexture = "Resources/Textures/desert.jpg";
 	const std::string NormalFontString = "Resources/Fonts/arial.ttf";
 	const std::string TextShaderVert = "Resources/Shaders/Text.vs";

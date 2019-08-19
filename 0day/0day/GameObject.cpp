@@ -115,7 +115,10 @@ Text::Text()
 Text::~Text()
 {
 
-}
+		//Setting back face culling
+		glCullFace(GL_BACK);
+		glFrontFace(GL_CCW);
+		glEnable(GL_CULL_FACE);
 
 void Text::Render(Game* game)
 {
@@ -130,32 +133,43 @@ Basiccard::Basiccard()
 {
 }
 
-Basiccard::~Basiccard()
-{
-}
+		//Translating the cube (x,y,z)
+		glm::mat4 TranslationMatrix = glm::translate(glm::mat4(), cardData.Pos / 400.f);
 
 void Basiccard::Render(Game* game)
 {
 	glUseProgram(cardData.Shader);
 
-	//Binding the array
-	glBindVertexArray(cardData.VAO);
+		//X Rotation
+		glm::mat4 RotateX =
+			glm::rotate(
+				glm::mat4(),
+				glm::radians(cardData.Rotation.x),
+				glm::vec3(1.0f, 0.0f, 0.0f)
+			);
+		//Z Rotation
+		glm::mat4 RotateZ =
+			glm::rotate(
+				glm::mat4(),
+				glm::radians(cardData.Rotation.z),
+				glm::vec3(0.0f, 0.0f, 1.0f)
+			);
 
-	//Setting back face culling
-	glCullFace(GL_BACK);
-	glFrontFace(GL_CW);
-	glEnable(GL_CULL_FACE);
+		glm::mat4 RotationMatrix = RotateX * RotateY * RotateZ;
+		glm::mat4 ScaleMatrix = glm::scale(glm::mat4(), cardData.Scale);
 
 	//Enable blending
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	//Setting and binding the correct texture
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, cardData.Texture);
+		//glm::mat4 MVP = game->camera.getMVP(this->cardData.Pos, this->cardData.Scale, glm::mat4()) * cardData.ModelMatrix;
+		auto MVP = game->camera.getVP() * cardData.ModelMatrix;
+		//auto MVP = glm::ortho<float>(-1, 1, -1, 1, 0.1f, 1000.0f) * glm::translate(glm::mat4(), glm::vec3(0, 0, -1));
 
-	//Sending the texture to the GPU via uniform
-	glUniform1i(glGetUniformLocation(cardData.Shader, "tex"), 0);
+		glUniformMatrix4fv(glGetUniformLocation(cardData.Shader, "MVP"), 1, GL_FALSE, glm::value_ptr(MVP));
+		glUniformMatrix4fv(glGetUniformLocation(cardData.Shader, "model"), 1, GL_FALSE, glm::value_ptr(cardData.ModelMatrix));
+		//Drawing the entity
+		glDrawElements(GL_TRIANGLES, cardData.IndicesCount, GL_UNSIGNED_INT, 0);
 
 	//Translating the cube (x,y,z)
 	glm::mat4 TranslationMatrix = glm::translate(glm::mat4(), cardData.Pos / 375.0f);
