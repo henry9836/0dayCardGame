@@ -5,22 +5,6 @@
 class CTextLabel;
 class Game;
 
-
-class GameObject {
-public:
-	GameObject(RenderClass *r, TickClass *t, Transform _trans) : _r(r), _t(t), transform(_trans) {};
-	
-	void Tick(float deltaTime) { _t->Tick(deltaTime); };
-	void Render() { _r->Render(&transform); };
-
-	void SetTexture(GLuint _tex) { _r->SetTexture(_tex); };
-	void SetShader(GLuint _shader) { _r->SetTexture(_shader); };
-
-	Transform transform;
-	RenderClass* _r;
-	TickClass* _t;
-};
-
 class RenderClass {
 public:
 	virtual void Render(Transform* _transform) = 0;
@@ -30,7 +14,7 @@ public:
 
 class RenderObject : public RenderClass{
 public:
-	RenderObject(GLuint _VAO, unsigned int _indiceCount, GLuint _texture, Camera* _cam, GLuint _shaderProgram) : VAO(_VAO), indiceCount(_indiceCount), texture(_texture), cam(_cam), shaderProgram(_shaderProgram) {};
+	RenderObject(GLuint _VAO, unsigned int _indiceCount, GLuint _texture, Game* _game, GLuint _shaderProgram) : VAO(_VAO), indiceCount(_indiceCount), texture(_texture), game(_game), shaderProgram(_shaderProgram) {};
 	
 	virtual void Render(Transform* _transform);
 	virtual void SetTexture(GLuint _tex);
@@ -39,7 +23,7 @@ public:
 	GLuint VAO;
 	unsigned int indiceCount;
 	GLuint texture;
-	Camera* cam;
+	Game* game;
 	GLuint shaderProgram;
 
 };
@@ -54,6 +38,20 @@ public:
 	virtual void Tick(float deltaTime);
 };
 
+class GameObject {
+public:
+	GameObject(RenderClass* r, TickClass* t, Transform _trans) : _r(r), _t(t), transform(_trans) {};
+
+	void Tick(float deltaTime) { _t->Tick(deltaTime); };
+	void Render() { _r->Render(&transform); };
+
+	void SetTexture(GLuint _tex) { _r->SetTexture(_tex); };
+	void SetShader(GLuint _shader) { _r->SetTexture(_shader); };
+
+	Transform transform;
+	RenderClass* _r;
+	TickClass* _t;
+};
 
 /*
 
