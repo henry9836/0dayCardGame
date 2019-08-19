@@ -18,17 +18,16 @@ MeshManager::MeshManager()
 {
 	GLuint VAO, VBO, EBO;
 
-	BasicShader = ShaderLoader::CreateProgram(Utility::ObjectShaderVert.data(), Utility::ObjectShaderFrag.data());
+	BasicShader = ShaderLoader::CreateProgram(Utility::BasicShaderVert.data(), Utility::BasicShaderFrag.data());
 
 	//Defines Square Vertices
 	GLfloat SquareVerts[] =
 	{
-		// Positions             // Normal Coords        // TexCoords
-		// Front Face
-		-1.0f, 1.0f, 1.0f,       0.0f, 0.0f, 1.0f,      0.0f, 0.0f,
-		1.0f, 1.0f, 1.0f,        0.0f, 0.0f, 1.0f,      1.0f, 0.0f,
-		1.0f, -1.0f, 1.0f,       0.0f, 0.0f, 1.0f,      1.0f, 1.0f,
-		-1.0f, -1.0f, 1.0f,      0.0f, 0.0f, 1.0f,      0.0f, 1.0f,
+	// Positions        // Normal Coords   // TexCoords	
+	-1.0f, 1.0f, 0.0f,		0.0f, 1.0f, 0.0f,  0.0f, 0.0f,	// Top - Left
+	 -1.0f, -1.0f, 0.0f,	1.0f, 0.0f, 0.0f,  0.0f, 1.0f,	// Bot - Left
+	 1.0f, -1.0f, 0.0f,	    1.0f, 1.0f, 0.0f,  1.0f, 1.0f,	// Bot - Right
+	 1.0f, 1.0f, 0.0f,     0.0f, 0.0f, 1.0f,  1.0f, 0.0f,	// Top - Right
 	};
 	//Defines Square Indices
 	GLuint SquareIndices[] =
@@ -102,6 +101,7 @@ GLuint MeshManager::GetShaderProgram(Shader_Attributes _ShaderType)
 	else
 	{
 		Console_OutputLog(L"Shader Failed To Load", LOGWARN);
+		return BasicShader;
 	}
 }
 

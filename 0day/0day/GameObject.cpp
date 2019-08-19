@@ -164,7 +164,7 @@ void GameObject::Render(Game* game)
 
 		//Setting back face culling
 		glCullFace(GL_BACK);
-		glFrontFace(GL_CW);
+		glFrontFace(GL_CCW);
 		glEnable(GL_CULL_FACE);
 
 		//Enable blending
@@ -179,7 +179,7 @@ void GameObject::Render(Game* game)
 		glUniform1i(glGetUniformLocation(cardData.Shader, "tex"), 0);
 
 		//Translating the cube (x,y,z)
-		glm::mat4 TranslationMatrix = glm::translate(glm::mat4(), cardData.Pos / 375.0f);
+		glm::mat4 TranslationMatrix = glm::translate(glm::mat4(), cardData.Pos / 400.f);
 
 		//Y Rotation
 		glm::mat4 RotateY =
@@ -196,19 +196,25 @@ void GameObject::Render(Game* game)
 				glm::radians(cardData.Rotation.x),
 				glm::vec3(1.0f, 0.0f, 0.0f)
 			);
+		//Z Rotation
+		glm::mat4 RotateZ =
+			glm::rotate(
+				glm::mat4(),
+				glm::radians(cardData.Rotation.z),
+				glm::vec3(0.0f, 0.0f, 1.0f)
+			);
 
-		glm::mat4 RotationMatrix = RotateX * RotateY;
+		glm::mat4 RotationMatrix = RotateX * RotateY * RotateZ;
 		glm::mat4 ScaleMatrix = glm::scale(glm::mat4(), cardData.Scale);
 
 		cardData.ModelMatrix = TranslationMatrix * RotationMatrix * ScaleMatrix;
 
 		//glm::mat4 MVP = game->camera.getMVP(this->cardData.Pos, this->cardData.Scale, glm::mat4()) * cardData.ModelMatrix;
-		//auto MVP = game->camera.proj * game->camera.view * cardData.ModelMatrix;
-		auto MVP = glm::ortho<float>(-1, 1, -1, 1, 0.1f, 1000.0f) * glm::translate(glm::mat4(), glm::vec3(0, 0, -1));
+		auto MVP = game->camera.getVP() * cardData.ModelMatrix;
+		//auto MVP = glm::ortho<float>(-1, 1, -1, 1, 0.1f, 1000.0f) * glm::translate(glm::mat4(), glm::vec3(0, 0, -1));
 
 		glUniformMatrix4fv(glGetUniformLocation(cardData.Shader, "MVP"), 1, GL_FALSE, glm::value_ptr(MVP));
 		glUniformMatrix4fv(glGetUniformLocation(cardData.Shader, "model"), 1, GL_FALSE, glm::value_ptr(cardData.ModelMatrix));
-		glUniform3fv(glGetUniformLocation(cardData.Shader, "camPos"), 1, glm::value_ptr(game->camera.camPos));
 		//Drawing the entity
 		glDrawElements(GL_TRIANGLES, cardData.IndicesCount, GL_UNSIGNED_INT, 0);
 
