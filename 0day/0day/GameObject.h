@@ -5,6 +5,53 @@
 class CTextLabel;
 class Game;
 
+
+class GameObject {
+public:
+	GameObject(RenderClass *r, TickClass *t) : _r(r), _t(t) {};
+	
+	void Tick(float deltaTime) { _t->Tick(deltaTime); };
+	void Render() { _r->Render(); };
+
+	Transform transform;
+	RenderClass* _r;
+	TickClass* _t;
+};
+
+class RenderClass {
+public:
+	virtual void Render() = 0;
+	virtual void SetTexture(GLuint _tex) = 0;
+	virtual void SetShader(GLuint _shader) = 0;
+};
+
+class RenderObject : public RenderClass{
+public:
+	RenderObject(GLuint _VAO, unsigned int _indiceCount, GLuint _texture, Camera* _cam, GLuint _shaderProgram) : VAO(_VAO), indiceCount(_indiceCount), texture(_texture), cam(_cam), shaderProgram(_shaderProgram) {};
+	
+	virtual void Render();
+
+	GLuint VAO;
+	unsigned int indiceCount;
+	GLuint texture;
+	Camera* cam;
+	GLuint shaderProgram;
+
+};
+
+class TickClass {
+public:
+	virtual void Tick(float deltaTime) = 0;
+};
+
+class TickObject : public TickClass {
+public:
+	virtual void Tick(float deltaTime);
+};
+
+
+/*
+
 //Base Class For All Gameobjects
 class GameObject {
 	public:
@@ -79,6 +126,7 @@ public:
 	void Tick(float deltaTime);
 };
 
+*/
 /*
 class OldGameObject {
 public:

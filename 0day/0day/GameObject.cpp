@@ -1,5 +1,8 @@
 #include "GameObject.h"
 
+
+
+/*
 GameObject::GameObject(string _name)
 {
 	Console_OutputLog(to_wstring("Creating GameObject But GameObject (\"" + _name + "\") Has No Type"), LOGWARN);
@@ -219,3 +222,5 @@ void Basiccard::Tick(float deltaTime)
 {
 
 }
+
+*/
