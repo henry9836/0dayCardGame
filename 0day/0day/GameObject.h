@@ -5,7 +5,82 @@
 class CTextLabel;
 class Game;
 
+//Base Class For All Gameobjects
 class GameObject {
+	public:
+		enum objectTypes { //All types of gameobjects
+			UNASSIGNEDTYPE,
+			SIMPLETRI,
+			SIMPLELINE,
+			SIMPLEFAN,
+			TEXT,
+			BASICCARD
+		};
+
+		GameObject(string _name);
+		~GameObject();
+		virtual void Hello();
+		virtual void Tick(float deltaTime);
+		virtual void Render(Game* game);
+		
+		Transform transform; //holds position, scale and rotation
+		string name = "Unnamed Object";
+		objectTypes type = UNASSIGNEDTYPE;
+		glm::vec4 color;
+};
+
+class SimpleTri : public GameObject {
+public:
+	SimpleTri();
+	~SimpleTri();
+
+	SimpleTriangle simpleTriangleData;
+	void Render(Game* game);
+	void Tick(float deltaTime);
+};
+
+class SimpleL : public GameObject {
+public:
+	SimpleL();
+	~SimpleL();
+
+	SimpleLine simpleLineData;
+	void Render(Game* game);
+	void Tick(float deltaTime);
+};
+
+class Simplefan : public GameObject {
+public:
+	Simplefan();
+	~Simplefan();
+
+	SimpleFan simpleFanData;
+	void Render(Game* game);
+	void Tick(float deltaTime);
+};
+
+class Text : public GameObject {
+public:
+	Text();
+	~Text();
+
+	CTextLabel textData;
+	void Render(Game* game);
+	void Tick(float deltaTime);
+};
+
+class Basiccard : public GameObject {
+public:
+	Basiccard();
+	~Basiccard();
+
+	BasicCard cardData;
+	void Render(Game* game);
+	void Tick(float deltaTime);
+};
+
+/*
+class OldGameObject {
 public:
 
 	enum objectTypes {
@@ -52,6 +127,6 @@ public:
 	bool demoMode = true;
 
 };
-
+*/
 #include "TextManager.h"
 #include "GameManager.h"

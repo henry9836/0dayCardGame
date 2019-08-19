@@ -28,16 +28,18 @@ enum Scenes {
 };
 
 
+struct Transform {
+	glm::vec3 position;
+	glm::vec3 rotation;
+	glm::vec3 scale;
+};
+
 //structs
 
 struct SimpleTriangle {
 	glm::vec3 firstPoint;
 	glm::vec3 secondPoint;
 	glm::vec3 thirdPoint;
-
-	inline SimpleTriangle() {
-
-	}
 
 	inline SimpleTriangle(glm::vec3 x, glm::vec3 y, glm::vec3 z) {
 		this->firstPoint = x;
