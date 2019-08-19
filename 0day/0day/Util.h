@@ -122,8 +122,8 @@ namespace Utility
 	const std::string ObjectShaderVert = "Resources/Shaders/ObjectShaderV.vs";
 	const std::string ObjectShaderFrag = "Resources/Shaders/ObjectShaderF.fs";
 	const std::string BasicShaderVert = "Resources/Shaders/BasicShader.vs";
-	const std::string BasicShaderFrag = "Resources/Shaders/BasicShader.vs";
-	const std::string DesertTexture = "Resources/Textures/desert.jpg";
+	const std::string BasicShaderFrag = "Resources/Shaders/BasicShader.fs";
+	const std::string DesertTexture = "Resources/Textures/test.png";
 	const std::string NormalFontString = "Resources/Fonts/arial.ttf";
 	const std::string TextShaderVert = "Resources/Shaders/Text.vs";
 	const std::string TextShaderFrag = "Resources/Shaders/Text.fs";
