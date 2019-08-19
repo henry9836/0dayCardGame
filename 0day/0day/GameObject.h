@@ -8,10 +8,13 @@ class Game;
 
 class GameObject {
 public:
-	GameObject(RenderClass *r, TickClass *t) : _r(r), _t(t) {};
+	GameObject(RenderClass *r, TickClass *t, Transform _trans) : _r(r), _t(t), transform(_trans) {};
 	
 	void Tick(float deltaTime) { _t->Tick(deltaTime); };
-	void Render() { _r->Render(); };
+	void Render() { _r->Render(&transform); };
+
+	void SetTexture(GLuint _tex) { _r->SetTexture(_tex); };
+	void SetShader(GLuint _shader) { _r->SetTexture(_shader); };
 
 	Transform transform;
 	RenderClass* _r;
@@ -20,7 +23,7 @@ public:
 
 class RenderClass {
 public:
-	virtual void Render() = 0;
+	virtual void Render(Transform* _transform) = 0;
 	virtual void SetTexture(GLuint _tex) = 0;
 	virtual void SetShader(GLuint _shader) = 0;
 };
@@ -29,7 +32,9 @@ class RenderObject : public RenderClass{
 public:
 	RenderObject(GLuint _VAO, unsigned int _indiceCount, GLuint _texture, Camera* _cam, GLuint _shaderProgram) : VAO(_VAO), indiceCount(_indiceCount), texture(_texture), cam(_cam), shaderProgram(_shaderProgram) {};
 	
-	virtual void Render();
+	virtual void Render(Transform* _transform);
+	virtual void SetTexture(GLuint _tex);
+	virtual void SetShader(GLuint _shader);
 
 	GLuint VAO;
 	unsigned int indiceCount;
