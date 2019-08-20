@@ -1,4 +1,6 @@
+#include <iostream>
 #pragma once
+
 
 class Character
 {
@@ -6,7 +8,10 @@ public:
 
 	Character();
 	~Character();
-	virtual void updateHP(float damage) { currentHP += damage; }; //I fixed yr semicolms :)
+	virtual void updateHP(float damage) { currentHP += damage; }; 
+	virtual void constantuUpdateLines(float deltaTime);
+	virtual void UpdateLines(float Diffrence);
+	virtual bool checkIfPlayable(float cost);
 
 protected:
 
