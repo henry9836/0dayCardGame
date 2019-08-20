@@ -63,7 +63,7 @@ GLuint ShaderLoader::CreateShader(GLenum shaderType, const char* shaderName)
 		std::string shaderSource = ReadShaderFile(shaderName);
 		GLuint shaderID = glCreateShader(shaderType);
 		const char *shader_code_ptr = shaderSource.c_str();
-		const int shader_code_size = shaderSource.size();
+		const int shader_code_size = static_cast<int>(shaderSource.size());
 		glShaderSource(shaderID, 1, &shader_code_ptr, &shader_code_size);
 		glCompileShader(shaderID);
 
@@ -88,7 +88,7 @@ std::string ShaderLoader::ReadShaderFile(const char *filename)
 
 	// Ensure the file is open and readable
 	if (!file.good()) {
-		std::cout << "Cannot read file:  " << filename << std::endl;
+		std::wcout << "Cannot read file:  " << filename << std::endl;
 		return "";
 	}
 
@@ -113,6 +113,6 @@ void ShaderLoader::PrintErrorDetails(bool isShader, GLuint id, const char* name)
 
 	// Retrieve the log info and populate log variable
 	(isShader == true) ? glGetShaderInfoLog(id, infoLogLength, NULL, &log[0]) : glGetProgramInfoLog(id, infoLogLength, NULL, &log[0]);		
-	std::cout << "Error compiling " << ((isShader == true) ? "shader" : "program") << ": " << name << std::endl;
-	std::cout << &log[0] << std::endl;
+	std::wcout << "Error compiling " << ((isShader == true) ? "shader" : "program") << ": " << name << std::endl;
+	std::wcout << &log[0] << std::endl;
 }

@@ -14,7 +14,7 @@ void Render() {
 
 	for (size_t i = 0; i < game->gameObjects.size(); i++) 
 	{
-		game->gameObjects.at(i)->Render(game);
+		game->gameObjects.at(i)->Render();
 	}
 
 	//Render Based On Current Scene
@@ -22,13 +22,13 @@ void Render() {
 	if (game->currentScene == Scenes::SCENE_MAIN) {
 		for (size_t i = 0; i < game->maingameObjects.size(); i++)
 		{
-			game->maingameObjects.at(i)->Render(game);
+			game->maingameObjects.at(i)->Render();
 		}
 	}
 	else if (game->currentScene == Scenes::SCENE_GAME) {
 		for (size_t i = 0; i < game->playgameObjects.size(); i++)
 		{
-			game->playgameObjects.at(i)->Render(game);
+			game->playgameObjects.at(i)->Render();
 		}
 	}
 
@@ -41,13 +41,13 @@ void Update() {
 		bool hasCard = false;
 		for (size_t i = 0; i < game->playgameObjects.size(); i++)
 		{
-			if (game->playgameObjects.at(i)->type == GameObject::SIMPLEFAN) {
+			/*if (game->playgameObjects.at(i)->type == GameObject::SIMPLEFAN) {
 				hasCard = true;
-			}
+			}*/
 		}
 		if (!hasCard) {
 			Console_OutputLog(L"Dealing Cards To Player", LOGINFO);
-			game->playgameObjects.push_back(new GameObject(SimpleFan(glm::vec3(0, 0, 0), vector<glm::vec3>{glm::vec3(-0.4f, 0.6f, 0.0f), glm::vec3(0.4f, 0.6f, 0.0f), glm::vec3(0.4f, -0.6f, 0.0f), glm::vec3(-0.4f, -0.6f, 0.0f), glm::vec3(-0.4f, 0.6f, 0.0f)}), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), "Card", vector<GameObject::objectBehaviours>{GameObject::DEMOCARD}));
+			//game->playgameObjects.push_back(new GameObject(SimpleFan(glm::vec3(0, 0, 0), vector<glm::vec3>{glm::vec3(-0.4f, 0.6f, 0.0f), glm::vec3(0.4f, 0.6f, 0.0f), glm::vec3(0.4f, -0.6f, 0.0f), glm::vec3(-0.4f, -0.6f, 0.0f), glm::vec3(-0.4f, 0.6f, 0.0f)}), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), "Card", vector<GameObject::objectBehaviours>{GameObject::DEMOCARD}));
 		}
 	}
 
@@ -123,7 +123,7 @@ void keyboard(unsigned char key, int, int) {
 				for (size_t i = 0; i < game->playgameObjects.size(); i++)
 				{
 					Console_OutputLog(L"Checking For Cards In Hand", LOGINFO);
-					if (game->playgameObjects.at(i)->type == GameObject::SIMPLEFAN) {
+					/*if (game->playgameObjects.at(i)->type == GameObject::SIMPLEFAN) {
 						hasCard = true;
 						Console_OutputLog(L"Player Delt 50 damage to enemy", LOGINFO);
 						Console_OutputLog(L"Enemy health = 50/100", LOGINFO);
@@ -131,7 +131,7 @@ void keyboard(unsigned char key, int, int) {
 						game->playgameObjects.at(i)->~GameObject();
 						game->playgameObjects.erase(game->playgameObjects.begin() + i);
 						i--;
-					}
+					}*/
 				}
 				if (!hasCard) {
 					Console_OutputLog(L"Player has no card remaing", LOGINFO);
@@ -179,13 +179,15 @@ void populateGameObjectList() {
 	
 
 	//MAINMENU OBJECTS
-	game->maingameObjects.push_back(new GameObject(SimpleLine(glm::vec3(-0.8f, 0.9f, 0.0f), glm::vec3(-0.6f, 0.7f, 0.0f)), glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), "Test Line", vector<GameObject::objectBehaviours>{GameObject::DEMO}));
-	game->maingameObjects.push_back(new GameObject(new CTextLabel("Main Menu\n 1. Go To Main Menu\n 2. Go To Game\n ESC - Quit", "Resources/Fonts/TerminusTTF-4.47.0.ttf", glm::vec2(-10, 0), glm::vec3(0.4f, 0.0f, 0.0f), 1.0f, game, "Main Menu Text"), "Main Menu Text", vector<GameObject::objectBehaviours>{GameObject::NONE}));
+	//game->maingameObjects.push_back(new GameObject(SimpleLine(glm::vec3(-0.8f, 0.9f, 0.0f), glm::vec3(-0.6f, 0.7f, 0.0f)), glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), "Test Line", vector<GameObject::objectBehaviours>{GameObject::DEMO}));
+	//game->maingameObjects.push_back(new GameObject(new CTextLabel("Main Menu\n 1. Go To Main Menu\n 2. Go To Game\n ESC - Quit", "Resources/Fonts/TerminusTTF-4.47.0.ttf", glm::vec2(-10, 0), glm::vec3(0.4f, 0.0f, 0.0f), 1.0f, game, "Main Menu Text"), "Main Menu Text", vector<GameObject::objectBehaviours>{GameObject::NONE}));
 
 	//GAMEPLAY OBJECTS
 	//game->playgameObjects.push_back(new GameObject(SimpleFan(glm::vec3(0.7f, 0.5f, 0.0f), vector<glm::vec3>{glm::vec3(0.8f, 0.6f, 0.0f), glm::vec3(0.7f, 0.65f, 0.0f), glm::vec3(0.6f, 0.6f, 0.0f)}), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), "Test Fan", vector<GameObject::objectBehaviours>{GameObject::NONE}));
-	game->playgameObjects.push_back(new GameObject(BasicCard(glm::vec3(0,0,0),glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0,0,0), MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER), MeshManager::SetTexture("Resources/Textures/test.png")), "Card", vector<GameObject::objectBehaviours>{GameObject::NONE}));
-	game->playgameObjects.push_back(new GameObject(SimpleFan(glm::vec3(0, 0, 0), vector<glm::vec3>{glm::vec3(-0.4f, 0.6f, 0.0f), glm::vec3(0.4f, 0.6f, 0.0f),glm::vec3(0.4f, -0.6f, 0.0f),glm::vec3(-0.4f, -0.6f, 0.0f), glm::vec3(-0.4f, 0.6f, 0.0f)}), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), "Card", vector<GameObject::objectBehaviours>{GameObject::DEMOCARD}));
+	
+	//game->playgameObjects.push_back(new GameObject(BasicCard(glm::vec3(0,0,0),glm::vec3(100.0f, 100.0f, 100.0f), glm::vec3(0,0,0), MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER), MeshManager::SetTexture("")), "Card", vector<GameObject::objectBehaviours>{GameObject::NONE}));
+	game->gameObjects.push_back(new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/test.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(-400,-200,0), glm::vec3(0, 0, 0), glm::vec3(80.0f, 100.0f, 1.0f))));
+	game->gameObjects.push_back(new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/test.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(-300, -200, 0), glm::vec3(0, 0, 0), glm::vec3(80.0f, 100.0f, 1.0f))));
 }
 
 void Start(int argc, char** argv)
@@ -198,7 +200,7 @@ void Start(int argc, char** argv)
 	Console_OutputLog(L"Initialising OpenGL Components...", LOGINFO);
 
 	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
+	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA | GLUT_MULTISAMPLE);
 	glutInitWindowPosition(100, 50);
 	glutInitWindowSize((int)game->ScreenSize.x, (int)game->ScreenSize.y);
 

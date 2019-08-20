@@ -3,7 +3,7 @@
 void Camera::initializeCamera()
 {
 	Console_OutputLog(L"Initialising Camera...", LOGINFO);
-	camPos = glm::vec3(0.0f, 0.0f, 0.0f);
+	camPos = glm::vec3(0.0f, 0.0f, 3.0f);
 	camLookDir = glm::vec3(0.0f, 0.0f, -1.0f);
 	camUpDir = glm::vec3(0.0f, 1.0f, 0.0f);
 	Console_OutputLog(L"Initialised Camera", LOGINFO);
@@ -35,7 +35,7 @@ void Camera::Tick(glm::vec2 m_Screen, float deltaTime)
 		}
 	}
 	else {
-		camPos = glm::vec3(camStartPos);
+		camPos = glm::vec3(camPos);
 		camTar = glm::vec3(0.0f, 0.0f, 0.0f);
 		if (followCam) {
 			camTar = glm::vec3(camFollowTar + lookDirFromFollow);
@@ -174,6 +174,12 @@ glm::mat4 Camera::getMVP(glm::vec3 postion, glm::vec3 scale, glm::mat4 rotationZ
 	glm::mat4 backModel = backTranslationMatrix * rotationZ * scaleMatrixBack;
 	glm::mat4 backProj_calc = proj * view * backModel;
 	return (backProj_calc);
+}
+
+glm::mat4 Camera::getVP()
+{
+	glm::mat4 VPMatrix = proj * view;
+	return VPMatrix;
 }
 
 

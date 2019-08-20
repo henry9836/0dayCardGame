@@ -28,16 +28,27 @@ enum Scenes {
 };
 
 
+struct Transform {
+	glm::vec3 position;
+	glm::vec3 rotation;
+	glm::vec3 scale;
+
+	inline Transform() {
+
+	}
+	inline Transform(glm::vec3 pos, glm::vec3 rot, glm::vec3 scal) {
+		position = pos;
+		rotation = rot;
+		scale = scal;
+	}
+};
+
 //structs
 
 struct SimpleTriangle {
 	glm::vec3 firstPoint;
 	glm::vec3 secondPoint;
 	glm::vec3 thirdPoint;
-
-	inline SimpleTriangle() {
-
-	}
 
 	inline SimpleTriangle(glm::vec3 x, glm::vec3 y, glm::vec3 z) {
 		this->firstPoint = x;
@@ -121,7 +132,9 @@ namespace Utility
 	const unsigned int SCR_HEIGHT = 800;
 	const std::string ObjectShaderVert = "Resources/Shaders/ObjectShaderV.vs";
 	const std::string ObjectShaderFrag = "Resources/Shaders/ObjectShaderF.fs";
-	const std::string DesertTexture = "Resources/Textures/desert.jpg";
+	const std::string BasicShaderVert = "Resources/Shaders/BasicShader.vs";
+	const std::string BasicShaderFrag = "Resources/Shaders/BasicShader.fs";
+	const std::string DesertTexture = "Resources/Textures/test.png";
 	const std::string NormalFontString = "Resources/Fonts/arial.ttf";
 	const std::string TextShaderVert = "Resources/Shaders/Text.vs";
 	const std::string TextShaderFrag = "Resources/Shaders/Text.fs";

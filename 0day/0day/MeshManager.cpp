@@ -16,19 +16,18 @@ std::shared_ptr<MESH> MeshManager::GetMesh(Object_Attributes _ObjectType)
 
 MeshManager::MeshManager()
 {
-	GLuint VAO, VBO, EBO;
+	GLuint VAO, VBO, EBO, Texture;
 
-	BasicShader = ShaderLoader::CreateProgram(Utility::ObjectShaderVert.data(), Utility::ObjectShaderFrag.data());
+	BasicShader = ShaderLoader::CreateProgram(Utility::BasicShaderVert.data(), Utility::BasicShaderFrag.data());
 
 	//Defines Square Vertices
 	GLfloat SquareVerts[] =
 	{
-		// Positions             // Normal Coords        // TexCoords
-		// Front Face
-		-1.0f, 1.0f, 1.0f,       0.0f, 0.0f, 1.0f,      0.0f, 0.0f,
-		1.0f, 1.0f, 1.0f,        0.0f, 0.0f, 1.0f,      1.0f, 0.0f,
-		1.0f, -1.0f, 1.0f,       0.0f, 0.0f, 1.0f,      1.0f, 1.0f,
-		-1.0f, -1.0f, 1.0f,      0.0f, 0.0f, 1.0f,      0.0f, 1.0f,
+	// Positions        // Normal Coords   // TexCoords	
+	-1.0f, 1.0f, 0.0f,		0.0f, 1.0f, 0.0f,  0.0f, 0.0f,	// Top - Left
+	 -1.0f, -1.0f, 0.0f,	1.0f, 0.0f, 0.0f,  0.0f, 1.0f,	// Bot - Left
+	 1.0f, -1.0f, 0.0f,	    1.0f, 1.0f, 0.0f,  1.0f, 1.0f,	// Bot - Right
+	 1.0f, 1.0f, 0.0f,		0.0f, 0.0f, 1.0f,  1.0f, 0.0f	// Top - Right
 	};
 	//Defines Square Indices
 	GLuint SquareIndices[] =
@@ -102,40 +101,17 @@ GLuint MeshManager::GetShaderProgram(Shader_Attributes _ShaderType)
 	else
 	{
 		Console_OutputLog(L"Shader Failed To Load", LOGWARN);
+		return BasicShader;
 	}
 }
 
-GLuint MeshManager::SetTexture(const char* _Texture)
+GLuint MeshManager::SetTexture(const char* _TextureFilename)
 {
 	GLuint Texture;
 	int width, height;
 
 	glGenTextures(1, &Texture);
 	glBindTexture(GL_TEXTURE_2D, Texture);
-
-	//Getting the image from filepath
-	unsigned char* image = SOIL_load_image(
-		_Texture,
-		&width,
-		&height,
-		0,
-		SOIL_LOAD_RGBA
-	);
-
-	//Generating the texture from image data
-	glTexImage2D(
-		GL_TEXTURE_2D,
-		0,
-		GL_RGBA,
-		width, height,
-		0,
-		GL_RGBA,
-		GL_UNSIGNED_BYTE,
-		image
-	);
-
-	//Generating mipmaps
-	glGenerateMipmap(GL_TEXTURE_2D);
 
 	//Setting Texture wrap
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -146,6 +122,35 @@ GLuint MeshManager::SetTexture(const char* _Texture)
 		GL_LINEAR_MIPMAP_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
+	//Getting the image from filepath
+	unsigned char* image = SOIL_load_image(
+		_TextureFilename,
+		&width,
+		&height,
+		0,
+		SOIL_LOAD_RGBA
+	);
+
+	//Generating the texture from image data
+	if (image)
+	{
+		glTexImage2D(
+			GL_TEXTURE_2D,
+			0,
+			GL_RGBA,
+			width, height,
+			0,
+			GL_RGBA,
+			GL_UNSIGNED_BYTE,
+			image
+		);
+		//Generating mipmaps
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else
+	{
+		Console_OutputLog(L"Failed to load Texture", LOGWARN);
+	}
 	//Freeing up data
 	SOIL_free_image_data(image);
 	glBindTexture(GL_TEXTURE_2D, 0);
