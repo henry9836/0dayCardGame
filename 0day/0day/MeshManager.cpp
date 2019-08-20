@@ -105,7 +105,7 @@ GLuint MeshManager::GetShaderProgram(Shader_Attributes _ShaderType)
 	}
 }
 
-GLuint MeshManager::SetTexture(const char* _Texture)
+GLuint MeshManager::SetTexture(const char* _TextureFilename)
 {
 	GLuint Texture;
 	int width, height;
@@ -124,7 +124,7 @@ GLuint MeshManager::SetTexture(const char* _Texture)
 
 	//Getting the image from filepath
 	unsigned char* image = SOIL_load_image(
-		Utility::DesertTexture.data(),
+		_TextureFilename,
 		&width,
 		&height,
 		0,

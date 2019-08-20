@@ -14,7 +14,7 @@ public:
 
 class RenderObject : public RenderClass{
 public:
-	RenderObject(GLuint _VAO, unsigned int _indiceCount, GLuint _texture, Game* _game, GLuint _shaderProgram) : VAO(_VAO), indiceCount(_indiceCount), texture(_texture), game(_game), shaderProgram(_shaderProgram) {};
+	RenderObject(std::shared_ptr<MESH> _mesh, GLuint _texture, Game* _game, GLuint _shaderProgram) : VAO(_mesh->VAO), indiceCount(_mesh->IndicesCount), texture(_texture), game(_game), shaderProgram(_shaderProgram) {};
 	
 	virtual void Render(Transform* _transform);
 	virtual void SetTexture(GLuint _tex);

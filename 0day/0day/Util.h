@@ -32,6 +32,15 @@ struct Transform {
 	glm::vec3 position;
 	glm::vec3 rotation;
 	glm::vec3 scale;
+
+	inline Transform() {
+
+	}
+	inline Transform(glm::vec3 pos, glm::vec3 rot, glm::vec3 scal) {
+		position = pos;
+		rotation = rot;
+		scale = scal;
+	}
 };
 
 //structs
