@@ -87,5 +87,10 @@ void RenderObject::SetShader(GLuint _shader)
 
 void TickObject::Tick(float deltaTime)
 {
-	Console_OutputLog(L"Ticker", LOGINFO);
+	//Console_OutputLog(L"Ticker", LOGINFO);
+}
+
+void RenderText::Render(Transform* _transform)
+{
+	text->Render();
 }
