@@ -186,8 +186,8 @@ void populateGameObjectList() {
 	//game->playgameObjects.push_back(new GameObject(SimpleFan(glm::vec3(0.7f, 0.5f, 0.0f), vector<glm::vec3>{glm::vec3(0.8f, 0.6f, 0.0f), glm::vec3(0.7f, 0.65f, 0.0f), glm::vec3(0.6f, 0.6f, 0.0f)}), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), "Test Fan", vector<GameObject::objectBehaviours>{GameObject::NONE}));
 	
 	//game->playgameObjects.push_back(new GameObject(BasicCard(glm::vec3(0,0,0),glm::vec3(100.0f, 100.0f, 100.0f), glm::vec3(0,0,0), MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER), MeshManager::SetTexture("")), "Card", vector<GameObject::objectBehaviours>{GameObject::NONE}));
-	game->gameObjects.push_back(new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/test.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(0,0,0), glm::vec3(100.0f, 100.0f, 100.0f), glm::vec3(0,0,0))));
-	//game->playgameObjects.push_back(new GameObject(SimpleFan(glm::vec3(0, 0, 0), vector<glm::vec3>{glm::vec3(-0.4f, 0.6f, 0.0f), glm::vec3(0.4f, 0.6f, 0.0f),glm::vec3(0.4f, -0.6f, 0.0f),glm::vec3(-0.4f, -0.6f, 0.0f), glm::vec3(-0.4f, 0.6f, 0.0f)}), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), "Card", vector<GameObject::objectBehaviours>{GameObject::DEMOCARD}));
+	game->gameObjects.push_back(new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/test.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(-400,-200,0), glm::vec3(0, 0, 0), glm::vec3(80.0f, 100.0f, 1.0f))));
+	game->gameObjects.push_back(new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/test.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(-300, -200, 0), glm::vec3(0, 0, 0), glm::vec3(80.0f, 100.0f, 1.0f))));
 }
 
 void Start(int argc, char** argv)
