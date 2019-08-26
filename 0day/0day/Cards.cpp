@@ -13,13 +13,18 @@ AttackCard::AttackCard(RenderClass * r, TickClass * t, Transform _trans, string 
 
 void AttackCard::Action(Character* _caster, Character* _target)
 {
+
 	if (cardType == FUZZER)
 	{
+		//if can be played
+		//{
+			//code including delete
+		//}
 		_caster->UpdateLines(-30.0f);
 		_target->updateHP(-30.0f);
 	}
 
-
+	//delet/move the card
 	delete _caster, _target;
 }
 

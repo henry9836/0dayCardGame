@@ -3,6 +3,8 @@
 #include "GameObject.h"
 #include "Character.h"
 
+class Character;
+
 class AttackCard : public Card {
 public:
 	enum CARDS {

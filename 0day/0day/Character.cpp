@@ -61,6 +61,19 @@ bool Character::checkIfPlayable(float cost)
 
 }
 
+void Character::Render()
+{
+	for (size_t i = 0; i < Hand.size(); i++)
+	{
+		Hand.at(i)->Render();
+	}
+}
+
+void Character::Tick()
+{
+
+}
+
 Human::Human()
 {
 	float initalHP = 100.0f;

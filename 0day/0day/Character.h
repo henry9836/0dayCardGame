@@ -1,7 +1,8 @@
 #pragma once
 #include <iostream>
+#include "GameObject.h"
 
-class Character
+class Character : public GameObject
 {
 public:
 
@@ -12,7 +13,17 @@ public:
 	virtual void UpdateLines(float Diffrence);
 	virtual bool checkIfPlayable(float cost);
 	virtual float getHpBarPersent() { return currentHP / maxHP; };
-	//deck
+
+	vector<Card*> Deck;
+	vector<Card*> Hand;
+	vector<Card*> GY;
+
+	void Render();
+	void Tick();
+
+	//render functionb //deck
+
+
 
 protected:
 
@@ -32,6 +43,8 @@ public:
 	Human();
 	~Human();
 	
+
+
 private: 
 
 };
