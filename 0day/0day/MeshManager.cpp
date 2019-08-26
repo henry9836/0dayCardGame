@@ -16,7 +16,7 @@ std::shared_ptr<MESH> MeshManager::GetMesh(Object_Attributes _ObjectType)
 
 MeshManager::MeshManager()
 {
-	GLuint VAO, VBO, EBO, Texture;
+	GLuint VAO, VBO, EBO;
 
 	BasicShader = ShaderLoader::CreateProgram(Utility::BasicShaderVert.data(), Utility::BasicShaderFrag.data());
 

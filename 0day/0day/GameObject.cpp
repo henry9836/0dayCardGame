@@ -56,9 +56,9 @@ void RenderObject::Render(Transform* _transform)
 
 	//glm::mat4 MVP = game->camera.getMVP(this->cardData.Pos, this->cardData.Scale, glm::mat4()) * cardData.ModelMatrix;
 	//auto MVP = game->camera.getVP() * cardData.ModelMatrix;
-	int halfw = game->ScreenSize.x / 2;
-	int halfh = game->ScreenSize.y / 2;
-	auto MVP = glm::ortho<float>(-halfw, halfw, -halfh, halfh, 0.1f, 1000.0f) * glm::translate(glm::mat4(), glm::vec3(0, 0, -1)) * ModelMatrix;
+	int halfw = (int)game->ScreenSize.x / 2;
+	int halfh = (int)game->ScreenSize.y / 2;
+	auto MVP = glm::ortho<float>((float)-halfw, (float)halfw, (float)-halfh, (float)halfh, 0.1f, 1000.0f) * glm::translate(glm::mat4(), glm::vec3(0, 0, -1)) * ModelMatrix;
 
 	glUniformMatrix4fv(glGetUniformLocation(this->shaderProgram, "MVP"), 1, GL_FALSE, glm::value_ptr(MVP));
 	glUniformMatrix4fv(glGetUniformLocation(this->shaderProgram, "model"), 1, GL_FALSE, glm::value_ptr(ModelMatrix));

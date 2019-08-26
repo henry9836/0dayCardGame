@@ -92,40 +92,6 @@ struct MESH
 	unsigned int IndicesCount;
 };
 
-struct BasicCard
-{
-
-	GLuint VAO;
-	GLuint Shader;
-	GLuint Texture;
-
-	glm::vec3 Pos;
-	glm::vec3 Scale;
-	glm::vec3 Rotation;
-
-	glm::mat4 ModelMatrix;
-	glm::mat4 VPMatrix;
-	unsigned IndicesCount;
-
-	inline BasicCard() {
-
-	}
-
-	inline BasicCard(glm::vec3 _Pos, glm::vec3 _Scale, glm::vec3 _Rotation, std::shared_ptr<MESH> _mesh, GLuint _Shader, GLuint _Texture)
-	{
-		this->VAO = _mesh->VAO;
-		this->Pos = _Pos;
-		this->Scale = _Scale;
-		this->Rotation = _Rotation;
-		this->IndicesCount = _mesh->IndicesCount;
-		this->Shader = _Shader;
-		this->Texture = _Texture;
-	}
-	
-
-	
-};
-
 namespace Utility
 {
 	const unsigned int SCR_WIDTH = 800;
