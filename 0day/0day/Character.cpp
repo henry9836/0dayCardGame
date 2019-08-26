@@ -63,21 +63,34 @@ bool Character::checkIfPlayable(float cost)
 
 Human::Human()
 {
-	float currentHP;
-	float currentLines;
-	float damageMult;
-	float LinesMult;
-	float initalHP;
+	float initalHP = 100.0f;
+	float currentHP = initalHP;
+	float currentLines = 30.0f;
+	float damageMult = 1.0f;
+	float LinesMult = 1.0f;
 }
 
 Human::~Human()
 {
 }
 
-AI::AI()
+AI::AI(int Level)
 {
+	float initalHP = 100.0f + ((Level * 10) * (Level * 10));
+	float currentHP = initalHP;
+	float currentLines = 0.0f;
+	float damageMult = 1.0f;
+	float LinesMult = 1.0f;
+	float rateOfLinesMult = Level * 0.001f;
+
 }
 
 AI::~AI()
 {
+
+}
+
+void AI::updateRateOfLinesMult(float deltaTime)
+{
+	this->LinesMult += this->LinesMult * rateOfLinesMult * deltaTime;
 }

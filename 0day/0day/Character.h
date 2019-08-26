@@ -12,6 +12,8 @@ public:
 	virtual void constantuUpdateLines(float deltaTime);
 	virtual void UpdateLines(float Diffrence);
 	virtual bool checkIfPlayable(float cost);
+	virtual float getHpBarPersent() { currentHP / maxHP; };
+	//deck
 
 protected:
 
@@ -31,10 +33,7 @@ public:
 	Human();
 	~Human();
 	
-
 private: 
-
-
 
 };
 
@@ -42,13 +41,13 @@ class AI : public Character
 {
 public:
 
-	AI();
+	AI(int Level);
 	~AI();
 
+	void updateRateOfLinesMult(float deltaTime);
 
 private: 
 
-	
-
+	float rateOfLinesMult;
 
 };
