@@ -1,6 +1,5 @@
-#include <iostream>
 #pragma once
-
+#include <iostream>
 
 class Character
 {
@@ -8,11 +7,11 @@ public:
 
 	Character();
 	~Character();
-	virtual void updateHP(float damage) { currentHP += damage; }; 
+	virtual void updateHP(float damage) { currentHP += damage; }; //implemet damage modifier
 	virtual void constantuUpdateLines(float deltaTime);
 	virtual void UpdateLines(float Diffrence);
 	virtual bool checkIfPlayable(float cost);
-	virtual float getHpBarPersent() { currentHP / maxHP; };
+	virtual float getHpBarPersent() { return currentHP / maxHP; };
 	//deck
 
 protected:

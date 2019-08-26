@@ -12,6 +12,10 @@ public:
 	virtual void SetShader(GLuint _shader) = 0;
 };
 
+class NoRender : public RenderClass {
+
+};
+
 class RenderObject : public RenderClass{
 public:
 	RenderObject(std::shared_ptr<MESH> _mesh, GLuint _texture, Game* _game, GLuint _shaderProgram) : VAO(_mesh->VAO), indiceCount(_mesh->IndicesCount), texture(_texture), game(_game), shaderProgram(_shaderProgram) {};
@@ -54,20 +58,44 @@ public:
 	virtual void Tick(float deltaTime);
 };
 
+class DeckObject : public TickClass {
+public:
+	virtual void Tick(float deltaTime);
+	//vector<auto>deck;
+
+};
+
 class GameObject {
 public:
+	GameObject();
 	GameObject(RenderClass* r, TickClass* t, Transform _trans, string _name) : _r(r), _t(t), transform(_trans), name(_name) { Console_OutputLog(to_wstring("Creating GameObject: " + _name), LOGINFO); };
 
-	void Tick(float deltaTime) { _t->Tick(deltaTime); };
-	void Render() { _r->Render(&transform); };
+	virtual void Tick(float deltaTime) { _t->Tick(deltaTime); };
+	virtual void Render() { _r->Render(&transform); };
 
-	void SetTexture(GLuint _tex) { _r->SetTexture(_tex); };
-	void SetShader(GLuint _shader) { _r->SetTexture(_shader); };
+	virtual void SetTexture(GLuint _tex) { _r->SetTexture(_tex); };
+	virtual void SetShader(GLuint _shader) { _r->SetTexture(_shader); };
 
+protected:
 	Transform transform;
 	RenderClass* _r;
 	TickClass* _t;
 	string name;
+};
+
+class Card : public GameObject {
+public:
+	Card();
+	Card(RenderClass* r, TickClass* t, Transform _trans, string _name, int _cost);
+	~Card();
+
+	virtual void Tick(float deltaTime) { _t->Tick(deltaTime); };
+	virtual void Render() { _r->Render(&transform); };
+
+	virtual void SetTexture(GLuint _tex) { _r->SetTexture(_tex); };
+	virtual void SetShader(GLuint _shader) { _r->SetTexture(_shader); };
+
+	int cost = 10;
 };
 
 #include "TextManager.h"
