@@ -123,4 +123,5 @@ void RenderMenuText::Render(Transform* _transform)
 
 void BarsTick::Tick(float deltaTime, GameObject* _gameObject)
 {
+
 }

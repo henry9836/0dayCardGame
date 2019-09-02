@@ -79,6 +79,7 @@ public:
 	//vector<auto>deck;
 
 };
+
 class BarsTick : public TickClass
 {
 public:
