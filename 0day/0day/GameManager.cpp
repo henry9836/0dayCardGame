@@ -45,9 +45,10 @@ void Update() {
 	//Tick Objects
 
 	game->camera.Tick(game->ScreenSize, deltaTime);
+
 	for (size_t i = 0; i < game->gameObjects.size(); i++)
 	{
-		game->gameObjects.at(i)->Tick(deltaTime);
+		game->gameObjects.at(i)->Tick(deltaTime, game->gameObjects.at(i));
 	}
 
 	//Tick Based On Current Scene
@@ -72,13 +73,13 @@ void Update() {
 		}
 		for (size_t i = 0; i < game->maingameObjects.size(); i++)
 		{
-			game->maingameObjects.at(i)->Tick(deltaTime);
+			game->maingameObjects.at(i)->Tick(deltaTime, game->maingameObjects.at(i));
 		}
 	}
 	else if (game->currentScene == Scenes::SCENE_GAME) {
 		for (size_t i = 0; i < game->playgameObjects.size(); i++)
 		{
-			game->playgameObjects.at(i)->Tick(deltaTime);
+			game->playgameObjects.at(i)->Tick(deltaTime, game->playgameObjects.at(i));
 		}
 	}
 

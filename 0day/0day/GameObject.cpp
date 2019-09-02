@@ -85,7 +85,7 @@ void RenderObject::SetShader(GLuint _shader)
 	this->shaderProgram = _shader;
 }
 
-void TickObject::Tick(float deltaTime)
+void TickObject::Tick(float deltaTime, GameObject* _GameObject)
 {
 	//Console_OutputLog(L"Ticker", LOGINFO);
 }
@@ -119,4 +119,8 @@ GameObject::GameObject()
 void RenderMenuText::Render(Transform* _transform)
 {
 	menu->Render();
+}
+
+void BarsTick::Tick(float deltaTime, GameObject* _gameObject)
+{
 }

@@ -5,6 +5,7 @@
 #include "Camera.h"
 #include "Cards.h"
 #include "Character.h"
+#include "Bars.h"
 #include "Menu.h"
 
 class CMenu;
@@ -23,6 +24,8 @@ public:
 	vector<GameObject*> gameObjects; //global
 	vector<GameObject*> maingameObjects; //main menu
 	vector<GameObject*> playgameObjects; //game
+
+	vector<Bars*> BarsObjects;
 
 	Character* playerOne;
 	Character* playerTwo;

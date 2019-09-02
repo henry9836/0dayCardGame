@@ -160,6 +160,7 @@
     <ClCompile Include="TextManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bars.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Clock.h" />
     <ClInclude Include="Cards.h" />
