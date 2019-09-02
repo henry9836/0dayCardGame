@@ -69,18 +69,19 @@ void Character::Render()
 	}
 }
 
-void Character::Tick()
+void Character::Tick(float deltaTime)
 {
-
+	constantuUpdateLines(deltaTime);
 }
 
 Human::Human()
 {
 	float initalHP = 100.0f;
 	float currentHP = initalHP;
-	float currentLines = 30.0f;
+	float currentLines = 35.0f;
 	float damageMult = 1.0f;
 	float LinesMult = 1.0f;
+	float accuracy = 1.0f
 }
 
 Human::~Human()
@@ -89,13 +90,14 @@ Human::~Human()
 
 AI::AI(int Level)
 {
+	
 	float initalHP = 100.0f + ((Level * 10) * (Level * 10));
 	float currentHP = initalHP;
 	float currentLines = 0.0f;
 	float damageMult = 1.0f;
 	float LinesMult = 1.0f;
 	float rateOfLinesMult = Level * 0.001f;
-
+	float accuracy = 1.0f;
 }
 
 AI::~AI()

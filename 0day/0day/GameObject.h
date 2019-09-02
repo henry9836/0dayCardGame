@@ -85,6 +85,17 @@ protected:
 
 class Card : public GameObject {
 public:
+	virtual enum CARDS {
+		FUZZER,
+		ROBOFIGHT,
+		ZERODAY,
+		DDOS,
+		SQL,
+		SKULL,
+		REDCIRCLE
+	};
+
+
 	Card();
 	Card(RenderClass* r, TickClass* t, Transform _trans, string _name, int _cost);
 	~Card();
@@ -94,6 +105,8 @@ public:
 
 	virtual void SetTexture(GLuint _tex) { _r->SetTexture(_tex); };
 	virtual void SetShader(GLuint _shader) { _r->SetTexture(_shader); };
+	
+	CARDS cardType;
 
 	int cost = 10;
 };

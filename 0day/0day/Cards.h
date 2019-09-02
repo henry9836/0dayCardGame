@@ -23,7 +23,7 @@ public:
 		_r->Render(&transform); 
 		_rr->Render(&transform);
 	};
-	void Action(Character* _caster, Character* _target);
+	void Action(Character* _caster, Character* _target, Character* _otherPlayer);
 
 	virtual void SetTexture(GLuint _tex) { _r->SetTexture(_tex); };
 	virtual void SetShader(GLuint _shader) { _r->SetTexture(_shader); };
@@ -51,7 +51,7 @@ public:
 		_r->Render(&transform);
 		_rr->Render(&transform);
 	};
-	void Action();
+	void Action(Character* _caster, Character* _target, Character* _otherPlayer);
 
 	virtual void SetTexture(GLuint _tex) { _r->SetTexture(_tex); };
 	virtual void SetShader(GLuint _shader) { _r->SetTexture(_shader); };
@@ -81,7 +81,7 @@ public:
 		_r->Render(&transform);
 		_rr->Render(&transform);
 	};
-	void Action();
+	void Action(Character* _caster, Character* _target, Character* _otherPlayer);
 
 	virtual void SetTexture(GLuint _tex) { _r->SetTexture(_tex); };
 	virtual void SetShader(GLuint _shader) { _r->SetTexture(_shader); };

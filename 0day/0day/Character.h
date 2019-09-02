@@ -13,26 +13,31 @@ public:
 	virtual void UpdateLines(float Diffrence);
 	virtual bool checkIfPlayable(float cost);
 	virtual float getHpBarPersent() { return currentHP / maxHP; };
+	virtual float getLinesBatPersent() { return currentLines / maxlines; };
+	float getDamageMult() { return damageMult; };
+	virtual void updateAccuracy(float modifiyer) { accuracy += modifiyer; };
+	virtual void MaxHPUpdate(float HP) { maxHP += HP; currentHP += HP; };
 
 	vector<Card*> Deck;
 	vector<Card*> Hand;
 	vector<Card*> GY;
 
 	void Render();
-	void Tick();
+	void Tick(float deltaTime);
 
-	//render functionb //deck
-
+	//render function //deck
+	int selectedCardVector = 0;
 
 
 protected:
 
+	float maxlines = 100.0f;
 	float maxHP;
 	float currentHP;
 	float currentLines;
 	float damageMult;
 	float LinesMult;
-
+	float accuracy;
 
 };
 
