@@ -1,12 +1,18 @@
 #include "Character.h"
-
 Character::Character()
 {
 }
 
-Character::Character(glm::vec3 _handPos)
+
+Character::Character(vector<Card*> startingDeck)
 {
-	handPos = _handPos;
+	for (int i = 0; i < startingDeck.size(); i++)
+	{
+		Deck.push_back(startingDeck.at(0));
+		Deck.push_back(startingDeck.at(0));
+	}
+	auto seed = std::default_random_engine{};
+	std::shuffle(std::begin(Deck), std::end(Deck), seed);
 }
 
 Character::~Character()
@@ -79,35 +85,20 @@ void Character::Tick(float deltaTime)
 	constantuUpdateLines(deltaTime);
 }
 
-Human::Human()
+Human::Human(vector<Card*> startingDeck)
 {
-	float initalHP = 100.0f;
-	float currentHP = initalHP;
-	float currentLines = 35.0f;
-	float damageMult = 1.0f;
-	float LinesMult = 1.0f;
-	float accuracy = 1.0f;
 }
 
 Human::~Human()
 {
 }
 
-AI::AI(int Level)
+AI::AI(int Level, vector<Card*> startingDeck)
 {
-	
-	float initalHP = 100.0f + ((Level * 10) * (Level * 10));
-	float currentHP = initalHP;
-	float currentLines = 0.0f;
-	float damageMult = 1.0f;
-	float LinesMult = 1.0f;
-	float rateOfLinesMult = Level * 0.001f;
-	float accuracy = 1.0f;
 }
 
 AI::~AI()
 {
-
 }
 
 void AI::updateRateOfLinesMult(float deltaTime)

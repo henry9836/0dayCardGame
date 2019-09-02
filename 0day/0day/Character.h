@@ -1,11 +1,14 @@
 #pragma once
 #include <iostream>
 #include "GameObject.h"
+#include <algorithm>
+#include <random>
 
 class Character : public GameObject
 {
 public:
 	Character();
+	Character(vector<Card*> startingDeck);
 	~Character();
 	virtual void updateHP(float damage) { currentHP += damage; }; //implemet damage modifier
 	virtual void constantuUpdateLines(float deltaTime);
@@ -16,6 +19,7 @@ public:
 	float getDamageMult() { return damageMult; };
 	virtual void updateAccuracy(float modifiyer) { accuracy += modifiyer; };
 	virtual void MaxHPUpdate(float HP) { maxHP += HP; currentHP += HP; };
+	virtual void DrawACard() { if (Hand.size < 11) { Hand.push_back(Deck.back()); Deck.pop_back(); } };
 
 	vector<Card*> Deck;
 	vector<Card*> Hand;
@@ -28,6 +32,7 @@ public:
 	int selectedCardVector = 0;
 	glm::vec3 handPos;
 	const glm::vec3 defaultCardSize = glm::vec3(40.0f, 60.0f, 1.0f);
+	float accuracy;
 
 protected:
 
@@ -37,7 +42,7 @@ protected:
 	float currentLines;
 	float damageMult;
 	float LinesMult;
-	float accuracy;
+	
 
 };
 
@@ -45,7 +50,15 @@ class Human : public Character
 {
 public:
 
-	Human();
+	Human(vector<Card*> startingDeck) : Character(startingDeck) 
+	{
+		float initalHP = 100.0f;
+		float currentHP = initalHP;
+		float currentLines = 35.0f;
+		float damageMult = 1.0f;
+		float LinesMult = 1.0f;
+		float accuracy = 1.0f;
+	};
 	~Human();
 	
 
@@ -58,7 +71,16 @@ class AI : public Character
 {
 public:
 
-	AI(int Level);
+	AI(int Level, vector<Card*> startingDeck) : Character(startingDeck)
+	{
+		float initalHP = 100.0f + ((Level * 10) * (Level * 10));
+		float currentHP = initalHP;
+		float currentLines = 0.0f;
+		float damageMult = 1.0f;
+		float LinesMult = 1.0f;
+		float rateOfLinesMult = Level * 0.001f;
+		float accuracy = 1.0f;
+	};
 	~AI();
 
 	void updateRateOfLinesMult(float deltaTime);
