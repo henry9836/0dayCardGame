@@ -81,7 +81,7 @@ Human::Human()
 	float currentLines = 35.0f;
 	float damageMult = 1.0f;
 	float LinesMult = 1.0f;
-	float accuracy = 1.0f
+	float accuracy = 1.0f;
 }
 
 Human::~Human()
