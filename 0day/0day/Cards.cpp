@@ -148,6 +148,7 @@ void DefenceCard::Action(Character* _caster, Character* _target, Character* _oth
 		}
 		default:
 		{
+			Console_OutputLog(L"defence default case", LOGINFO);
 			break;
 		}
 	}
@@ -171,37 +172,86 @@ void UtilityCard::Action(Character* _caster, Character* _target, Character* _oth
 {
 	_caster->GY.push_back(_caster->Hand.at(_caster->selectedCardVector));
 	_caster->Hand.erase(_caster->Hand.begin() + _caster->selectedCardVector);
+
 	switch (cardType)
 	{
 		case UtilityCard::SYSTEMRESET:
 		{
+			_caster->UpdateLines(-100.0f);
+
+			for (int i = 0; i < _caster->Hand.size(); i++)
+			{
+				damage += _caster->Hand.at(0)->cost;
+				_caster->GY.push_back(_caster->Hand.at(0));
+				_caster->Hand.erase(_caster->Hand.begin());
+				i--;
+			}
+			for (int i = 0; i < _otherPlayer->Hand.size(); i++)
+			{
+				damage += _otherPlayer->Hand.at(0)->cost;
+				_otherPlayer->GY.push_back(_otherPlayer->Hand.at(0));
+				_otherPlayer->Hand.erase(_otherPlayer->Hand.begin());
+				i--;
+			}
+
+			_caster->updateHP((float)(_caster->maxHP / 2.0f));
+			_otherPlayer->updateHP((float)(_otherPlayer->maxHP / 2.0f));
+
+
 			break;
 		}
 		case UtilityCard::FORKBOMB:
 		{
+			_caster->UpdateLines(-40.0f);
+			_caster->DrawACard();
+			_caster->DrawACard();
+			_otherPlayer->DrawACard();
+			_otherPlayer->DrawACard();
+
 			break;
 		}
 		case UtilityCard::REINFORCED:
 		{
+			_caster->UpdateLines(-20.0f);
+			_otherPlayer->damageMult += 0.1f * _otherPlayer->damageMult;
 			break;
 		}
 		case UtilityCard::ENHNACED:
 		{
+			_caster->UpdateLines(-50.0f);
+			//double lines over next 5 seconds
 			break;
 		}
 		case UtilityCard::ENUMERATION:
 		{
+			_caster->UpdateLines(-25.0f);
+			_caster->DrawACard();
+			_caster->DrawACard();
 			break;
 		}
 		case UtilityCard::ACCOUNT:
 		{
+			_caster->UpdateLines(-20.0f);
+			_otherPlayer->UpdateLines(40.0f);
 			break;
 		}
 		case UtilityCard::SELFMODIFIYING:
 		{
+			_caster->UpdateLines(-5.0f);
+			int card = rand() % _caster->Hand.size();
+			_caster->UpdateLines(_caster->Hand.at(card)->cost);
+			_caster->GY.push_back(_caster->Hand.at(card));
+			_caster->Hand.erase(_caster->Hand.begin() + card);//double check
+			break;
+		}
+		default:
+		{
+			Console_OutputLog(L"utility default case", LOGINFO);
 			break;
 		}
 
 
 	}
+	delete _caster, _target, _otherPlayer;
+
 }

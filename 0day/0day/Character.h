@@ -20,7 +20,7 @@ public:
 	float getDamageMult() { return damageMult; };
 	virtual void updateAccuracy(float modifiyer) { accuracy += modifiyer; };
 	virtual void MaxHPUpdate(float HP) { maxHP += HP; currentHP += HP; };
-	virtual void DrawACard() { if (Hand.size < 11) { Hand.push_back(Deck.back()); Deck.pop_back(); } };
+	virtual void DrawACard() { if (Hand.size() < 11) { Hand.push_back(Deck.back()); Deck.pop_back(); } };
 
 	vector<Card*> Deck;
 	vector<Card*> Hand;
@@ -32,14 +32,16 @@ public:
 	//render function //deck
 	int selectedCardVector = 0;
 	float accuracy;
+	float maxHP;
+	float damageMult;
+	float currentHP;
+
+
 
 protected:
 
 	float maxlines = 100.0f;
-	float maxHP;
-	float currentHP;
 	float currentLines;
-	float damageMult;
 	float LinesMult;
 	
 
