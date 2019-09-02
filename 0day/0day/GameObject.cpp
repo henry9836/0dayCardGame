@@ -94,3 +94,8 @@ void RenderText::Render(Transform* _transform)
 {
 	text->Render();
 }
+
+void RenderMenuText::Render(Transform* _transform)
+{
+	menu->Render();
+}

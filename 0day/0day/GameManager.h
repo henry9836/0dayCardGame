@@ -2,8 +2,10 @@
 #include "Util.h"
 #include "GameObject.h"
 #include "MeshManager.h"
-#include "TextManager.h" 
 #include "Camera.h"
+#include "Menu.h"
+
+class CMenu;
 
 class Game {
 public:
@@ -13,6 +15,8 @@ public:
 
 	Scenes currentScene;
 	Camera camera;
+	CMenu* StartMenu;
+
 	//scenes
 	vector<GameObject*> gameObjects; //global
 	vector<GameObject*> maingameObjects; //main menu
@@ -23,7 +27,9 @@ public:
 
 	void switchScene(Scenes newScene);
 
-private:
+
+	std::vector<std::string> StartOpt;
+	
 
 };
 
