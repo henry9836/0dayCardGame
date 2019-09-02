@@ -111,15 +111,15 @@ void DealCardsRandom(Character* _char) {
 		switch (choice)
 		{
 		case 0: { //red ring
-			_char->Hand.push_back(new Card(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/REDRINGCard.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(-300, -200, 0), glm::vec3(0, 0, 0), glm::vec3(80.0f, 100.0f, 1.0f)), "Red Ring Of Death Card", 50));
+			_char->Hand.push_back(new AttackCard(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/REDRINGCard.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(-300 + (i*2), -200, 0), glm::vec3(0, 0, 0), glm::vec3(80.0f, 100.0f, 1.0f)), "Red Ring Of Death Card", 50, 50, AttackCard::REDCIRCLE));
 			break;
 		}
 		case 1: { //DDOS
-			_char->Hand.push_back(new Card(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/DDOSCard.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(-300, -200, 0), glm::vec3(0, 0, 0), glm::vec3(80.0f, 100.0f, 1.0f)), "DDOS Card", 70));
+			_char->Hand.push_back(new AttackCard(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/DDOSCard.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(-300, -200, 0), glm::vec3(0, 0, 0), glm::vec3(80.0f, 100.0f, 1.0f)), "DDOS Card", 70, 75, AttackCard::DDOS));
 			break;
 		}
 		case 2: { //SQL
-			_char->Hand.push_back(new Card(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/SQLCard.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(-300, -200, 0), glm::vec3(0, 0, 0), glm::vec3(80.0f, 100.0f, 1.0f)), "SQL Card", 30));
+			_char->Hand.push_back(new AttackCard(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/SQLCard.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(-300, -200, 0), glm::vec3(0, 0, 0), glm::vec3(80.0f, 100.0f, 1.0f)), "SQL Card", 30, 10, AttackCard::SQL));
 			break;
 		}
 		default: {
@@ -201,8 +201,6 @@ void Start(int argc, char** argv)
 {
 	//Init OpenGL
 	game = new Game;
-
-	srand(time(NULL));
 
 	Console_OutputLog(L"Initialising OpenGL Components...", LOGINFO);
 

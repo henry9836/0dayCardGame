@@ -2,6 +2,7 @@
 
 AttackCard::AttackCard(RenderClass * r, TickClass * t, Transform _trans, string _name, int _cost, int _damage, AttackCard::CARDS _cardType)
 {
+	Console_OutputLog(to_wstring("Creating Card: " + _name), LOGINFO);
 	transform = _trans;
 	_r = r;
 	_t = t;
@@ -99,6 +100,7 @@ void AttackCard::Action(Character* _caster, Character* _target, Character* _othe
 
 DefenceCard::DefenceCard(RenderClass * r, TickClass * t, Transform _trans, string _name, int _cost, int _damage, DefenceCard::CARDS _cardType)
 {
+	Console_OutputLog(to_wstring("Creating Card: " + _name), LOGINFO);
 	transform = _trans;
 	_r = r;
 	_t = t;
@@ -154,6 +156,7 @@ void DefenceCard::Action(Character* _caster, Character* _target, Character* _oth
 
 UtilityCard::UtilityCard(RenderClass * r, TickClass * t, Transform _trans, string _name, int _cost, int _damage, UtilityCard::CARDS _cardType)
 {
+	Console_OutputLog(to_wstring("Creating Card: " + _name), LOGINFO);
 	transform = _trans;
 	_r = r;
 	_t = t;
