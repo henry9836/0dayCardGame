@@ -36,6 +36,7 @@ void Render() {
 	glutSwapBuffers();
 }
 
+//Update Loop
 void Update() {
 
 	currentTime = static_cast<float>(glutGet(GLUT_ELAPSED_TIME));
@@ -102,6 +103,34 @@ void mouse(int button, int state, int x, int y) { //Click
 	}
 }
 
+void DealCardsRandom(Character* _char) {
+	Console_OutputLog(L"Dealing Cards...", LOGINFO);
+	for (size_t i = 0; i < 12; i++)
+	{
+		int choice = rand() % 3;
+		switch (choice)
+		{
+		case 0: { //red ring
+			_char->Hand.push_back(new Card(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/REDRINGCard.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(-300, -200, 0), glm::vec3(0, 0, 0), glm::vec3(80.0f, 100.0f, 1.0f)), "Red Ring Of Death Card", 50));
+			break;
+		}
+		case 1: { //DDOS
+			_char->Hand.push_back(new Card(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/DDOSCard.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(-300, -200, 0), glm::vec3(0, 0, 0), glm::vec3(80.0f, 100.0f, 1.0f)), "DDOS Card", 70));
+			break;
+		}
+		case 2: { //SQL
+			_char->Hand.push_back(new Card(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/SQLCard.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(-300, -200, 0), glm::vec3(0, 0, 0), glm::vec3(80.0f, 100.0f, 1.0f)), "SQL Card", 30));
+			break;
+		}
+		default: {
+			i--;
+			Console_OutputLog(L"Choice out of bounds retrying...", LOGWARN);
+			break;
+		}
+		}
+	}
+}
+
 void populateGameObjectList() {
 	Console_OutputLog(L"Creating Players...", LOGINFO);
 	game->playerOne = new Human();
@@ -111,9 +140,6 @@ void populateGameObjectList() {
 	Console_OutputLog(L"Creating GameObjects...", LOGINFO);
 
 	//GLOBALS
-
-	game->gameObjects.push_back(new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/DDOSCard.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(-400, -200, 0), glm::vec3(0, 0, 0), glm::vec3(80.0f, 100.0f, 1.0f)), "Test Card 1"));
-	game->gameObjects.push_back(new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/REDRINGCard.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(-300, -200, 0), glm::vec3(0, 0, 0), glm::vec3(80.0f, 100.0f, 1.0f)), "Test Card 2"));
 
 	//MAINMENU OBJECTS
 
@@ -128,7 +154,16 @@ void populateGameObjectList() {
 	//game->maingameObjects.push_back(new GameObject(new RenderText(new CTextLabel("Main Menu\n 1. Main Menu\n 2. Play", "Resources/Fonts/TerminusTTF-4.47.0.ttf", glm::vec2(0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, game, "Main Menu Text")),new IdleTick, Transform(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1.0f, 1.0f, 1.0f)), "Main Menu Text"));
 
 	//GAMEPLAY OBJECTS
+	game->playgameObjects.push_back(game->playerOne);
+	game->playgameObjects.push_back(game->playerTwo);
+	game->playgameObjects.push_back(game->playerAI);
 
+
+	//DEAL CARDS
+	DealCardsRandom(game->playerOne);
+	DealCardsRandom(game->playerTwo);
+	DealCardsRandom(game->playerAI);
+	
 }
 
 void Exit()
@@ -166,7 +201,9 @@ void Start(int argc, char** argv)
 {
 	//Init OpenGL
 	game = new Game;
-	
+
+	srand(time(NULL));
+
 	Console_OutputLog(L"Initialising OpenGL Components...", LOGINFO);
 
 	glutInit(&argc, argv);
