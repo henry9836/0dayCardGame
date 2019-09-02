@@ -2,6 +2,8 @@
 #include "Util.h"
 #include "MeshManager.h"
 
+
+class CMenu;
 class CTextLabel;
 class Game;
 
@@ -32,6 +34,18 @@ public:
 
 };
 
+class RenderMenuText : public RenderClass
+{
+public:
+	RenderMenuText(CMenu* _menu) : menu(_menu) {};
+
+	virtual void Render(Transform* _transform);
+	virtual void SetTexture(GLuint _tex) {};
+	virtual void SetShader(GLuint _shader) {};
+
+	CMenu* menu;
+};
+
 class RenderText : public RenderClass {
 public:
 	RenderText(CTextLabel* _text) : text(_text) {};
@@ -46,6 +60,12 @@ public:
 class TickClass {
 public:
 	virtual void Tick(float deltaTime) = 0;
+};
+
+class MenuTick : public TickClass
+{
+public:
+	virtual void Tick(float) { return; };
 };
 
 class IdleTick : public TickClass {
@@ -112,4 +132,5 @@ public:
 };
 
 #include "TextManager.h"
+#include "Menu.h"
 #include "GameManager.h"

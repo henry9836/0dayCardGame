@@ -101,9 +101,23 @@ namespace Utility
 	const std::string BasicShaderVert = "Resources/Shaders/BasicShader.vs";
 	const std::string BasicShaderFrag = "Resources/Shaders/BasicShader.fs";
 	const std::string DesertTexture = "Resources/Textures/test.png";
-	const std::string NormalFontString = "Resources/Fonts/arial.ttf";
+	const std::string NormalFontString = "Resources/Fonts/TerminusTTF-4.47.0.ttf";
 	const std::string TextShaderVert = "Resources/Shaders/Text.vs";
 	const std::string TextShaderFrag = "Resources/Shaders/Text.fs";
 }
 
+namespace Textures
+{
+
+}
+
+namespace Shaders
+{
+
+}
+
+namespace Fonts
+{
+
+}
 #include "MeshManager.h"
