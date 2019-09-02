@@ -4,6 +4,11 @@ Character::Character()
 {
 }
 
+Character::Character(glm::vec3 _handPos)
+{
+	handPos = _handPos;
+}
+
 Character::~Character()
 {
 }

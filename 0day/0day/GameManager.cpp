@@ -111,15 +111,15 @@ void DealCardsRandom(Character* _char) {
 		switch (choice)
 		{
 		case 0: { //red ring
-			_char->Hand.push_back(new AttackCard(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/REDRINGCard.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(-300 + (i*2), -200, 0), glm::vec3(0, 0, 0), glm::vec3(80.0f, 100.0f, 1.0f)), "Red Ring Of Death Card", 50, 50, AttackCard::REDCIRCLE));
+			_char->Hand.push_back(new AttackCard(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/REDRINGCard.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(_char->handPos, glm::vec3(0, 0, 0), glm::vec3(80.0f, 100.0f, 1.0f)), "Red Ring Of Death Card", 50, 50, AttackCard::REDCIRCLE));
 			break;
 		}
 		case 1: { //DDOS
-			_char->Hand.push_back(new AttackCard(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/DDOSCard.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(-300, -200, 0), glm::vec3(0, 0, 0), glm::vec3(80.0f, 100.0f, 1.0f)), "DDOS Card", 70, 75, AttackCard::DDOS));
+			_char->Hand.push_back(new AttackCard(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/DDOSCard.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(_char->handPos, glm::vec3(0, 0, 0), glm::vec3(80.0f, 100.0f, 1.0f)), "DDOS Card", 70, 75, AttackCard::DDOS));
 			break;
 		}
 		case 2: { //SQL
-			_char->Hand.push_back(new AttackCard(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/SQLCard.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(-300, -200, 0), glm::vec3(0, 0, 0), glm::vec3(80.0f, 100.0f, 1.0f)), "SQL Card", 30, 10, AttackCard::SQL));
+			_char->Hand.push_back(new AttackCard(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/SQLCard.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(_char->handPos, glm::vec3(0, 0, 0), glm::vec3(80.0f, 100.0f, 1.0f)), "SQL Card", 30, 10, AttackCard::SQL));
 			break;
 		}
 		default: {
@@ -158,6 +158,11 @@ void populateGameObjectList() {
 	game->playgameObjects.push_back(game->playerTwo);
 	game->playgameObjects.push_back(game->playerAI);
 
+	//SET HANDPOSITIONS FOR PLAYERS
+
+	game->playerOne->handPos = glm::vec3(-300,-250,0);
+	game->playerTwo->handPos = glm::vec3(0, -250, 0);
+	game->playerAI->handPos = glm::vec3(-300, 250, 0);
 
 	//DEAL CARDS
 	DealCardsRandom(game->playerOne);
@@ -206,7 +211,7 @@ void Start(int argc, char** argv)
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA | GLUT_MULTISAMPLE);
-	glutInitWindowPosition(100, 50);
+	glutInitWindowPosition(50, 50);
 	glutInitWindowSize((int)game->ScreenSize.x, (int)game->ScreenSize.y);
 
 	glutCreateWindow("0day");
