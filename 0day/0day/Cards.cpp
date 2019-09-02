@@ -118,15 +118,19 @@ void DefenceCard::Action(Character* _caster, Character* _target, Character* _oth
 		case DefenceCard::TAPE:
 		{
 			_caster->UpdateLines(-15.0f);
-			_target->updateAccuracy(-0.01f);
+			_target->updateAccuracy(- _target->accuracy / 100.0f);
 			break;
 		}
 		case DefenceCard::LOGIN:
 		{
+			//stop line generation
 			break;
 		}
 		case DefenceCard::FIREWALL:
 		{
+			_caster->UpdateLines(-5.0f);
+			_target->updateAccuracy(- _target->accuracy/2.0f);
+			//until net attack
 			break;
 		}
 		case DefenceCard::CREDS:
@@ -167,5 +171,37 @@ void UtilityCard::Action(Character* _caster, Character* _target, Character* _oth
 {
 	_caster->GY.push_back(_caster->Hand.at(_caster->selectedCardVector));
 	_caster->Hand.erase(_caster->Hand.begin() + _caster->selectedCardVector);
+	switch (cardType)
+	{
+		case UtilityCard::SYSTEMRESET:
+		{
+			break;
+		}
+		case UtilityCard::FORKBOMB:
+		{
+			break;
+		}
+		case UtilityCard::REINFORCED:
+		{
+			break;
+		}
+		case UtilityCard::ENHNACED:
+		{
+			break;
+		}
+		case UtilityCard::ENUMERATION:
+		{
+			break;
+		}
+		case UtilityCard::ACCOUNT:
+		{
+			break;
+		}
+		case UtilityCard::SELFMODIFIYING:
+		{
+			break;
+		}
 
+
+	}
 }
