@@ -28,7 +28,6 @@ public:
 	//render function //deck
 	int selectedCardVector = 0;
 
-
 protected:
 
 	float maxlines = 100.0f;
