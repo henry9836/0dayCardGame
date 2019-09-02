@@ -20,6 +20,7 @@ void Render() {
 	//Render Based On Current Scene
 
 	if (game->currentScene == Scenes::SCENE_MAIN) {
+		game->StartMenu->Render();
 		for (size_t i = 0; i < game->maingameObjects.size(); i++)
 		{
 			game->maingameObjects.at(i)->Render();
@@ -37,22 +38,6 @@ void Render() {
 
 void Update() {
 
-	if (game->currentScene == Scenes::SCENE_MAIN) {
-		bool hasCard = false;
-		for (size_t i = 0; i < game->playgameObjects.size(); i++)
-		{
-			/*if (game->playgameObjects.at(i)->type == GameObject::SIMPLEFAN) {
-				hasCard = true;
-			}*/
-		}
-		if (!hasCard) {
-			//Console_OutputLog(L"Dealing Cards To Player", LOGINFO);
-			//game->playgameObjects.push_back(new GameObject(SimpleFan(glm::vec3(0, 0, 0), vector<glm::vec3>{glm::vec3(-0.4f, 0.6f, 0.0f), glm::vec3(0.4f, 0.6f, 0.0f), glm::vec3(0.4f, -0.6f, 0.0f), glm::vec3(-0.4f, -0.6f, 0.0f), glm::vec3(-0.4f, 0.6f, 0.0f)}), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), "Card", vector<GameObject::objectBehaviours>{GameObject::DEMOCARD}));
-		}
-	}
-
-
-	Render();
 	currentTime = static_cast<float>(glutGet(GLUT_ELAPSED_TIME));
 	deltaTime = (currentTime - pasttime) * 0.1f;
 	pasttime = currentTime;
@@ -60,7 +45,6 @@ void Update() {
 	//Tick Objects
 
 	game->camera.Tick(game->ScreenSize, deltaTime);
-
 	for (size_t i = 0; i < game->gameObjects.size(); i++)
 	{
 		game->gameObjects.at(i)->Tick(deltaTime);
@@ -69,6 +53,23 @@ void Update() {
 	//Tick Based On Current Scene
 
 	if (game->currentScene == Scenes::SCENE_MAIN) {
+		int tempOutput = NULL;
+		game->StartMenu->Process(tempOutput);
+		CInputManager::ProcessKeyInput();
+		switch (tempOutput)
+		{
+		case 0:
+			game->currentScene = Scenes::SCENE_GAME;
+			break;
+		case 1:
+			game->currentScene = Scenes::SCENE_MAIN;
+			break;
+		case 2:
+			glutLeaveMainLoop();
+			break;
+		default:
+			break;
+		}
 		for (size_t i = 0; i < game->maingameObjects.size(); i++)
 		{
 			game->maingameObjects.at(i)->Tick(deltaTime);
@@ -80,77 +81,8 @@ void Update() {
 			game->playgameObjects.at(i)->Tick(deltaTime);
 		}
 	}
-}
 
-void keyboard(unsigned char key, int, int) {
-
-	//Main Menu
-	if (game->currentScene == Scenes::SCENE_MAIN) {
-		//Quit
-		if (key == 27 || key == 113 || key == 81) { // ESC/Q 
-
-			Console_OutputLog(L"Exiting Game...", LOGINFO);
-
-			for (size_t i = 0; i < game->gameObjects.size(); i++)
-			{
-				game->gameObjects.at(i)->~GameObject();
-				game->gameObjects.erase(game->gameObjects.begin() + i);
-				i--;
-			}
-
-			for (size_t i = 0; i < game->playgameObjects.size(); i++)
-			{
-				game->playgameObjects.at(i)->~GameObject();
-				game->playgameObjects.erase(game->playgameObjects.begin() + i);
-				i--;
-			}
-
-			for (size_t i = 0; i < game->maingameObjects.size(); i++)
-			{
-				game->maingameObjects.at(i)->~GameObject();
-				game->maingameObjects.erase(game->maingameObjects.begin() + i);
-				i--;
-			}
-
-			glutLeaveMainLoop();
-		}
-
-		
-	}
-	if (game->currentScene == Scenes::SCENE_GAME){
-		if (key == 119 || key == 87) {
-				bool hasCard = false;
-				for (size_t i = 0; i < game->playgameObjects.size(); i++)
-				{
-					Console_OutputLog(L"Checking For Cards In Hand", LOGINFO);
-					/*if (game->playgameObjects.at(i)->type == GameObject::SIMPLEFAN) {
-						hasCard = true;
-						Console_OutputLog(L"Player Delt 50 damage to enemy", LOGINFO);
-						Console_OutputLog(L"Enemy health = 50/100", LOGINFO);
-						Console_OutputLog(L"Taken Card Away From Player", LOGINFO);
-						game->playgameObjects.at(i)->~GameObject();
-						game->playgameObjects.erase(game->playgameObjects.begin() + i);
-						i--;
-					}*/
-				}
-				if (!hasCard) {
-					Console_OutputLog(L"Player has no card remaing", LOGINFO);
-				}
-			}
-	}
-	if (key == 49) {
-		Console_OutputLog(L"Switching to main menu", LOGINFO);
-		game->currentScene = Scenes::SCENE_MAIN;
-	}
-	else if (key == 50) {
-		Console_OutputLog(L"Switching to game", LOGINFO);
-		game->currentScene = Scenes::SCENE_GAME;
-	}
-	wcout << "KEY: " << key << endl;
-}
-
-void keyboardSpecial(int key, int, int) {
-	
+	Render();
 }
 
 void mouseMovement(int x, int y) {
@@ -184,17 +116,54 @@ void populateGameObjectList() {
 	game->gameObjects.push_back(new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/test.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(-300, -200, 0), glm::vec3(0, 0, 0), glm::vec3(80.0f, 100.0f, 1.0f)), "Test Card 2"));
 
 	//MAINMENU OBJECTS
-	
-	game->maingameObjects.push_back(new GameObject(new RenderText(new CTextLabel("Main Menu\n 1. Main Menu\n 2. Play", "Resources/Fonts/TerminusTTF-4.47.0.ttf", glm::vec2(0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, game, "Main Menu Text")),new IdleTick, Transform(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1.0f, 1.0f, 1.0f)), "Main Menu Text"));
+
+#pragma region StartMenu
+	std::vector<std::string> StartOpt;
+	StartOpt.push_back("Start");
+	StartOpt.push_back("Options");
+	StartOpt.push_back("Quit");
+	game->StartMenu = new CMenu(StartOpt, glm::vec2(0.0f, 0.0f), game);
+#pragma endregion
+
+	//game->maingameObjects.push_back(new GameObject(new RenderText(new CTextLabel("Main Menu\n 1. Main Menu\n 2. Play", "Resources/Fonts/TerminusTTF-4.47.0.ttf", glm::vec2(0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, game, "Main Menu Text")),new IdleTick, Transform(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1.0f, 1.0f, 1.0f)), "Main Menu Text"));
 
 	//GAMEPLAY OBJECTS
 
 }
 
+void Exit()
+{
+	Console_OutputLog(L"Exiting Game...", LOGINFO);
+
+	for (size_t i = 0; i < game->gameObjects.size(); i++)
+	{
+		game->gameObjects.at(i)->~GameObject();
+		game->gameObjects.erase(game->gameObjects.begin() + i);
+		i--;
+	}
+
+	for (size_t i = 0; i < game->playgameObjects.size(); i++)
+	{
+		game->playgameObjects.at(i)->~GameObject();
+		game->playgameObjects.erase(game->playgameObjects.begin() + i);
+		i--;
+	}
+
+	for (size_t i = 0; i < game->maingameObjects.size(); i++)
+	{
+		game->maingameObjects.at(i)->~GameObject();
+		game->maingameObjects.erase(game->maingameObjects.begin() + i);
+		i--;
+	}
+
+	game->~Game();
+	delete game;
+	game = nullptr;
+	exit(0);
+}
+
 void Start(int argc, char** argv)
 {
-
-
 	//Init OpenGL
 	game = new Game;
 	
@@ -213,11 +182,14 @@ void Start(int argc, char** argv)
 		exit(0);
 	}
 
+	glutSetOption(GLUT_MULTISAMPLE, 8);
+	glEnable(GL_MULTISAMPLE);
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 
 	glClearColor(1.0, 1.0, 0.0, 1.0);
 	MeshManager::GetInstance();
+	CInputManager::CInputManager();
 	//create GameObjects
 	game->camera.initializeCamera();
 	game->camera.SwitchMode(Camera::ORTH, glm::vec3(0,0,0), glm::vec3(0,0,-2), glm::vec3(0,0,0), 2.0f, 0.0f);
@@ -229,19 +201,14 @@ void Start(int argc, char** argv)
 
 	Console_OutputLog(L"OpenGL Service Starting...", LOGINFO);
 
-	glutDisplayFunc(Render);
+ 	glutDisplayFunc(Render);
 
 	glutIdleFunc(Update);
 
-	// handlers for keyboard input
-	glutKeyboardFunc(keyboard);
-	glutSpecialFunc(keyboardSpecial);
-
 	// mouse event handlers
-	glutMouseFunc(mouse);
-	glutPassiveMotionFunc(mouseMovement);
-
 	glutMainLoop();
+
+	glutCloseFunc(Exit);
 
 }
 
@@ -254,9 +221,12 @@ Game::Game()
 Game::~Game()
 {
 	Console_OutputLog(L"Deconstructing Game Class", LOGINFO);
+	delete StartMenu;
+	StartMenu = nullptr;
 }
 
 void Game::switchScene(Scenes newScene)
 {
 	this->currentScene = newScene;
 }
+

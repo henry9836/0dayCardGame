@@ -115,3 +115,8 @@ Card::~Card()
 GameObject::GameObject()
 {
 }
+
+void RenderMenuText::Render(Transform* _transform)
+{
+	menu->Render();
+}
