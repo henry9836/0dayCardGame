@@ -12,7 +12,7 @@ public:
 	virtual void constantuUpdateLines(float deltaTime);
 	virtual void UpdateLines(float Diffrence);
 	virtual bool checkIfPlayable(float cost);
-	virtual float getHpBarPersent() { currentHP / maxHP; };
+	virtual float getHpBarPersent() { return currentHP / maxHP;};
 	//deck
 
 protected:
