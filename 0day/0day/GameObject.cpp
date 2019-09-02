@@ -95,6 +95,27 @@ void RenderText::Render(Transform* _transform)
 	text->Render();
 }
 
+Card::Card()
+{
+}
+
+Card::Card(RenderClass * r, TickClass * t, Transform _trans, string _name, int _cost)
+{
+	transform = _trans;
+	_r = r;
+	_t = t;
+	name = _name;
+	cost = _cost;
+}
+
+Card::~Card()
+{
+}
+
+GameObject::GameObject()
+{
+}
+
 void RenderMenuText::Render(Transform* _transform)
 {
 	menu->Render();

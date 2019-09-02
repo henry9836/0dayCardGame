@@ -103,6 +103,11 @@ void mouse(int button, int state, int x, int y) { //Click
 }
 
 void populateGameObjectList() {
+	Console_OutputLog(L"Creating Players...", LOGINFO);
+	game->playerOne = new Human();
+	game->playerTwo = new Human();
+	game->playerAI = new AI(1);
+	
 	Console_OutputLog(L"Creating GameObjects...", LOGINFO);
 
 	//GLOBALS

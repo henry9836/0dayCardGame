@@ -39,6 +39,9 @@
     <ClCompile Include="Character.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Cards.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -84,6 +87,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Character.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Cards.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

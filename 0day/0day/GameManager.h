@@ -3,6 +3,8 @@
 #include "GameObject.h"
 #include "MeshManager.h"
 #include "Camera.h"
+#include "Cards.h"
+#include "Character.h"
 #include "Menu.h"
 
 class CMenu;
@@ -21,7 +23,13 @@ public:
 	vector<GameObject*> gameObjects; //global
 	vector<GameObject*> maingameObjects; //main menu
 	vector<GameObject*> playgameObjects; //game
+
+	Character* playerOne;
+	Character* playerTwo;
+	Character* playerAI;
 	
+
+
 	glm::vec2 ScreenSize = {1000,750};
 	glm::vec2 MousePosition;
 

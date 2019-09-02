@@ -148,6 +148,7 @@
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Clock.cpp" />
+    <ClCompile Include="Cards.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -161,6 +162,7 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Clock.h" />
+    <ClInclude Include="Cards.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="ConsoleController.h" />
     <ClInclude Include="GameManager.h" />
