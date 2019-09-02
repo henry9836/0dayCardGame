@@ -6,7 +6,6 @@ class Character : public GameObject
 {
 public:
 	Character();
-	Character(glm::vec3 _handPos);
 	~Character();
 	virtual void updateHP(float damage) { currentHP += damage; }; //implemet damage modifier
 	virtual void constantuUpdateLines(float deltaTime);
@@ -28,6 +27,7 @@ public:
 	//render function //deck
 	int selectedCardVector = 0;
 	glm::vec3 handPos;
+	const glm::vec3 defaultCardSize = glm::vec3(40.0f, 60.0f, 1.0f);
 
 protected:
 

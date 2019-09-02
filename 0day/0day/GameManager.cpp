@@ -105,29 +105,33 @@ void mouse(int button, int state, int x, int y) { //Click
 
 void DealCardsRandom(Character* _char) {
 	Console_OutputLog(L"Dealing Cards...", LOGINFO);
-	for (size_t i = 0; i < 12; i++)
+	int moveX = 0;
+	int moveAmount = 81;
+	for (size_t i = 0; i < 10; i++)
 	{
 		int choice = rand() % 3;
 		switch (choice)
 		{
 		case 0: { //red ring
-			_char->Hand.push_back(new AttackCard(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/REDRINGCard.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(_char->handPos, glm::vec3(0, 0, 0), glm::vec3(80.0f, 100.0f, 1.0f)), "Red Ring Of Death Card", 50, 50, AttackCard::REDCIRCLE));
+			_char->Hand.push_back(new AttackCard(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/REDRINGCard.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(_char->handPos.x + moveX, _char->handPos.y, _char->handPos.z), glm::vec3(0, 0, 0), _char->defaultCardSize), "Red Ring Of Death Card", 50, 50, AttackCard::REDCIRCLE));
 			break;
 		}
 		case 1: { //DDOS
-			_char->Hand.push_back(new AttackCard(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/DDOSCard.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(_char->handPos, glm::vec3(0, 0, 0), glm::vec3(80.0f, 100.0f, 1.0f)), "DDOS Card", 70, 75, AttackCard::DDOS));
+			_char->Hand.push_back(new AttackCard(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/DDOSCard.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(_char->handPos.x + moveX, _char->handPos.y, _char->handPos.z), glm::vec3(0, 0, 0), _char->defaultCardSize), "DDOS Card", 70, 75, AttackCard::DDOS));
 			break;
 		}
 		case 2: { //SQL
-			_char->Hand.push_back(new AttackCard(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/SQLCard.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(_char->handPos, glm::vec3(0, 0, 0), glm::vec3(80.0f, 100.0f, 1.0f)), "SQL Card", 30, 10, AttackCard::SQL));
+			_char->Hand.push_back(new AttackCard(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/SQLCard.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(_char->handPos.x + moveX, _char->handPos.y, _char->handPos.z), glm::vec3(0, 0, 0), _char->defaultCardSize), "SQL Card", 30, 10, AttackCard::SQL));
 			break;
 		}
 		default: {
 			i--;
+			moveX -= moveAmount;
 			Console_OutputLog(L"Choice out of bounds retrying...", LOGWARN);
 			break;
 		}
 		}
+		moveX += moveAmount;
 	}
 }
 
@@ -160,9 +164,9 @@ void populateGameObjectList() {
 
 	//SET HANDPOSITIONS FOR PLAYERS
 
-	game->playerOne->handPos = glm::vec3(-300,-250,0);
-	game->playerTwo->handPos = glm::vec3(0, -250, 0);
-	game->playerAI->handPos = glm::vec3(-300, 250, 0);
+	game->playerOne->handPos = glm::vec3(-800,-350,0);
+	game->playerTwo->handPos = glm::vec3(50, -350, 0);
+	game->playerAI->handPos = glm::vec3(-800, 300, 0);
 
 	//DEAL CARDS
 	DealCardsRandom(game->playerOne);
