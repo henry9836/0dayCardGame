@@ -24,6 +24,7 @@ public:
 	vector<GameObject*> gameObjects; //global
 	vector<GameObject*> maingameObjects; //main menu
 	vector<GameObject*> playgameObjects; //game
+	vector<GameObject*> deckselectionObjects; //DeckSelection
 
 	Character* playerOne;
 	Character* playerTwo;
