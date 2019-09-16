@@ -12,6 +12,7 @@
 enum Object_Attributes
 {
 	CARD_ENTITY,
+	BAR_ENTITY,
 	ENEMY_ENTITY,
 	NONE,
 };
@@ -45,5 +46,6 @@ private:
 
 	// Mesh ptrs
 	static std::shared_ptr<MESH> SquareMesh;
+	static std::shared_ptr<MESH> ChangingSquareMesh;
 };
 
