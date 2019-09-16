@@ -21,6 +21,7 @@ class NoRender : public RenderClass {
 
 class RenderObject : public RenderClass{
 public:
+	RenderObject();
 	RenderObject(std::shared_ptr<MESH> _mesh, GLuint _texture, Game* _game, GLuint _shaderProgram) : VAO(_mesh->VAO), indiceCount(_mesh->IndicesCount), texture(_texture), game(_game), shaderProgram(_shaderProgram) {};
 	
 	virtual void Render(Transform* _transform);
@@ -77,15 +78,6 @@ class DeckObject : public TickClass {
 public:
 	virtual void Tick(float deltaTime, GameObject* _gameObject);
 	//vector<auto>deck;
-
-};
-
-class BarsTick : public TickClass
-{
-public:
-	void Tick(float deltaTime, GameObject* _GameObject);
-
-private:
 
 };
 

@@ -113,9 +113,8 @@ void populateGameObjectList() {
 
 	//GLOBALS
 
-	game->gameObjects.push_back(new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/test.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(-400, -200, 0), glm::vec3(0, 0, 0), glm::vec3(80.0f, 100.0f, 1.0f)), "Test Card 1"));
-	game->gameObjects.push_back(new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/test.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(-300, -200, 0), glm::vec3(0, 0, 0), glm::vec3(80.0f, 100.0f, 1.0f)), "Test Card 2"));
-
+	//game->gameObjects.push_back(new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/test.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(-400, -200, 0), glm::vec3(0, 0, 0), glm::vec3(80.0f, 100.0f, 1.0f)), "Test Card 1"));
+	//game->gameObjects.push_back(new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/test.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(-300, -200, 0), glm::vec3(0, 0, 0), glm::vec3(80.0f, 100.0f, 1.0f)), "Test Card 2"));
 	//MAINMENU OBJECTS
 
 #pragma region StartMenu
@@ -129,7 +128,8 @@ void populateGameObjectList() {
 	//game->maingameObjects.push_back(new GameObject(new RenderText(new CTextLabel("Main Menu\n 1. Main Menu\n 2. Play", "Resources/Fonts/TerminusTTF-4.47.0.ttf", glm::vec2(0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, game, "Main Menu Text")),new IdleTick, Transform(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1.0f, 1.0f, 1.0f)), "Main Menu Text"));
 
 	//GAMEPLAY OBJECTS
-
+	game->playgameObjects.push_back(new GameObject(new BarsRender(MeshManager::GetMesh(Object_Attributes::BAR_ENTITY), MeshManager::SetTexture("Resources/Textures/test.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER), game->playerOne, true), new TickObject, Transform(glm::vec3(game->ScreenSize.x * -0.25f , game->ScreenSize.y * -0.25f, 0), glm::vec3(0, 0, 0), glm::vec3(game->ScreenSize.x * 0.2f, game->ScreenSize.y * 0.01f, 1.0f)), "Player One Health Bar"));
+	game->playgameObjects.push_back(new GameObject(new BarsRender(MeshManager::GetMesh(Object_Attributes::BAR_ENTITY), MeshManager::SetTexture("Resources/Textures/test.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER), game->playerOne, false), new TickObject, Transform(glm::vec3(game->ScreenSize.x * -0.25f, game->ScreenSize.y * -0.2f, 0), glm::vec3(0, 0, 0), glm::vec3(game->ScreenSize.x * 0.2f, game->ScreenSize.y * 0.01f, 1.0f)), "Player One Lines Bar"));
 }
 
 void Exit()

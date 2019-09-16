@@ -25,8 +25,6 @@ public:
 	vector<GameObject*> maingameObjects; //main menu
 	vector<GameObject*> playgameObjects; //game
 
-	vector<Bars*> BarsObjects;
-
 	Character* playerOne;
 	Character* playerTwo;
 	Character* playerAI;

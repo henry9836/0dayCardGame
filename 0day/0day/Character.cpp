@@ -76,9 +76,10 @@ void Character::Tick(float deltaTime)
 
 Human::Human()
 {
-	float initalHP = 100.0f;
-	float currentHP = initalHP;
-	float currentLines = 35.0f;
+	maxHP = 100.0f;
+	currentHP = maxHP;
+	maxlines = 100.0f;
+	currentLines = 35.0f;
 	float damageMult = 1.0f;
 	float LinesMult = 1.0f;
 	float accuracy = 1.0f;
