@@ -51,6 +51,7 @@ class Human : public Character
 {
 public:
 
+	Human() { };
 	Human(vector<Card*> startingDeck) : Character(startingDeck) 
 	{
 		float initalHP = 100.0f;
@@ -72,6 +73,7 @@ class AI : public Character
 {
 public:
 
+	AI(int Level) { };
 	AI(int Level, vector<Card*> startingDeck) : Character(startingDeck)
 	{
 		float initalHP = 100.0f + ((Level * 10) * (Level * 10));
