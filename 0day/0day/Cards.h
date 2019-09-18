@@ -18,7 +18,7 @@ public:
 	};
 
 	AttackCard(RenderClass* r, TickClass* t, Transform _trans, string _name, int _cost, int _damage, AttackCard::CARDS _cardType);
-	virtual void Tick(float deltaTime) { _t->Tick(deltaTime); };
+	virtual void Tick(float deltaTime, GameObject* _gameObject) { _t->Tick(deltaTime, _gameObject); };
 	virtual void Render() { 
 		_r->Render(&transform); 
 		_rr->Render(&transform);
@@ -46,7 +46,7 @@ public:
 	};
 
 	DefenceCard(RenderClass* r, TickClass* t, Transform _trans, string _name, int _cost, int _damage, DefenceCard::CARDS _cardType);
-	virtual void Tick(float deltaTime) { _t->Tick(deltaTime); };
+	virtual void Tick(float deltaTime, GameObject* _gameObject) { _t->Tick(deltaTime, _gameObject); };
 	virtual void Render() {
 		_r->Render(&transform);
 		_rr->Render(&transform);
@@ -76,7 +76,7 @@ public:
 	};
 
 	UtilityCard(RenderClass* r, TickClass* t, Transform _trans, string _name, int _cost, int _damage, UtilityCard::CARDS _cardType);
-	virtual void Tick(float deltaTime) { _t->Tick(deltaTime); };
+	virtual void Tick(float deltaTime, GameObject* _gameObject) { _t->Tick(deltaTime, _gameObject); };
 	virtual void Render() {
 		_r->Render(&transform);
 		_rr->Render(&transform);

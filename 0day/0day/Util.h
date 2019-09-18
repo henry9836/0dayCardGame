@@ -88,7 +88,8 @@ struct SimpleFan {
 
 struct MESH
 {
-	GLuint VAO;
+	GLuint VAO, VBO;
+	std::vector<GLfloat> Vertices;
 	unsigned int IndicesCount;
 };
 

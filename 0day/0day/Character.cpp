@@ -87,6 +87,13 @@ void Character::Tick(float deltaTime)
 
 Human::Human(vector<Card*> startingDeck)
 {
+	maxHP = 100.0f;
+	currentHP = maxHP;
+	maxlines = 100.0f;
+	currentLines = 35.0f;
+	float damageMult = 1.0f;
+	float LinesMult = 1.0f;
+	float accuracy = 1.0f;
 }
 
 Human::~Human()
