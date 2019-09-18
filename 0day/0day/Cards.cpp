@@ -37,14 +37,14 @@ void AttackCard::Action(Character* _caster, Character* _target, Character* _othe
 
 			int damage = 0;
 
-			for (int i = 0; i < _caster->Hand.size(); i++)
+			for (int i = 0; i < (signed int)_caster->Hand.size(); i++)
 			{
 				damage += _caster->Hand.at(0)->cost;
 				_caster->GY.push_back(_caster->Hand.at(0));
 				_caster->Hand.erase(_caster->Hand.begin());
 				i--;
 			}
-			for (int i = 0; i < _otherPlayer->Hand.size(); i++)
+			for (int i = 0; i < (signed int)_otherPlayer->Hand.size(); i++)
 			{
 				damage += _otherPlayer->Hand.at(0)->cost;
 				_otherPlayer->GY.push_back(_otherPlayer->Hand.at(0));
@@ -179,14 +179,14 @@ void UtilityCard::Action(Character* _caster, Character* _target, Character* _oth
 		{
 			_caster->UpdateLines(-100.0f);
 
-			for (int i = 0; i < _caster->Hand.size(); i++)
+			for (int i = 0; i < (signed int)_caster->Hand.size(); i++)
 			{
 				damage += _caster->Hand.at(0)->cost;
 				_caster->GY.push_back(_caster->Hand.at(0));
 				_caster->Hand.erase(_caster->Hand.begin());
 				i--;
 			}
-			for (int i = 0; i < _otherPlayer->Hand.size(); i++)
+			for (int i = 0; i < (signed int)_otherPlayer->Hand.size(); i++)
 			{
 				damage += _otherPlayer->Hand.at(0)->cost;
 				_otherPlayer->GY.push_back(_otherPlayer->Hand.at(0));
@@ -239,7 +239,7 @@ void UtilityCard::Action(Character* _caster, Character* _target, Character* _oth
 		{
 			_caster->UpdateLines(-5.0f);
 			int card = rand() % _caster->Hand.size();
-			_caster->UpdateLines(_caster->Hand.at(card)->cost);
+			_caster->UpdateLines((float)_caster->Hand.at(card)->cost);
 			_caster->GY.push_back(_caster->Hand.at(card));
 			_caster->Hand.erase(_caster->Hand.begin() + card);//double check
 			break;
