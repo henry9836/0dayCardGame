@@ -46,9 +46,10 @@ void Update() {
 	//Tick Objects
 
 	game->camera.Tick(game->ScreenSize, deltaTime);
+
 	for (size_t i = 0; i < game->gameObjects.size(); i++)
 	{
-		game->gameObjects.at(i)->Tick(deltaTime);
+		game->gameObjects.at(i)->Tick(deltaTime, game->gameObjects.at(i));
 	}
 
 	//Tick Based On Current Scene
@@ -73,13 +74,13 @@ void Update() {
 		}
 		for (size_t i = 0; i < game->maingameObjects.size(); i++)
 		{
-			game->maingameObjects.at(i)->Tick(deltaTime);
+			game->maingameObjects.at(i)->Tick(deltaTime, game->maingameObjects.at(i));
 		}
 	}
 	else if (game->currentScene == Scenes::SCENE_GAME) {
 		for (size_t i = 0; i < game->playgameObjects.size(); i++)
 		{
-			game->playgameObjects.at(i)->Tick(deltaTime);
+			game->playgameObjects.at(i)->Tick(deltaTime, game->playgameObjects.at(i));
 		}
 		game->playerOne->DrawACard();
 		game->playerTwo->DrawACard();
@@ -161,21 +162,7 @@ void populateGameObjectList() {
 	//game->maingameObjects.push_back(new GameObject(new RenderText(new CTextLabel("Main Menu\n 1. Main Menu\n 2. Play", "Resources/Fonts/TerminusTTF-4.47.0.ttf", glm::vec2(0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, game, "Main Menu Text")),new IdleTick, Transform(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1.0f, 1.0f, 1.0f)), "Main Menu Text"));
 
 	//GAMEPLAY OBJECTS
-	game->playgameObjects.push_back(game->playerOne);
-	game->playgameObjects.push_back(game->playerTwo);
-	game->playgameObjects.push_back(game->playerAI);
 
-	//SET HANDPOSITIONS FOR PLAYERS
-
-	game->playerOne->handPos = glm::vec3(-800,-350,0);
-	game->playerTwo->handPos = glm::vec3(50, -350, 0);
-	game->playerAI->handPos = glm::vec3(-800, 300, 0);
-
-	//DEAL CARDS
-	DealCardsRandom(game->playerOne);
-	DealCardsRandom(game->playerTwo);
-	DealCardsRandom(game->playerAI);
-	
 }
 
 void Exit()

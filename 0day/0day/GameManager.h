@@ -5,6 +5,7 @@
 #include "Camera.h"
 #include "Cards.h"
 #include "Character.h"
+#include "Bars.h"
 #include "Menu.h"
 
 class CMenu;

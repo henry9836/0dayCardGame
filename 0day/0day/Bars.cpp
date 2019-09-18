@@ -1,13 +1,30 @@
-#include "GameObject.h"
+#include "Bars.h"
 
-RenderObject::RenderObject()
+BarsRender::BarsRender(std::shared_ptr<MESH> _mesh, GLuint _texture, Game * _game, GLuint _shaderProgram, Character * _Characterptr, bool _isHealthBar)
 {
+	VAO = _mesh->VAO;
+	indiceCount = _mesh->IndicesCount;
+	texture = _texture;
+	game = _game;
+	shaderProgram = _shaderProgram;
+	VBO = _mesh->VBO;
+	isHealthBar = _isHealthBar;
+	characterPtr = _Characterptr;
+	Vertices = _mesh->Vertices;
 }
 
-void RenderObject::Render(Transform* _transform)
+void BarsRender::Render(Transform * _transform)
 {
-
-
+	float Percentage;
+	if (isHealthBar)
+	{
+		Percentage = characterPtr->getHpBarPersent();
+	}
+	else
+	{
+		Percentage = characterPtr->getLinesBatPersent();
+	}
+	ChangingVertices(Percentage);
 	glUseProgram(this->shaderProgram);
 
 	//Binding the array
@@ -81,49 +98,16 @@ void RenderObject::Render(Transform* _transform)
 	glUseProgram(0);
 }
 
-void RenderObject::SetTexture(GLuint _tex)
+void BarsRender::ChangingVertices(float _Value)
 {
-	this->texture = _tex;
-}
-
-void RenderObject::SetShader(GLuint _shader)
-{
-	this->shaderProgram = _shader;
-}
-
-void TickObject::Tick(float deltaTime, GameObject* _GameObject)
-{
-	//Console_OutputLog(L"Ticker", LOGINFO);
-}
-
-void RenderText::Render(Transform* _transform)
-{
-	text->Render();
-}
-
-Card::Card()
-{
-}
-
-Card::Card(RenderClass * r, TickClass * t, Transform _trans, string _name, int _cost)
-{
-	Console_OutputLog(to_wstring("Creating Card: " + _name), LOGINFO);
-	transform = _trans;
-	_r = r;
-	_t = t;
-	name = _name;
-	cost = _cost;
-}
-
-Card::~Card()
-{
-}
-
-GameObject::GameObject()
-{
-}
-
-void RenderMenuText::Render(Transform* _transform)
-{
-	menu->Render();
+	float Percentage =_Value * 2;
+	std::vector<GLfloat> newVertices = Vertices;
+	for (int iVertex = 16; iVertex < Vertices.size(); iVertex += 8)
+	{
+		newVertices[iVertex] = Percentage - Vertices[iVertex];
+	}
+	//Binding and Setting the buffer data
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, Vertices.size() * sizeof(GLfloat), &newVertices[0], GL_DYNAMIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }

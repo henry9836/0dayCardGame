@@ -15,7 +15,7 @@ CMenu::CMenu(std::vector<std::string> _OptVect, glm::vec2 _Pos, Game* _Game)
 	//Iterating through the provided option vect
 	for (unsigned int i = 0; i < _OptVect.size(); ++i)
 	{
-		OptionVect.push_back(CTextLabel(_OptVect[i], Utility::NormalFontString.data(), Position, glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, _Game, ("Text" + i)));
+		OptionVect.push_back(CTextLabel(_OptVect[i], Utility::NormalFontString.data(), Position, glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, _Game, ("Text")));
 		Position.y -= 60.0f;
 	}
 	NumMenuOptions = _OptVect.size() - 1;
