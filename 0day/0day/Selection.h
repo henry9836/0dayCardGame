@@ -5,19 +5,21 @@
 class Selection
 {
 public:
-	Selection(std::vector<Card*> _OptVect, glm::vec2 Pos, int _Length, float _SeperationDistanceX, float _SeperationDistanceY, Game* _Game, int _Menu);
+	Selection(std::vector<Card*> _OptVect, glm::vec3 _Pos, int _Length, float _SeperationDistanceX, float _SeperationDistanceY, Game * _Game, int _Menu);
 	~Selection();
 	void IncrementMenu(int _Player);
 	void DecrementMenu(int _Player);
-	int GetCurrentOpt() { return CurrentOption; };
-	void ReplaceOption(int _OptIndex, std::string _OptionText);
+	void ResetSize(bool _isPlayer, Character * _Player1, Character * _Player2);
 	void SelectOption(unsigned int _Option1, unsigned int _Option2);
 	void Process(Character* _Player1, Character* _Player2);
 	void Render();
+	void RemoveCard(bool isPlayer1, Character * _Player1, Character * _Player2);
+	void AddCard(bool isPlayer1, Character * _Player1, Character * _Player2);
 
 	private:
 	std::vector<Card*> OptionVect;
-
+	
+	Game* p_Game;
 	int MenuType;
 	int NumMenuOptions;
 	int CurrentOptionPlayerOne;
