@@ -31,7 +31,21 @@ void Render() {
 		{
 			game->playgameObjects.at(i)->Render();
 		}
+		for (size_t i = 0; i < game->playerOne->cardPile->Hand.size(); i++)
+		{
+			game->playerOne->cardPile->Hand.at(i)->Render();
+		}
+		for (size_t i = 0; i < game->playerTwo->cardPile->Hand.size(); i++)
+		{
+			game->playerTwo->cardPile->Hand.at(i)->Render();
+		}
+		for (size_t i = 0; i < game->playerAI->cardPile->Hand.size(); i++)
+		{
+			game->playerAI->cardPile->Hand.at(i)->Render();
+		}
 	}
+
+
 
 	glutSwapBuffers();
 }
@@ -79,7 +93,7 @@ void Update() {
 		}
 	}
 	else if (game->currentScene == Scenes::SCENE_GAME) {
-		Console_OutputLog(L"Drawing Cards", LOGINFO);
+		//Draw Cards needs to be improved a lot
 		for (size_t i = 0; i < game->playgameObjects.size(); i++)
 		{
 			game->playgameObjects.at(i)->Tick(deltaTime, game->playgameObjects.at(i));
@@ -87,6 +101,8 @@ void Update() {
 		game->playerOne->DrawACard();
 		game->playerTwo->DrawACard();
 		game->playerAI->DrawACard();
+
+		
 	}
 
 	Render();
@@ -112,22 +128,22 @@ void mouse(int button, int state, int x, int y) { //Click
 void DealCardsRandom(Character* _char) {
 	Console_OutputLog(L"Dealing Cards...", LOGINFO);
 	int moveX = 0;
-	int moveAmount = 81;
+	int moveAmount = 51;
 	for (size_t i = 0; i < 20; i++)
 	{
 		int choice = rand() % 3;
 		switch (choice)
 		{
 		case 0: { //red ring
-			_char->cardPile->Deck.push_back(new AttackCard(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/REDRINGCard.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(_char->handPos.x + moveX, _char->handPos.y, _char->handPos.z), glm::vec3(0, 0, 0), _char->defaultCardSize), "Red Ring Of Death Card", 50, 50, AttackCard::REDCIRCLE));
+			_char->cardPile->Deck.push_back(new AttackCard(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/REDRINGCard.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(_char->cardPile->handPos.x + moveX, _char->cardPile->handPos.y, _char->cardPile->handPos.z), glm::vec3(0, 0, 0), _char->defaultCardSize), "Red Ring Of Death Card", 50, 50, AttackCard::REDCIRCLE));
 			break;
 		}
 		case 1: { //DDOS
-			_char->cardPile->Deck.push_back(new AttackCard(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/DDOSCard.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(_char->handPos.x + moveX, _char->handPos.y, _char->handPos.z), glm::vec3(0, 0, 0), _char->defaultCardSize), "DDOS Card", 70, 75, AttackCard::DDOS));
+			_char->cardPile->Deck.push_back(new AttackCard(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/DDOSCard.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(_char->cardPile->handPos.x + moveX, _char->cardPile->handPos.y, _char->cardPile->handPos.z), glm::vec3(0, 0, 0), _char->defaultCardSize), "DDOS Card", 70, 75, AttackCard::DDOS));
 			break;
 		}
 		case 2: { //SQL
-			_char->cardPile->Deck.push_back(new AttackCard(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/SQLCard.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(_char->handPos.x + moveX, _char->handPos.y, _char->handPos.z), glm::vec3(0, 0, 0), _char->defaultCardSize), "SQL Card", 30, 10, AttackCard::SQL));
+			_char->cardPile->Deck.push_back(new AttackCard(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/SQLCard.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(_char->cardPile->handPos.x + moveX, _char->cardPile->handPos.y, _char->cardPile->handPos.z), glm::vec3(0, 0, 0), _char->defaultCardSize), "SQL Card", 30, 10, AttackCard::SQL));
 			break;
 		}
 		default: {
@@ -143,9 +159,9 @@ void DealCardsRandom(Character* _char) {
 
 void populateGameObjectList() {
 	Console_OutputLog(L"Creating Players...", LOGINFO);
-	game->playerOne = new Human(new CardPile());
-	game->playerTwo = new Human(new CardPile());
-	game->playerAI = new AI(1, new CardPile());
+	game->playerOne = new Human(new CardPile(glm::vec3(-1200.0f, -350.0f, 0.5f)));
+	game->playerTwo = new Human(new CardPile(glm::vec3(-550.0f, -350.0f, 0.5f)));
+	game->playerAI = new AI(1, new CardPile(glm::vec3(-1200.0f, 350.0f, 0.5f)));
 	
 	//Temporarly Deal Cards Here
 	DealCardsRandom(game->playerOne);
