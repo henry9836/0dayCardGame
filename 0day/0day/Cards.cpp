@@ -2,6 +2,7 @@
 
 AttackCard::AttackCard(RenderClass * r, TickClass * t, Transform _trans, string _name, int _cost, int _damage, AttackCard::CARDS _cardType)
 {
+	Console_OutputLog(to_wstring("Creating Card: " + _name), LOGINFO);
 	transform = _trans;
 	_r = r;
 	_t = t;
@@ -13,8 +14,8 @@ AttackCard::AttackCard(RenderClass * r, TickClass * t, Transform _trans, string 
 
 void AttackCard::Action(Character* _caster, Character* _target, Character* _otherPlayer)
 {
-	_caster->GY.push_back(_caster->Hand.at(_caster->selectedCardVector));
-	_caster->Hand.erase(_caster->Hand.begin() + _caster->selectedCardVector);
+	_caster->cardPile->GY.push_back(_caster->cardPile->Hand.at(_caster->selectedCardVector));
+	_caster->cardPile->Hand.erase(_caster->cardPile->Hand.begin() + _caster->selectedCardVector);
 
 	switch (cardType)
 	{
@@ -37,18 +38,18 @@ void AttackCard::Action(Character* _caster, Character* _target, Character* _othe
 
 			int damage = 0;
 
-			for (int i = 0; i < _caster->Hand.size(); i++)
+			for (int i = 0; i < _caster->cardPile->Hand.size(); i++)
 			{
-				damage += _caster->Hand.at(0)->cost;
-				_caster->GY.push_back(_caster->Hand.at(0));
-				_caster->Hand.erase(_caster->Hand.begin());
+				damage += _caster->cardPile->Hand.at(0)->cost;
+				_caster->cardPile->GY.push_back(_caster->cardPile->Hand.at(0));
+				_caster->cardPile->Hand.erase(_caster->cardPile->Hand.begin());
 				i--;
 			}
-			for (int i = 0; i < _otherPlayer->Hand.size(); i++)
+			for (int i = 0; i < _otherPlayer->cardPile->Hand.size(); i++)
 			{
-				damage += _otherPlayer->Hand.at(0)->cost;
-				_otherPlayer->GY.push_back(_otherPlayer->Hand.at(0));
-				_otherPlayer->Hand.erase(_otherPlayer->Hand.begin());
+				damage += _otherPlayer->cardPile->Hand.at(0)->cost;
+				_otherPlayer->cardPile->GY.push_back(_otherPlayer->cardPile->Hand.at(0));
+				_otherPlayer->cardPile->Hand.erase(_otherPlayer->cardPile->Hand.begin());
 				i--;
 			}
 
@@ -71,12 +72,12 @@ void AttackCard::Action(Character* _caster, Character* _target, Character* _othe
 		{
 			_caster->UpdateLines(-5.0f);
 
-			int card = rand() % _caster->Hand.size();
+			int card = rand() % _caster->cardPile->Hand.size();
 
-			_target->updateHP(-(_caster->Hand.at(card)->cost) * _caster->getDamageMult());
+			_target->updateHP(-(_caster->cardPile->Hand.at(card)->cost) * _caster->getDamageMult());
 
-			_caster->GY.push_back(_caster->Hand.at(card));
-			_caster->Hand.erase(_caster->Hand.begin() + card);
+			_caster->cardPile->GY.push_back(_caster->cardPile->Hand.at(card));
+			_caster->cardPile->Hand.erase(_caster->cardPile->Hand.begin() + card);
 
 			break;
 		}
@@ -99,6 +100,7 @@ void AttackCard::Action(Character* _caster, Character* _target, Character* _othe
 
 DefenceCard::DefenceCard(RenderClass * r, TickClass * t, Transform _trans, string _name, int _cost, int _damage, DefenceCard::CARDS _cardType)
 {
+	Console_OutputLog(to_wstring("Creating Card: " + _name), LOGINFO);
 	transform = _trans;
 	_r = r;
 	_t = t;
@@ -110,23 +112,27 @@ DefenceCard::DefenceCard(RenderClass * r, TickClass * t, Transform _trans, strin
 
 void DefenceCard::Action(Character* _caster, Character* _target, Character* _otherPlayer)
 {
-	_caster->GY.push_back(_caster->Hand.at(_caster->selectedCardVector));
-	_caster->Hand.erase(_caster->Hand.begin() + _caster->selectedCardVector);
+	_caster->cardPile->GY.push_back(_caster->cardPile->Hand.at(_caster->selectedCardVector));
+	_caster->cardPile->Hand.erase(_caster->cardPile->Hand.begin() + _caster->selectedCardVector);
 
 	switch (cardType)
 	{
 		case DefenceCard::TAPE:
 		{
 			_caster->UpdateLines(-15.0f);
-			_target->updateAccuracy(-0.01f);
+			_target->updateAccuracy(- _target->accuracy / 100.0f);
 			break;
 		}
 		case DefenceCard::LOGIN:
 		{
+			//stop line generation
 			break;
 		}
 		case DefenceCard::FIREWALL:
 		{
+			_caster->UpdateLines(-5.0f);
+			_target->updateAccuracy(- _target->accuracy/2.0f);
+			//until net attack
 			break;
 		}
 		case DefenceCard::CREDS:
@@ -144,6 +150,7 @@ void DefenceCard::Action(Character* _caster, Character* _target, Character* _oth
 		}
 		default:
 		{
+			Console_OutputLog(L"defence default case", LOGINFO);
 			break;
 		}
 	}
@@ -154,6 +161,7 @@ void DefenceCard::Action(Character* _caster, Character* _target, Character* _oth
 
 UtilityCard::UtilityCard(RenderClass * r, TickClass * t, Transform _trans, string _name, int _cost, int _damage, UtilityCard::CARDS _cardType)
 {
+	Console_OutputLog(to_wstring("Creating Card: " + _name), LOGINFO);
 	transform = _trans;
 	_r = r;
 	_t = t;
@@ -165,7 +173,87 @@ UtilityCard::UtilityCard(RenderClass * r, TickClass * t, Transform _trans, strin
 
 void UtilityCard::Action(Character* _caster, Character* _target, Character* _otherPlayer)
 {
-	_caster->GY.push_back(_caster->Hand.at(_caster->selectedCardVector));
-	_caster->Hand.erase(_caster->Hand.begin() + _caster->selectedCardVector);
+	_caster->cardPile->GY.push_back(_caster->cardPile->Hand.at(_caster->selectedCardVector));
+	_caster->cardPile->Hand.erase(_caster->cardPile->Hand.begin() + _caster->selectedCardVector);
+	switch (cardType)
+	{
+		case UtilityCard::SYSTEMRESET:
+		{
+			_caster->UpdateLines(-100.0f);
+
+			for (int i = 0; i < (signed int)_caster->cardPile->Hand.size(); i++)
+			{
+				damage += _caster->cardPile->Hand.at(0)->cost;
+				_caster->cardPile->GY.push_back(_caster->cardPile->Hand.at(0));
+				_caster->cardPile->Hand.erase(_caster->cardPile->Hand.begin());
+				i--;
+			}
+			for (int i = 0; i < (signed int)_otherPlayer->cardPile->Hand.size(); i++)
+			{
+				damage += _otherPlayer->cardPile->Hand.at(0)->cost;
+				_otherPlayer->cardPile->GY.push_back(_otherPlayer->cardPile->Hand.at(0));
+				_otherPlayer->cardPile->Hand.erase(_otherPlayer->cardPile->Hand.begin());
+				i--;
+			}
+
+			_caster->updateHP((float)(_caster->maxHP / 2.0f));
+			_otherPlayer->updateHP((float)(_otherPlayer->maxHP / 2.0f));
+
+
+			break;
+		}
+		case UtilityCard::FORKBOMB:
+		{
+			_caster->UpdateLines(-40.0f);
+			_caster->DrawACard();
+			_caster->DrawACard();
+			_otherPlayer->DrawACard();
+			_otherPlayer->DrawACard();
+
+			break;
+		}
+		case UtilityCard::REINFORCED:
+		{
+			_caster->UpdateLines(-20.0f);
+			_otherPlayer->damageMult += 0.1f * _otherPlayer->damageMult;
+			break;
+		}
+		case UtilityCard::ENHNACED:
+		{
+			_caster->UpdateLines(-50.0f);
+			//double lines over next 5 seconds
+			break;
+		}
+		case UtilityCard::ENUMERATION:
+		{
+			_caster->UpdateLines(-25.0f);
+			_caster->DrawACard();
+			_caster->DrawACard();
+			break;
+		}
+		case UtilityCard::ACCOUNT:
+		{
+			_caster->UpdateLines(-20.0f);
+			_otherPlayer->UpdateLines(40.0f);
+			break;
+		}
+		case UtilityCard::SELFMODIFIYING:
+		{
+			_caster->UpdateLines(-5.0f);
+			int card = rand() % _caster->cardPile->Hand.size();
+			_caster->UpdateLines((float)_caster->cardPile->Hand.at(card)->cost);
+			_caster->cardPile->GY.push_back(_caster->cardPile->Hand.at(card));
+			_caster->cardPile->Hand.erase(_caster->cardPile->Hand.begin() + card);//double check
+			break;
+		}
+		default:
+		{
+			Console_OutputLog(L"utility default case", LOGINFO);
+			break;
+		}
+
+
+	}
+	delete _caster, _target, _otherPlayer;
 
 }

@@ -102,7 +102,7 @@ void BarsRender::ChangingVertices(float _Value)
 {
 	float Percentage =_Value * 2;
 	std::vector<GLfloat> newVertices = Vertices;
-	for (int iVertex = 16; iVertex < Vertices.size(); iVertex += 8)
+	for (int iVertex = 16; iVertex < (signed int)Vertices.size(); iVertex += 8)
 	{
 		newVertices[iVertex] = Percentage - Vertices[iVertex];
 	}
