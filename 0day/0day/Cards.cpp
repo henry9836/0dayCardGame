@@ -181,18 +181,18 @@ void UtilityCard::Action(Character* _caster, Character* _target, Character* _oth
 		{
 			_caster->UpdateLines(-100.0f);
 
-			for (int i = 0; i < (signed int)_caster->Hand.size(); i++)
+			for (int i = 0; i < (signed int)_caster->cardPile->Hand.size(); i++)
 			{
-				damage += _caster->Hand.at(0)->cost;
-				_caster->GY.push_back(_caster->Hand.at(0));
-				_caster->Hand.erase(_caster->Hand.begin());
+				damage += _caster->cardPile->Hand.at(0)->cost;
+				_caster->cardPile->GY.push_back(_caster->cardPile->Hand.at(0));
+				_caster->cardPile->Hand.erase(_caster->cardPile->Hand.begin());
 				i--;
 			}
-			for (int i = 0; i < (signed int)_otherPlayer->Hand.size(); i++)
+			for (int i = 0; i < (signed int)_otherPlayer->cardPile->Hand.size(); i++)
 			{
-				damage += _otherPlayer->Hand.at(0)->cost;
-				_otherPlayer->GY.push_back(_otherPlayer->Hand.at(0));
-				_otherPlayer->Hand.erase(_otherPlayer->Hand.begin());
+				damage += _otherPlayer->cardPile->Hand.at(0)->cost;
+				_otherPlayer->cardPile->GY.push_back(_otherPlayer->cardPile->Hand.at(0));
+				_otherPlayer->cardPile->Hand.erase(_otherPlayer->cardPile->Hand.begin());
 				i--;
 			}
 
@@ -240,10 +240,10 @@ void UtilityCard::Action(Character* _caster, Character* _target, Character* _oth
 		case UtilityCard::SELFMODIFIYING:
 		{
 			_caster->UpdateLines(-5.0f);
-			int card = rand() % _caster->Hand.size();
-			_caster->UpdateLines((float)_caster->Hand.at(card)->cost);
-			_caster->GY.push_back(_caster->Hand.at(card));
-			_caster->Hand.erase(_caster->Hand.begin() + card);//double check
+			int card = rand() % _caster->cardPile->Hand.size();
+			_caster->UpdateLines((float)_caster->cardPile->Hand.at(card)->cost);
+			_caster->cardPile->GY.push_back(_caster->cardPile->Hand.at(card));
+			_caster->cardPile->Hand.erase(_caster->cardPile->Hand.begin() + card);//double check
 			break;
 		}
 		default:
