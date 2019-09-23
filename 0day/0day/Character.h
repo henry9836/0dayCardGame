@@ -42,14 +42,16 @@ public:
 	glm::vec3 handPos;
 	const glm::vec3 defaultCardSize = glm::vec3(40.0f, 60.0f, 1.0f);
 	float accuracy;
+	float maxHP;
+	float damageMult;
+	float currentHP;
+
+
 
 protected:
 
 	float maxlines = 100.0f;
-	float maxHP;
-	float currentHP;
 	float currentLines;
-	float damageMult;
 	float LinesMult;
 	
 

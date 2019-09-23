@@ -7,7 +7,7 @@ int main(int argc, char** argv) {
 
 	//Initalise Console Controller
 	Banner();
-	srand(time(NULL));
+	srand((unsigned int)time(NULL));
 
 	//Start Game
 	Start(argc, argv);
