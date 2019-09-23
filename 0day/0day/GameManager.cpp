@@ -147,6 +147,11 @@ void populateGameObjectList() {
 	game->playerTwo = new Human(new CardPile());
 	game->playerAI = new AI(1, new CardPile());
 	
+	//Temporarly Deal Cards Here
+	DealCardsRandom(game->playerOne);
+	DealCardsRandom(game->playerTwo);
+	DealCardsRandom(game->playerAI);
+
 	Console_OutputLog(L"Creating GameObjects...", LOGINFO);
 
 	//GLOBALS
@@ -160,8 +165,6 @@ void populateGameObjectList() {
 	StartOpt.push_back("Quit");
 	game->StartMenu = new CMenu(StartOpt, glm::vec2(0.0f, 0.0f), game);
 #pragma endregion
-
-	//game->maingameObjects.push_back(new GameObject(new RenderText(new CTextLabel("Main Menu\n 1. Main Menu\n 2. Play", "Resources/Fonts/TerminusTTF-4.47.0.ttf", glm::vec2(0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, game, "Main Menu Text")),new IdleTick, Transform(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1.0f, 1.0f, 1.0f)), "Main Menu Text"));
 
 	//GAMEPLAY OBJECTS
 
@@ -231,11 +234,6 @@ void Start(int argc, char** argv)
 	game->camera.SwitchMode(Camera::ORTH, glm::vec3(0,0,0), glm::vec3(0,0,-2), glm::vec3(0,0,0), 2.0f, 0.0f);
 	populateGameObjectList();
 	//Start MeshManager
-
-	//Temporarly Deal Cards Here
-	DealCardsRandom(game->playerOne);
-	DealCardsRandom(game->playerTwo);
-	DealCardsRandom(game->playerAI);
 
 
 	//Start OpenGL
