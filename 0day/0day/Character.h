@@ -30,7 +30,16 @@ public:
 	float getDamageMult() { return damageMult; };
 	virtual void updateAccuracy(float modifiyer) { accuracy += modifiyer; };
 	virtual void MaxHPUpdate(float HP) { maxHP += HP; currentHP += HP; };
-	virtual void DrawACard() { if (cardPile->Hand.size() < 11) { cardPile->Hand.push_back(cardPile->Deck.back()); cardPile->Deck.pop_back(); } };
+	virtual void DrawACard() { 
+		if (cardPile->Hand.size() < 11) { 
+			if (cardPile->Deck.size() > 0) {
+				cardPile->Hand.push_back(cardPile->Deck.back());
+				cardPile->Deck.pop_back();
+			}
+			else {
+				Console_OutputLog(L"Cannot Deal Card As Deck Size is 0", LOGWARN);
+			}
+		} };
 
 	CardPile* cardPile;
 

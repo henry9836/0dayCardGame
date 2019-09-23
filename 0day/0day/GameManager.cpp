@@ -55,6 +55,7 @@ void Update() {
 	//Tick Based On Current Scene
 
 	if (game->currentScene == Scenes::SCENE_MAIN) {
+
 		int tempOutput = NULL;
 		game->StartMenu->Process(tempOutput);
 		CInputManager::ProcessKeyInput();
@@ -78,6 +79,7 @@ void Update() {
 		}
 	}
 	else if (game->currentScene == Scenes::SCENE_GAME) {
+		Console_OutputLog(L"Drawing Cards", LOGINFO);
 		for (size_t i = 0; i < game->playgameObjects.size(); i++)
 		{
 			game->playgameObjects.at(i)->Tick(deltaTime, game->playgameObjects.at(i));
@@ -229,6 +231,11 @@ void Start(int argc, char** argv)
 	game->camera.SwitchMode(Camera::ORTH, glm::vec3(0,0,0), glm::vec3(0,0,-2), glm::vec3(0,0,0), 2.0f, 0.0f);
 	populateGameObjectList();
 	//Start MeshManager
+
+	//Temporarly Deal Cards Here
+	DealCardsRandom(game->playerOne);
+	DealCardsRandom(game->playerTwo);
+	DealCardsRandom(game->playerAI);
 
 
 	//Start OpenGL
