@@ -6,7 +6,7 @@ Character::Character()
 
 Character::Character(vector<Card*> startingDeck)
 {
-	for (int i = 0; i < startingDeck.size(); i++)
+	for (int i = 0; i < (signed int)startingDeck.size(); i++)
 	{
 		Deck.push_back(startingDeck.at(0));
 		Deck.push_back(startingDeck.at(0));
