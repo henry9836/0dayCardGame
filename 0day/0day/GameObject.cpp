@@ -107,6 +107,7 @@ Card::Card()
 
 Card::Card(RenderClass * r, TickClass * t, Transform _trans, string _name, int _cost)
 {
+	Console_OutputLog(to_wstring("Creating Card: " + _name), LOGINFO);
 	transform = _trans;
 	_r = r;
 	_t = t;

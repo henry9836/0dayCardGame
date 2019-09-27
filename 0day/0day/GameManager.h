@@ -32,7 +32,7 @@ public:
 	
 
 
-	glm::vec2 ScreenSize = {1000,750};
+	glm::vec2 ScreenSize = {1700,1000};
 	glm::vec2 MousePosition;
 
 	void switchScene(Scenes newScene);

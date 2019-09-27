@@ -1,7 +1,13 @@
 #include "Character.h"
-
 Character::Character()
 {
+}
+
+
+Character::Character(CardPile* _cardPile)
+{
+	cardPile = _cardPile;
+	
 }
 
 Character::~Character()
@@ -63,9 +69,9 @@ bool Character::checkIfPlayable(float cost)
 
 void Character::Render()
 {
-	for (size_t i = 0; i < Hand.size(); i++)
+	for (size_t i = 0; i < cardPile->Hand.size(); i++)
 	{
-		Hand.at(i)->Render();
+		cardPile->Hand.at(i)->Render();
 	}
 }
 
@@ -74,7 +80,8 @@ void Character::Tick(float deltaTime)
 	constantuUpdateLines(deltaTime);
 }
 
-Human::Human()
+
+Human::~Human()
 {
 	maxHP = 100.0f;
 	currentHP = maxHP;
@@ -85,28 +92,26 @@ Human::Human()
 	float accuracy = 1.0f;
 }
 
-Human::~Human()
-{
-}
-
-AI::AI(int Level)
-{
-	
-	float initalHP = 100.0f + ((Level * 10) * (Level * 10));
-	float currentHP = initalHP;
-	float currentLines = 0.0f;
-	float damageMult = 1.0f;
-	float LinesMult = 1.0f;
-	float rateOfLinesMult = Level * 0.001f;
-	float accuracy = 1.0f;
-}
-
 AI::~AI()
 {
-
 }
 
 void AI::updateRateOfLinesMult(float deltaTime)
 {
 	this->LinesMult += this->LinesMult * rateOfLinesMult * deltaTime;
+}
+
+CardPile::CardPile()
+{
+	
+}
+
+CardPile::~CardPile()
+{
+}
+
+void CardPile::shuffleDeck()
+{
+	auto seed = std::default_random_engine{};
+	std::shuffle(std::begin(Deck), std::end(Deck), seed);
 }
