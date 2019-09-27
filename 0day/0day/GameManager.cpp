@@ -50,6 +50,44 @@ void Render() {
 	glutSwapBuffers();
 }
 
+void PlayerInputLoop() {
+
+	//Player1 
+	if ((CInputManager::KeyArray[119] == KEY_FIRST_PRESS) || (CInputManager::KeyArray[87] == KEY_FIRST_PRESS)) {
+		Console_OutputLog(L"P1 Up", LOGINFO);
+	}
+	if ((CInputManager::KeyArray[83] == KEY_FIRST_PRESS) || (CInputManager::KeyArray[115] == KEY_FIRST_PRESS)) {
+		Console_OutputLog(L"P1 Down", LOGINFO);
+	}
+	if ((CInputManager::KeyArray[65] == KEY_FIRST_PRESS) || (CInputManager::KeyArray[97] == KEY_FIRST_PRESS)) {
+		Console_OutputLog(L"P1 Left", LOGINFO);
+		game->playerOne->selectedCardVector--;
+	}
+	if ((CInputManager::KeyArray[68] == KEY_FIRST_PRESS) || (CInputManager::KeyArray[100] == KEY_FIRST_PRESS)) {
+		Console_OutputLog(L"P1 Right", LOGINFO);
+		game->playerOne->selectedCardVector++;
+	}
+
+	//Player2
+	if (CInputManager::KeySpecialArray[GLUT_KEY_DOWN] == KEY_FIRST_PRESS) {
+		Console_OutputLog(L"P2 Down", LOGINFO);
+	}
+	if (CInputManager::KeySpecialArray[GLUT_KEY_UP] == KEY_FIRST_PRESS) {
+		Console_OutputLog(L"P2 Up", LOGINFO);
+	}
+	if (CInputManager::KeySpecialArray[GLUT_KEY_LEFT] == KEY_FIRST_PRESS) {
+		Console_OutputLog(L"P2 Left", LOGINFO);
+		game->playerTwo->selectedCardVector--;
+	}
+	if (CInputManager::KeySpecialArray[GLUT_KEY_RIGHT] == KEY_FIRST_PRESS) {
+		Console_OutputLog(L"P2 Right", LOGINFO);
+		game->playerTwo->selectedCardVector++;
+	}
+
+
+
+}
+
 //Update Loop
 void Update() {
 
@@ -102,7 +140,7 @@ void Update() {
 		game->playerTwo->DrawACard();
 		game->playerAI->DrawACard();
 
-		
+		PlayerInputLoop();
 	}
 
 	Render();
