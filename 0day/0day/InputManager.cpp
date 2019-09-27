@@ -103,6 +103,14 @@ void CInputManager::ProcessKeyInput()
 		KeyArray['\r'] = KEY_HELD;
 	}
 
+	//SPACE KEY INPUT
+	if (KeyArray['f'] == KEY_HELD) {
+
+	}
+	else if (KeyArray['f'] == KEY_FIRST_PRESS) {
+		KeyArray['f'] = KEY_HELD;
+	}
+
 	glutSpecialFunc(CInputManager::SpecialKeyDown);
 	glutSpecialUpFunc(CInputManager::SpecialKeyUp);
 	glutKeyboardFunc(CInputManager::NormKeyDown);

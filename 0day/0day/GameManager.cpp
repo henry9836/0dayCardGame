@@ -7,6 +7,16 @@ float currentTime;
 float deltaTime;
 float pasttime;
 
+void DeckSelectionDestory()
+{
+	game->deckselectionObjects.clear();
+	delete game->AddSelection;
+	game->AddSelection = nullptr;
+	delete game->Player1Selection;
+	game->Player1Selection = nullptr;
+	delete game->Player2Selection;
+	game->Player2Selection = nullptr;
+}
 
 void DeckSelectionInit()
 {
@@ -114,6 +124,11 @@ void Update() {
 		game->AddSelection->Process(game->playerOne, game->playerTwo);
 		game->Player1Selection->Process(game->playerOne, game->playerTwo);
 		game->Player2Selection->Process(game->playerOne, game->playerTwo);
+		if (CInputManager::KeyArray['\r'] == KEY_FIRST_PRESS || CInputManager::KeyArray[' '] == KEY_FIRST_PRESS && game->playerOne->cardPile->Deck.size() < 10 && game->playerTwo->cardPile->Deck.size() < 10)
+		{
+			game->currentScene = Scenes::SCENE_GAME;
+			DeckSelectionDestory();
+		}
 		CInputManager::ProcessKeyInput();
 		break;
 	}

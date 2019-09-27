@@ -179,7 +179,7 @@ void Selection::Process(Character * _Player1, Character * _Player2)
 			else if (CInputManager::KeySpecialArray[GLUT_KEY_RIGHT] == KEY_FIRST_PRESS) {
 				IncrementMenu(1);
 			}
-			else if (CInputManager::KeyArray['\r'] == KEY_FIRST_PRESS) {
+			else if (CInputManager::KeySpecialArray[GLUT_KEY_UP] == KEY_FIRST_PRESS) {
 				if (_Player1->cardPile->Deck.size() < 10 && MenuType == 0)
 				{
 					//Selected card goes in deck or is removed
