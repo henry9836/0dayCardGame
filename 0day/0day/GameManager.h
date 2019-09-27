@@ -5,10 +5,12 @@
 #include "Camera.h"
 #include "Cards.h"
 #include "Character.h"
+#include "Selection.h"
 #include "Bars.h"
 #include "Menu.h"
 
 class CMenu;
+class Selection;
 
 class Game {
 public:
@@ -20,11 +22,15 @@ public:
 	Camera camera;
 	CMenu* StartMenu;
 
+	Selection* AddSelection;
+	Selection* Player1Selection;
+	Selection* Player2Selection;
+
 	//scenes
 	vector<GameObject*> gameObjects; //global
 	vector<GameObject*> maingameObjects; //main menu
 	vector<GameObject*> playgameObjects; //game
-	vector<GameObject*> deckselectionObjects; //DeckSelection
+	vector<Card*> deckselectionObjects; //DeckSelection
 
 	Character* playerOne;
 	Character* playerTwo;

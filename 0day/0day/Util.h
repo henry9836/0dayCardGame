@@ -24,6 +24,7 @@ using namespace std;
 
 enum Scenes {
 	SCENE_MAIN,
+	SCENE_SELECTION,
 	SCENE_GAME
 };
 
@@ -109,7 +110,9 @@ namespace Utility
 
 namespace Textures
 {
-
+	const std::string RedRing = "Resources/Textures/REDRINGCard.png";
+	const std::string DDOS = "Resources/Textures/DDOSCard.png";
+	const std::string SQL = "Resources/Textures/SQLCard.png";
 }
 
 namespace Shaders

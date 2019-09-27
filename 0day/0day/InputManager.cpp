@@ -30,10 +30,6 @@ void CInputManager::ProcessKeyInput(float _DeltaTime)
 
 void CInputManager::ProcessKeyInput()
 {
-	glutSpecialFunc(CInputManager::SpecialKeyDown);
-	glutSpecialUpFunc(CInputManager::SpecialKeyUp);
-	glutKeyboardFunc(CInputManager::NormKeyDown);
-	glutKeyboardUpFunc(CInputManager::NormKeyUp);
 
 	//UP KEY INPUT
 	if (KeySpecialArray[GLUT_KEY_UP] == KEY_HELD) {
@@ -41,6 +37,22 @@ void CInputManager::ProcessKeyInput()
 	}
 	else if (KeySpecialArray[GLUT_KEY_UP] == KEY_FIRST_PRESS) {
 		KeySpecialArray[GLUT_KEY_UP] = KEY_HELD;
+	}
+
+	//LEFT KEY INPUT
+	if (KeySpecialArray[GLUT_KEY_LEFT] == KEY_HELD) {
+		//Held Stuff
+	}
+	else if (KeySpecialArray[GLUT_KEY_LEFT] == KEY_FIRST_PRESS) {
+		KeySpecialArray[GLUT_KEY_LEFT] = KEY_HELD;
+	}
+
+	//RIGHT KEY INPUT
+	if (KeySpecialArray[GLUT_KEY_RIGHT] == KEY_HELD) {
+		//Held Stuff
+	}
+	else if (KeySpecialArray[GLUT_KEY_RIGHT] == KEY_FIRST_PRESS) {
+		KeySpecialArray[GLUT_KEY_RIGHT] = KEY_HELD;
 	}
 
 	//DOWN KEY INPUT
@@ -51,6 +63,38 @@ void CInputManager::ProcessKeyInput()
 		KeySpecialArray[GLUT_KEY_DOWN] = KEY_HELD;
 	}
 
+	//UP KEY INPUT
+	if (KeyArray['w'] == KEY_HELD) {
+		//Held Stuff
+	}
+	else if (KeyArray['w'] == KEY_FIRST_PRESS) {
+		KeyArray['w'] = KEY_HELD;
+	}
+
+	//LEFT KEY INPUT
+	else if (KeyArray['a'] == KEY_HELD) {
+		//Held Stuff
+	}
+	else if (KeyArray['a'] == KEY_FIRST_PRESS) {
+		KeyArray['a'] = KEY_HELD;
+	}
+
+	//RIGHT KEY INPUT
+	else if (KeyArray['d'] == KEY_HELD) {
+		//Held Stuff
+	}
+	else if (KeyArray['d'] == KEY_FIRST_PRESS) {
+		KeyArray['d'] = KEY_HELD;
+	}
+
+	//DOWN KEY INPUT
+	else if (KeyArray['s'] == KEY_HELD) {
+		//Held Stuff
+	}
+	else if (KeyArray['s'] == KEY_FIRST_PRESS) {
+		KeyArray['s'] = KEY_HELD;
+	}
+
 	//ENTER KEY INPUT
 	if (KeyArray['\r'] == KEY_HELD) {
 
@@ -58,6 +102,11 @@ void CInputManager::ProcessKeyInput()
 	else if (KeyArray['\r'] == KEY_FIRST_PRESS) {
 		KeyArray['\r'] = KEY_HELD;
 	}
+
+	glutSpecialFunc(CInputManager::SpecialKeyDown);
+	glutSpecialUpFunc(CInputManager::SpecialKeyUp);
+	glutKeyboardFunc(CInputManager::NormKeyDown);
+	glutKeyboardUpFunc(CInputManager::NormKeyUp);
 }
 
 void CInputManager::NormKeyDown(unsigned char key, int x, int y) {

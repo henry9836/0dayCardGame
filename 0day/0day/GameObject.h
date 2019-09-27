@@ -92,6 +92,8 @@ public:
 	virtual void SetTexture(GLuint _tex) { _r->SetTexture(_tex); };
 	virtual void SetShader(GLuint _shader) { _r->SetTexture(_shader); };
 
+	
+
 	Transform& GetTransform() { return transform; };
 	
 protected:
@@ -125,6 +127,8 @@ public:
 	virtual void SetTexture(GLuint _tex) { _r->SetTexture(_tex); };
 	virtual void SetShader(GLuint _shader) { _r->SetTexture(_shader); };
 	
+	virtual Card* clone() const = 0;
+
 	CARDS cardType;
 
 	int cost = 10;
