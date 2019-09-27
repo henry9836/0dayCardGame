@@ -6,9 +6,83 @@ bool mouseDown = false;
 float currentTime;
 float deltaTime;
 float pasttime;
+bool goingup = true;
+glm::vec3 backColor = glm::vec3(0.0, 0.0, 0.0);
+
+void FlashRed(glm::vec3* inColor, float deltaTime) {
+	float increase = 0.01f * deltaTime;
+	if (goingup) {
+		if (inColor->x >= 1) {
+			goingup = !goingup;
+		}
+		else {
+			inColor->x += increase;
+		}
+	}
+	else {
+		if (inColor->x <= 0) {
+			goingup = !goingup;
+		}
+		else {
+			inColor->x -= increase;
+		}
+	}
+}
+
+void RenderCards() {
+	int posOffset = 0;
+	int moveAmount = 51;
+	float scaleFactor = 3.0f;
+
+	for (size_t i = 0; i < game->playerOne->cardPile->Hand.size(); i++)
+	{
+		//Create Positions for cards dyanmically
+		game->playerOne->cardPile->Hand.at(i)->GetTransform().position = glm::vec3(game->playerOne->cardPile->handPos.x + (posOffset * moveAmount), game->playerOne->cardPile->handPos.y, game->playerOne->cardPile->handPos.z);
+
+		if (i == game->playerOne->selectedCardVector) { //make card bigger
+			game->playerOne->cardPile->Hand.at(i)->GetTransform().position = glm::vec3(game->playerOne->cardPile->Hand.at(i)->GetTransform().position.x, game->playerOne->cardPile->Hand.at(i)->GetTransform().position.y, game->playerOne->cardPile->handPos.z + 0.1f);
+			game->playerOne->cardPile->Hand.at(i)->GetTransform().scale = game->playerOne->defaultCardSize * scaleFactor;
+		}
+		else {
+			game->playerOne->cardPile->Hand.at(i)->GetTransform().position = glm::vec3(game->playerOne->cardPile->Hand.at(i)->GetTransform().position.x, game->playerOne->cardPile->Hand.at(i)->GetTransform().position.y, game->playerOne->cardPile->handPos.z);
+			game->playerOne->cardPile->Hand.at(i)->GetTransform().scale = game->playerOne->defaultCardSize;
+		}
+		game->playerOne->cardPile->Hand.at(i)->Render();
+
+		posOffset++;
+	}
+
+	posOffset = 0;
+
+	for (size_t i = 0; i < game->playerTwo->cardPile->Hand.size(); i++)
+	{
+		//Create Positions for cards dyanmically
+		game->playerTwo->cardPile->Hand.at(i)->GetTransform().position = glm::vec3(game->playerTwo->cardPile->handPos.x + (posOffset * moveAmount), game->playerTwo->cardPile->handPos.y, game->playerTwo->cardPile->handPos.z);
+
+		if (i == game->playerTwo->selectedCardVector) { //make card bigger
+			game->playerTwo->cardPile->Hand.at(i)->GetTransform().position = glm::vec3(game->playerTwo->cardPile->Hand.at(i)->GetTransform().position.x, game->playerTwo->cardPile->Hand.at(i)->GetTransform().position.y, game->playerTwo->cardPile->handPos.z + 0.1f);
+			game->playerTwo->cardPile->Hand.at(i)->GetTransform().scale = game->playerTwo->defaultCardSize * scaleFactor;
+		}
+		else {
+			game->playerTwo->cardPile->Hand.at(i)->GetTransform().position = glm::vec3(game->playerTwo->cardPile->Hand.at(i)->GetTransform().position.x, game->playerTwo->cardPile->Hand.at(i)->GetTransform().position.y, game->playerTwo->cardPile->handPos.z);
+			game->playerTwo->cardPile->Hand.at(i)->GetTransform().scale = game->playerTwo->defaultCardSize;
+		}
+		game->playerTwo->cardPile->Hand.at(i)->Render();
+
+		posOffset++;
+	}
+
+	//DEBUG AI
+	for (size_t i = 0; i < game->playerAI->cardPile->Hand.size(); i++)
+	{
+		game->playerAI->cardPile->Hand.at(i)->Render();
+	}
+}
 
 void Render() {
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+
+	glClearColor(backColor.x, backColor.y, backColor.z, 1.0);
 
 	//Render Objects
 
@@ -27,22 +101,14 @@ void Render() {
 		}
 	}
 	else if (game->currentScene == Scenes::SCENE_GAME) {
+
 		for (size_t i = 0; i < game->playgameObjects.size(); i++)
 		{
 			game->playgameObjects.at(i)->Render();
 		}
-		for (size_t i = 0; i < game->playerOne->cardPile->Hand.size(); i++)
-		{
-			game->playerOne->cardPile->Hand.at(i)->Render();
-		}
-		for (size_t i = 0; i < game->playerTwo->cardPile->Hand.size(); i++)
-		{
-			game->playerTwo->cardPile->Hand.at(i)->Render();
-		}
-		for (size_t i = 0; i < game->playerAI->cardPile->Hand.size(); i++)
-		{
-			game->playerAI->cardPile->Hand.at(i)->Render();
-		}
+
+		RenderCards();
+
 	}
 
 
@@ -53,35 +119,43 @@ void Render() {
 void PlayerInputLoop() {
 
 	//Player1 
-	if ((CInputManager::KeyArray[119] == KEY_FIRST_PRESS) || (CInputManager::KeyArray[87] == KEY_FIRST_PRESS)) {
-		Console_OutputLog(L"P1 Up", LOGINFO);
+	if ((CInputManager::KeyArray[119] == KEY_FIRST_PRESS) || (CInputManager::KeyArray[87] == KEY_FIRST_PRESS)) { //W
+
 	}
-	if ((CInputManager::KeyArray[83] == KEY_FIRST_PRESS) || (CInputManager::KeyArray[115] == KEY_FIRST_PRESS)) {
-		Console_OutputLog(L"P1 Down", LOGINFO);
+	if ((CInputManager::KeyArray[83] == KEY_FIRST_PRESS) || (CInputManager::KeyArray[115] == KEY_FIRST_PRESS)) { //A
+
 	}
-	if ((CInputManager::KeyArray[65] == KEY_FIRST_PRESS) || (CInputManager::KeyArray[97] == KEY_FIRST_PRESS)) {
-		Console_OutputLog(L"P1 Left", LOGINFO);
-		game->playerOne->selectedCardVector--;
+	if ((CInputManager::KeyArray[65] == KEY_FIRST_PRESS) || (CInputManager::KeyArray[97] == KEY_FIRST_PRESS)) { //A
+
+		if (game->playerOne->selectedCardVector > 0) {
+			game->playerOne->selectedCardVector--;
+		}
 	}
-	if ((CInputManager::KeyArray[68] == KEY_FIRST_PRESS) || (CInputManager::KeyArray[100] == KEY_FIRST_PRESS)) {
-		Console_OutputLog(L"P1 Right", LOGINFO);
-		game->playerOne->selectedCardVector++;
+	if ((CInputManager::KeyArray[68] == KEY_FIRST_PRESS) || (CInputManager::KeyArray[100] == KEY_FIRST_PRESS)) { //D
+
+		if (game->playerOne->selectedCardVector < game->playerOne->cardPile->Hand.size() - 1) {
+			game->playerOne->selectedCardVector++;
+		}
 	}
 
 	//Player2
-	if (CInputManager::KeySpecialArray[GLUT_KEY_DOWN] == KEY_FIRST_PRESS) {
-		Console_OutputLog(L"P2 Down", LOGINFO);
+	if (CInputManager::KeySpecialArray[GLUT_KEY_DOWN] == KEY_FIRST_PRESS) { //DOWN
+
 	}
-	if (CInputManager::KeySpecialArray[GLUT_KEY_UP] == KEY_FIRST_PRESS) {
-		Console_OutputLog(L"P2 Up", LOGINFO);
+	if (CInputManager::KeySpecialArray[GLUT_KEY_UP] == KEY_FIRST_PRESS) { //UP
+
 	}
-	if (CInputManager::KeySpecialArray[GLUT_KEY_LEFT] == KEY_FIRST_PRESS) {
-		Console_OutputLog(L"P2 Left", LOGINFO);
-		game->playerTwo->selectedCardVector--;
+	if (CInputManager::KeySpecialArray[GLUT_KEY_LEFT] == KEY_FIRST_PRESS) { //LEFT
+
+		if (game->playerTwo->selectedCardVector > 0) {
+			game->playerTwo->selectedCardVector--;
+		}
 	}
-	if (CInputManager::KeySpecialArray[GLUT_KEY_RIGHT] == KEY_FIRST_PRESS) {
-		Console_OutputLog(L"P2 Right", LOGINFO);
-		game->playerTwo->selectedCardVector++;
+	if (CInputManager::KeySpecialArray[GLUT_KEY_RIGHT] == KEY_FIRST_PRESS) { //RIGHT
+
+		if (game->playerTwo->selectedCardVector < game->playerTwo->cardPile->Hand.size()-1){
+			game->playerTwo->selectedCardVector++;
+		}
 	}
 
 
@@ -94,6 +168,8 @@ void Update() {
 	currentTime = static_cast<float>(glutGet(GLUT_ELAPSED_TIME));
 	deltaTime = (currentTime - pasttime) * 0.1f;
 	pasttime = currentTime;
+
+	FlashRed(&backColor, deltaTime);
 
 	//Tick Objects
 
@@ -141,6 +217,9 @@ void Update() {
 		game->playerAI->DrawACard();
 
 		PlayerInputLoop();
+		CInputManager::ProcessKeyInput();
+		
+		
 	}
 
 	Render();
@@ -167,7 +246,8 @@ void DealCardsRandom(Character* _char) {
 	Console_OutputLog(L"Dealing Cards...", LOGINFO);
 	int moveX = 0;
 	int moveAmount = 51;
-	for (size_t i = 0; i < 20; i++)
+	int dealAmount = 20;
+	for (size_t i = 0; i < dealAmount; i++)
 	{
 		int choice = rand() % 3;
 		switch (choice)
@@ -197,8 +277,8 @@ void DealCardsRandom(Character* _char) {
 
 void populateGameObjectList() {
 	Console_OutputLog(L"Creating Players...", LOGINFO);
-	game->playerOne = new Human(new CardPile(glm::vec3(-1200.0f, -350.0f, 0.5f)));
-	game->playerTwo = new Human(new CardPile(glm::vec3(-550.0f, -350.0f, 0.5f)));
+	game->playerOne = new Human(new CardPile(glm::vec3(-700.0f, -350.0f, 0.5f)));
+	game->playerTwo = new Human(new CardPile(glm::vec3(100.0f, -350.0f, 0.5f)));
 	game->playerAI = new AI(1, new CardPile(glm::vec3(-1200.0f, 350.0f, 0.5f)));
 	
 	//Temporarly Deal Cards Here
@@ -280,7 +360,7 @@ void Start(int argc, char** argv)
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 
-	glClearColor(1.0, 1.0, 0.0, 1.0);
+	glClearColor(backColor.x, backColor.y, backColor.z, 1.0);
 	MeshManager::GetInstance();
 	CInputManager::CInputManager();
 	//create GameObjects
