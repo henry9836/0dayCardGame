@@ -101,9 +101,9 @@ void AI::updateRateOfLinesMult(float deltaTime)
 	this->LinesMult += this->LinesMult * rateOfLinesMult * deltaTime;
 }
 
-CardPile::CardPile()
+CardPile::CardPile(glm::vec3 _handPos)
 {
-	
+	handPos = _handPos;
 }
 
 CardPile::~CardPile()

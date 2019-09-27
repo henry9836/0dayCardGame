@@ -6,11 +6,13 @@
 
 class CardPile {
 public:
-	CardPile();
+	CardPile(glm::vec3 _handPos);
 	~CardPile();
 	vector<Card*> Deck;
 	vector<Card*> Hand;
 	vector<Card*> GY;
+
+	glm::vec3 handPos;
 
 	void shuffleDeck();
 };
@@ -48,8 +50,8 @@ public:
 
 	//render function //deck
 	int selectedCardVector = 0;
-	glm::vec3 handPos;
-	const glm::vec3 defaultCardSize = glm::vec3(40.0f, 60.0f, 1.0f);
+	
+	const glm::vec3 defaultCardSize = glm::vec3(25.0f, 40.0f, 1.0f);
 	float accuracy;
 	float maxHP;
 	float damageMult;
