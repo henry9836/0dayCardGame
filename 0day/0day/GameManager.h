@@ -21,6 +21,7 @@ public:
 	Scenes currentScene;
 	Camera camera;
 	CMenu* StartMenu;
+	CMenu* HowToPlayMenu;
 
 	Selection* AddSelection;
 	Selection* Player1Selection;
@@ -30,7 +31,9 @@ public:
 	vector<GameObject*> gameObjects; //global
 	vector<GameObject*> maingameObjects; //main menu
 	vector<GameObject*> playgameObjects; //game
+	vector<GameObject*> howtoplayObjects; // instructions of how to play
 	vector<Card*> deckselectionObjects; //DeckSelection
+
 
 	Character* playerOne;
 	Character* playerTwo;

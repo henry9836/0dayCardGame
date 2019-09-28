@@ -78,6 +78,14 @@ void Character::Render()
 void Character::Tick(float deltaTime)
 {
 	constantuUpdateLines(deltaTime);
+
+	drawcardTimer += deltaTime/60;
+
+	if (drawcardTimer > drawcardThreshold) {
+		DrawACard();
+		drawcardTimer = 0;
+	}
+
 }
 
 
@@ -101,9 +109,9 @@ void AI::updateRateOfLinesMult(float deltaTime)
 	this->LinesMult += this->LinesMult * rateOfLinesMult * deltaTime;
 }
 
-CardPile::CardPile()
+CardPile::CardPile(glm::vec3 _handPos)
 {
-	
+	handPos = _handPos;
 }
 
 CardPile::~CardPile()
