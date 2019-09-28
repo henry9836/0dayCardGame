@@ -126,7 +126,7 @@ public:
 	virtual void SetTexture(GLuint _tex) { _r->SetTexture(_tex); };
 	virtual void SetShader(GLuint _shader) { _r->SetTexture(_shader); };
 	
-	void Action(Character* _caster, Character* _target, Character* _otherPlayer);
+	virtual void Action(Character* _caster, Character* _target, Character* _otherPlayer);
 
 	CARDS cardType;
 
