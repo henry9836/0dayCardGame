@@ -24,7 +24,8 @@ using namespace std;
 
 enum Scenes {
 	SCENE_MAIN,
-	SCENE_GAME
+	SCENE_GAME, 
+	SCENE_HOWTOPLAY
 };
 
 
