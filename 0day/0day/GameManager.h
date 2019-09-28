@@ -19,11 +19,14 @@ public:
 	Scenes currentScene;
 	Camera camera;
 	CMenu* StartMenu;
+	CMenu* HowToPlayMenu;
 
 	//scenes
 	vector<GameObject*> gameObjects; //global
 	vector<GameObject*> maingameObjects; //main menu
 	vector<GameObject*> playgameObjects; //game
+	vector<GameObject*> howtoplayObjects; // instructions of how to play
+
 
 	Character* playerOne;
 	Character* playerTwo;
