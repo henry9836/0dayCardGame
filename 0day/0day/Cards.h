@@ -21,7 +21,7 @@ public:
 	virtual void Tick(float deltaTime, GameObject* _gameObject) { _t->Tick(deltaTime, _gameObject); };
 	virtual void Render() { 
 		_r->Render(&transform); 
-		_rr->Render(&transform);
+		//_rr->Render(&transform);
 	};
 	void Action(Character* _caster, Character* _target, Character* _otherPlayer);
 
@@ -49,7 +49,7 @@ public:
 	virtual void Tick(float deltaTime, GameObject* _gameObject) { _t->Tick(deltaTime, _gameObject); };
 	virtual void Render() {
 		_r->Render(&transform);
-		_rr->Render(&transform);
+		//_rr->Render(&transform);
 	};
 	void Action(Character* _caster, Character* _target, Character* _otherPlayer);
 
@@ -79,7 +79,7 @@ public:
 	virtual void Tick(float deltaTime, GameObject* _gameObject) { _t->Tick(deltaTime, _gameObject); };
 	virtual void Render() {
 		_r->Render(&transform);
-		_rr->Render(&transform);
+		//_rr->Render(&transform);
 	};
 	void Action(Character* _caster, Character* _target, Character* _otherPlayer);
 

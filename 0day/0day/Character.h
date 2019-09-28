@@ -4,12 +4,24 @@
 #include <algorithm>
 #include <random>
 
+class CardPile {
+public:
+	CardPile(glm::vec3 _handPos);
+	~CardPile();
+	vector<Card*> Deck;
+	vector<Card*> Hand;
+	vector<Card*> GY;
+
+	glm::vec3 handPos;
+
+	void shuffleDeck();
+};
+
 class Character : public GameObject
 {
 public:
-
 	Character();
-	Character(vector<Card*> startingDeck);
+	Character(CardPile* _cardPile);
 	~Character();
 	virtual void updateHP(float damage) { currentHP += damage; }; //implemet damage modifier
 	virtual void constantuUpdateLines(float deltaTime);
@@ -20,17 +32,26 @@ public:
 	float getDamageMult() { return damageMult; };
 	virtual void updateAccuracy(float modifiyer) { accuracy += modifiyer; };
 	virtual void MaxHPUpdate(float HP) { maxHP += HP; currentHP += HP; };
-	virtual void DrawACard() { if (Hand.size() < 11) { Hand.push_back(Deck.back()); Deck.pop_back(); } };
+	virtual void DrawACard() { 
+		if (cardPile->Hand.size() < 11) { 
+			if (cardPile->Deck.size() > 0) {
+				cardPile->Hand.push_back(cardPile->Deck.back());
+				cardPile->Deck.pop_back();
+			}
+			else {
+				Console_OutputLog(L"Cannot Deal Card As Deck Size is 0", LOGWARN);
+			}
+		} };
 
-	vector<Card*> Deck;
-	vector<Card*> Hand;
-	vector<Card*> GY;
+	CardPile* cardPile;
 
 	void Render();
 	void Tick(float deltaTime);
 
 	//render function //deck
 	int selectedCardVector = 0;
+	
+	const glm::vec3 defaultCardSize = glm::vec3(25.0f, 40.0f, 1.0f);
 	float accuracy;
 	float maxHP;
 	float damageMult;
@@ -51,8 +72,7 @@ class Human : public Character
 {
 public:
 
-	Human() { };
-	Human(vector<Card*> startingDeck) : Character(startingDeck) 
+	Human(CardPile* _cardPile) : Character(_cardPile)
 	{
 		float initalHP = 100.0f;
 		float currentHP = initalHP;
@@ -73,8 +93,7 @@ class AI : public Character
 {
 public:
 
-	AI(int Level) { };
-	AI(int Level, vector<Card*> startingDeck) : Character(startingDeck)
+	AI(int Level, CardPile* _cardPile) : Character(_cardPile)
 	{
 		float initalHP = 100.0f + ((Level * 10) * (Level * 10));
 		float currentHP = initalHP;
