@@ -78,6 +78,14 @@ void Character::Render()
 void Character::Tick(float deltaTime)
 {
 	constantuUpdateLines(deltaTime);
+
+	drawcardTimer += deltaTime/60;
+
+	if (drawcardTimer > drawcardThreshold) {
+		DrawACard();
+		drawcardTimer = 0;
+	}
+
 }
 
 

@@ -119,6 +119,11 @@ Card::~Card()
 {
 }
 
+void Card::Action(Character* _caster, Character* _target, Character* _otherPlayer)
+{
+
+}
+
 GameObject::GameObject()
 {
 }
@@ -126,4 +131,8 @@ GameObject::GameObject()
 void RenderMenuText::Render(Transform* _transform)
 {
 	menu->Render();
+}
+
+void DeckObject::Tick(float deltaTime, GameObject* _gameObject)
+{
 }

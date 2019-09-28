@@ -1,8 +1,9 @@
 #pragma once
 #include <iostream>
-#include "GameObject.h"
 #include <algorithm>
 #include <random>
+
+#include "GameObject.h"
 
 class CardPile {
 public:
@@ -23,6 +24,7 @@ public:
 	Character();
 	Character(CardPile* _cardPile);
 	~Character();
+
 	virtual void updateHP(float damage) { currentHP += damage; }; //implemet damage modifier
 	virtual void constantuUpdateLines(float deltaTime);
 	virtual void UpdateLines(float Diffrence);
@@ -32,16 +34,37 @@ public:
 	float getDamageMult() { return damageMult; };
 	virtual void updateAccuracy(float modifiyer) { accuracy += modifiyer; };
 	virtual void MaxHPUpdate(float HP) { maxHP += HP; currentHP += HP; };
+
+	virtual void moveGYToDeck() {
+		
+		Console_OutputLog(L"Shuffling Graveyard into Deck", LOGINFO);
+
+		for (size_t i = 0; i < cardPile->GY.size(); i++)
+		{
+			cardPile->Deck.push_back(cardPile->GY.at(i));
+		}
+
+		cardPile->GY.clear();
+
+		std::random_device rd;
+		std::mt19937 g(rd());
+
+		std::shuffle(cardPile->Deck.begin(), cardPile->Deck.end(), g);
+
+	};
+
 	virtual void DrawACard() { 
-		if (cardPile->Hand.size() < 11) { 
+		if (cardPile->Hand.size() < 11) {
 			if (cardPile->Deck.size() > 0) {
 				cardPile->Hand.push_back(cardPile->Deck.back());
 				cardPile->Deck.pop_back();
 			}
 			else {
+				moveGYToDeck();
 				Console_OutputLog(L"Cannot Deal Card As Deck Size is 0", LOGWARN);
 			}
-		} };
+		}
+	};
 
 	CardPile* cardPile;
 
@@ -56,15 +79,11 @@ public:
 	float maxHP;
 	float damageMult;
 	float currentHP;
-
-
-
-protected:
-
+	float LinesMult = 1.0f;
+	float drawcardThreshold = 1.0f;
+	float drawcardTimer = 0.0f;
 	float maxlines = 100.0f;
-	float currentLines;
-	float LinesMult;
-	
+	float currentLines = 0.0f;
 
 };
 
@@ -82,10 +101,6 @@ public:
 		float accuracy = 1.0f;
 	};
 	~Human();
-	
-
-
-private: 
 
 };
 
