@@ -139,23 +139,17 @@ void Render() {
 		{
 			game->playgameObjects.at(i)->Render();
 		}
-
 		RenderCards();
-
 		break;
 	}
-	else if (game->currentScene == Scenes::SCENE_HOWTOPLAY)
+	case Scenes::SCENE_HOWTOPLAY:
 	{
 		game->HowToPlayMenu->Render();
 		for (size_t i = 0; i < game->howtoplayObjects.size(); i++)
 		{
 			game->howtoplayObjects.at(i)->Render();
 		}
-
 	}
-
-
-
 
 	default:
 		break;
@@ -333,10 +327,14 @@ void Update() {
 		
 		
 	}
-	else if (game->currentScene == Scenes::SCENE_HOWTOPLAY)
+	case Scenes::SCENE_HOWTOPLAY:
 	{
 		int tempOutput = NULL;
 		game->HowToPlayMenu->Process(tempOutput);
+		for (size_t i = 0; i < game->howtoplayObjects.size(); i++)
+		{
+			game->howtoplayObjects.at(i)->Tick(deltaTime, game->howtoplayObjects.at(i));
+		}
 		CInputManager::ProcessKeyInput();
 		switch (tempOutput)
 		{
@@ -346,15 +344,10 @@ void Update() {
 		default:
 			break;
 		}
+
+	}
 	default:
 		break;
-	}
-
-		for (size_t i = 0; i < game->howtoplayObjects.size(); i++)
-		{
-			game->howtoplayObjects.at(i)->Tick(deltaTime, game->howtoplayObjects.at(i));
-		}
-
 	}
 
 	Render();

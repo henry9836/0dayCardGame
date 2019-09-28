@@ -24,6 +24,7 @@ public:
 	Game* p_Game;
 	GameObject* indicatorPlayer1;
 	GameObject* indicatorPlayer2;
+	CTextLabel* Start;
 	int MenuType;
 	int NumMenuOptions;
 	int CurrentOptionPlayerOne;

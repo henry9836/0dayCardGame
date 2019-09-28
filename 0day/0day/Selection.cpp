@@ -16,6 +16,11 @@ Selection::Selection(std::vector<Card*> _OptVect, glm::vec3 _Pos, int _Length, f
 	playerTwoIsOn = _playerTwoIsOn;
 	indicatorPlayer1 = new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture(Textures::Player1Indicator.data()), _Game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject(), Transform(glm::vec3(0,0,0),glm::vec3(0,0,0),glm::vec3(p_Game->ScreenSize.x * 0.015f,p_Game->ScreenSize.y * 0.015f,0)), "Player 1 Indicator");
 	indicatorPlayer2 = new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture(Textures::Player2Indicator.data()), _Game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject(), Transform(glm::vec3(0,0,0), glm::vec3(0,0,0), glm::vec3(p_Game->ScreenSize.x * 0.015f, p_Game->ScreenSize.y * 0.015f, 0)), "Player 2 Indicator");
+	if (_Menu == 0)
+	{
+		//Start Text
+		Start = new CTextLabel("Hit 'f' or 'Enter' to Start\n10 Cards are Required to Start", Utility::NormalFontString.data(), glm::vec2(p_Game->ScreenSize.x * - 0.2f, p_Game->ScreenSize.y * -0.4f), glm::vec3(), 1.0f, _Game, "Start Text");
+	}
 	int iterator = 0;
 	//Iterating through the provided option vect
 	while (iterator <= NumMenuOptions)
@@ -233,6 +238,8 @@ void Selection::Process(Character * _Player1, Character * _Player2)
 
 void Selection::Render()
 {
+	if (MenuType == 0)
+	Start->Render();
 	if(MenuType == 0 && playerOneIsOn == true || MenuType == 1 && playerOneIsOn == true)
 	indicatorPlayer1->Render();
 	if(MenuType == 0 && playerTwoIsOn == true || MenuType == 2 && playerTwoIsOn == true)
