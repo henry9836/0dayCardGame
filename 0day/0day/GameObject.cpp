@@ -127,3 +127,7 @@ void RenderMenuText::Render(Transform* _transform)
 {
 	menu->Render();
 }
+
+void DeckObject::Tick(float deltaTime, GameObject* _gameObject)
+{
+}

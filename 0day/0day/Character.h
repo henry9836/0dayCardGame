@@ -23,6 +23,7 @@ public:
 	Character();
 	Character(CardPile* _cardPile);
 	~Character();
+
 	virtual void updateHP(float damage) { currentHP += damage; }; //implemet damage modifier
 	virtual void constantuUpdateLines(float deltaTime);
 	virtual void UpdateLines(float Diffrence);
@@ -56,15 +57,15 @@ public:
 	float maxHP;
 	float damageMult;
 	float currentHP;
-
+	float LinesMult = 1.0f;
+	float drawcardThreshold = 1.0f;
+	float drawcardTimer = 0.0f;
 
 
 protected:
 
 	float maxlines = 100.0f;
 	float currentLines;
-	float LinesMult;
-	
 
 };
 
@@ -82,10 +83,6 @@ public:
 		float accuracy = 1.0f;
 	};
 	~Human();
-	
-
-
-private: 
 
 };
 

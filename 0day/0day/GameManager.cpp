@@ -122,7 +122,7 @@ void PlayerInputLoop() {
 	if ((CInputManager::KeyArray[119] == KEY_FIRST_PRESS) || (CInputManager::KeyArray[87] == KEY_FIRST_PRESS)) { //W
 
 	}
-	if ((CInputManager::KeyArray[83] == KEY_FIRST_PRESS) || (CInputManager::KeyArray[115] == KEY_FIRST_PRESS)) { //A
+	if ((CInputManager::KeyArray[83] == KEY_FIRST_PRESS) || (CInputManager::KeyArray[115] == KEY_FIRST_PRESS)) { //S
 
 	}
 	if ((CInputManager::KeyArray[65] == KEY_FIRST_PRESS) || (CInputManager::KeyArray[97] == KEY_FIRST_PRESS)) { //A
@@ -212,9 +212,13 @@ void Update() {
 		{
 			game->playgameObjects.at(i)->Tick(deltaTime, game->playgameObjects.at(i));
 		}
-		game->playerOne->DrawACard();
-		game->playerTwo->DrawACard();
-		game->playerAI->DrawACard();
+		//game->playerOne->DrawACard();
+		//game->playerTwo->DrawACard();
+		//game->playerAI->DrawACard();
+
+		game->playerOne->Tick(deltaTime);
+		game->playerTwo->Tick(deltaTime);
+		game->playerAI->Tick(deltaTime);
 
 		PlayerInputLoop();
 		CInputManager::ProcessKeyInput();
