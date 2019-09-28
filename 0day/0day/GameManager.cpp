@@ -116,6 +116,42 @@ void Render() {
 	glutSwapBuffers();
 }
 
+void PlayCard(Character* _caster, Character* _target, Character* _otherPlayer) {
+	if (_caster->cardPile->Hand.size() >= 1) {
+
+		//Check cost
+
+		if (_caster->currentLines >= _caster->cardPile->Hand.at(_caster->selectedCardVector)->cost) {
+
+			//Charge player
+
+			_caster->currentLines -= _caster->cardPile->Hand.at(_caster->selectedCardVector)->cost;
+
+			//play effect
+
+			_caster->cardPile->Hand.at(_caster->selectedCardVector)->Action(_caster, _target, _otherPlayer);
+
+			//move card
+
+			_caster->cardPile->GY.push_back(_caster->cardPile->Hand.at(_caster->selectedCardVector));
+
+			//remove card
+
+			_caster->cardPile->Hand.erase(_caster->cardPile->Hand.begin() + _caster->selectedCardVector);
+
+			//am I beyond range?
+
+			if (_caster->selectedCardVector > _caster->cardPile->Hand.size() - 1) {
+				_caster->selectedCardVector = _caster->cardPile->Hand.size() - 1;
+			}
+			else if (_caster->selectedCardVector < 0) {
+				_caster->selectedCardVector = 0;
+			}
+
+		}
+	}
+}
+
 void PlayerInputLoop() {
 
 	//Player1 
@@ -123,39 +159,9 @@ void PlayerInputLoop() {
 
 		//Sanity Check
 
-		if (game->playerOne->cardPile->Hand.size() >= 1) {
+		PlayCard(game->playerOne, game->playerAI, game->playerTwo);
 
-			//Check cost
-
-			if (game->playerOne->currentLines >= game->playerOne->cardPile->Hand.at(game->playerOne->selectedCardVector)->cost) {
-
-				//Charge player
-
-				game->playerOne->currentLines -= game->playerOne->cardPile->Hand.at(game->playerOne->selectedCardVector)->cost;
-
-				//play effect
-
-				game->playerOne->cardPile->Hand.at(game->playerOne->selectedCardVector)->Action(game->playerOne, game->playerAI, game->playerTwo);
-
-				//move card
-
-				game->playerOne->cardPile->GY.push_back(game->playerOne->cardPile->Hand.at(game->playerOne->selectedCardVector));
-
-				//remove card
-
-				game->playerOne->cardPile->Hand.erase(game->playerOne->cardPile->Hand.begin() + game->playerOne->selectedCardVector);
-
-				//am I beyond range?
-
-				if (game->playerOne->selectedCardVector > game->playerOne->cardPile->Hand.size() - 1) {
-					game->playerOne->selectedCardVector = game->playerOne->cardPile->Hand.size() - 1;
-				}
-				else if (game->playerOne->selectedCardVector < 0) {
-					game->playerOne->selectedCardVector = 0;
-				}
-
-			}
-		}
+		
 	}
 	if ((CInputManager::KeyArray[83] == KEY_FIRST_PRESS) || (CInputManager::KeyArray[115] == KEY_FIRST_PRESS)) { //S
 
@@ -178,7 +184,7 @@ void PlayerInputLoop() {
 
 	}
 	if (CInputManager::KeySpecialArray[GLUT_KEY_UP] == KEY_FIRST_PRESS) { //UP
-
+		PlayCard(game->playerTwo, game->playerAI, game->playerOne);
 	}
 	if (CInputManager::KeySpecialArray[GLUT_KEY_LEFT] == KEY_FIRST_PRESS) { //LEFT
 
