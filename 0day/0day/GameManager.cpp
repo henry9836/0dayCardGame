@@ -110,6 +110,16 @@ void Render() {
 		RenderCards();
 
 	}
+	else if (game->currentScene == Scenes::SCENE_HOWTOPLAY)
+	{
+		game->HowToPlayMenu->Render();
+		for (size_t i = 0; i < game->howtoplayObjects.size(); i++)
+		{
+			game->howtoplayObjects.at(i)->Render();
+		}
+
+	}
+
 
 
 
@@ -182,7 +192,7 @@ void PlayerInputLoop() {
 
 	//Player2
 	if (CInputManager::KeySpecialArray[GLUT_KEY_DOWN] == KEY_FIRST_PRESS) { //DOWN
-
+		//cycle
 	}
 	if (CInputManager::KeySpecialArray[GLUT_KEY_UP] == KEY_FIRST_PRESS) { //UP
 		PlayCard(game->playerTwo, game->playerAI, game->playerOne);
@@ -235,7 +245,7 @@ void Update() {
 			game->currentScene = Scenes::SCENE_GAME;
 			break;
 		case 1:
-			game->currentScene = Scenes::SCENE_MAIN;
+			game->currentScene = Scenes::SCENE_HOWTOPLAY;
 			break;
 		case 2:
 			glutLeaveMainLoop();
@@ -263,6 +273,26 @@ void Update() {
 		CInputManager::ProcessKeyInput();
 		
 		
+	}
+	else if (game->currentScene == Scenes::SCENE_HOWTOPLAY)
+	{
+		int tempOutput = NULL;
+		game->HowToPlayMenu->Process(tempOutput);
+		CInputManager::ProcessKeyInput();
+		switch (tempOutput)
+		{
+		case 0:
+			game->currentScene = Scenes::SCENE_MAIN;
+			break;
+		default:
+			break;
+		}
+
+		for (size_t i = 0; i < game->howtoplayObjects.size(); i++)
+		{
+			game->howtoplayObjects.at(i)->Tick(deltaTime, game->howtoplayObjects.at(i));
+		}
+
 	}
 
 	Render();
@@ -338,10 +368,24 @@ void populateGameObjectList() {
 #pragma region StartMenu
 	std::vector<std::string> StartOpt;
 	StartOpt.push_back("Start");
-	StartOpt.push_back("Options");
+	StartOpt.push_back("How To Play");
 	StartOpt.push_back("Quit");
 	game->StartMenu = new CMenu(StartOpt, glm::vec2(0.0f, 0.0f), game);
 #pragma endregion
+
+	//HOW TO PLAY objects
+#pragma region how to play menu 
+
+	std::vector<std::string> menuopts;
+	menuopts.push_back("back");
+
+	game->HowToPlayMenu = new CMenu(menuopts, glm::vec2(0.0f, 0.0f), game);
+
+	game->howtoplayObjects.push_back(new GameObject(new RenderText(new CTextLabel("insert instructions how to play here", Utility::NormalFontString.data(), glm::vec2(50.0f, 50.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, game, ("test1"))), new IdleTick, Transform(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "vText"));
+
+
+#pragma endregion
+
 
 	//GAMEPLAY OBJECTS
 
@@ -369,6 +413,13 @@ void Exit()
 	{
 		game->maingameObjects.at(i)->~GameObject();
 		game->maingameObjects.erase(game->maingameObjects.begin() + i);
+		i--;
+	}
+
+	for (size_t i = 0; i < game->howtoplayObjects.size(); i++)
+	{
+		game->howtoplayObjects.at(i)->~GameObject();
+		game->howtoplayObjects.erase(game->howtoplayObjects.begin() + i);
 		i--;
 	}
 
