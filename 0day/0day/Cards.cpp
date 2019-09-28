@@ -84,9 +84,6 @@ void AttackCard::Action(Character* _caster, Character* _target, Character* _othe
 			break;
 		}
 	}
-
-
-	delete _caster, _target, _otherPlayer;
 }
 
 DefenceCard::DefenceCard(RenderClass * r, TickClass * t, Transform _trans, string _name, int _cost, int _damage, DefenceCard::CARDS _cardType)
@@ -139,8 +136,6 @@ void DefenceCard::Action(Character* _caster, Character* _target, Character* _oth
 			break;
 		}
 	}
-
-	delete _caster, _target, _otherPlayer;
 
 }
 
@@ -230,6 +225,5 @@ void UtilityCard::Action(Character* _caster, Character* _target, Character* _oth
 
 
 	}
-	delete _caster, _target, _otherPlayer;
 
 }

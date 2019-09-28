@@ -132,8 +132,9 @@ void PlayCard(Character* _caster, Character* _target, Character* _otherPlayer) {
 			_caster->cardPile->Hand.at(_caster->selectedCardVector)->Action(_caster, _target, _otherPlayer);
 
 			//move card
-
-			_caster->cardPile->GY.push_back(_caster->cardPile->Hand.at(_caster->selectedCardVector));
+			if (true) {
+				_caster->cardPile->GY.push_back(_caster->cardPile->Hand.at(_caster->selectedCardVector));
+			}
 
 			//remove card
 
