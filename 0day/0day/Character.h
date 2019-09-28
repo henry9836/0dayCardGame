@@ -60,12 +60,8 @@ public:
 	float LinesMult = 1.0f;
 	float drawcardThreshold = 1.0f;
 	float drawcardTimer = 0.0f;
-
-
-protected:
-
 	float maxlines = 100.0f;
-	float currentLines;
+	float currentLines = 0.0f;
 
 };
 

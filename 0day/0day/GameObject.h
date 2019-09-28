@@ -7,6 +7,7 @@ class CMenu;
 class CTextLabel;
 class Game;
 class GameObject;
+class Character;
 
 class RenderClass {
 public:
@@ -125,6 +126,8 @@ public:
 	virtual void SetTexture(GLuint _tex) { _r->SetTexture(_tex); };
 	virtual void SetShader(GLuint _shader) { _r->SetTexture(_shader); };
 	
+	void Action(Character* _caster, Character* _target, Character* _otherPlayer);
+
 	CARDS cardType;
 
 	int cost = 10;
@@ -133,3 +136,4 @@ public:
 #include "TextManager.h"
 #include "Menu.h"
 #include "GameManager.h"
+#include "Character.h"

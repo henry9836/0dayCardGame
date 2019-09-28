@@ -119,6 +119,11 @@ Card::~Card()
 {
 }
 
+void Card::Action(Character* _caster, Character* _target, Character* _otherPlayer)
+{
+
+}
+
 GameObject::GameObject()
 {
 }

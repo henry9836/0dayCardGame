@@ -119,8 +119,45 @@ void Render() {
 void PlayerInputLoop() {
 
 	//Player1 
-	if ((CInputManager::KeyArray[119] == KEY_FIRST_PRESS) || (CInputManager::KeyArray[87] == KEY_FIRST_PRESS)) { //W
+	if ((CInputManager::KeyArray[119] == KEY_FIRST_PRESS) || (CInputManager::KeyArray[87] == KEY_FIRST_PRESS)) { //W Play Card
 
+		//Sanity Check
+
+		if (game->playerOne->cardPile->Hand.size() >= 1) {
+
+			//Check cost
+
+			if (game->playerOne->currentLines >= game->playerOne->cardPile->Hand.at(game->playerOne->selectedCardVector)->cost) {
+
+				//Charge player
+
+				game->playerOne->currentLines -= game->playerOne->cardPile->Hand.at(game->playerOne->selectedCardVector)->cost;
+
+				wcout << L"GO GO POWER RANGERS" << endl;
+
+				//play effect
+
+				game->playerOne->cardPile->Hand.at(game->playerOne->selectedCardVector)->Action(game->playerOne, game->playerAI, game->playerTwo);
+
+				//move card
+
+				game->playerOne->cardPile->GY.push_back(game->playerOne->cardPile->Hand.at(game->playerOne->selectedCardVector));
+
+				//remove card
+
+				game->playerOne->cardPile->Hand.erase(game->playerOne->cardPile->Hand.begin() + game->playerOne->selectedCardVector);
+
+				//am I beyond range?
+
+				if (game->playerOne->selectedCardVector > game->playerOne->cardPile->Hand.size() - 1) {
+					game->playerOne->selectedCardVector = game->playerOne->cardPile->Hand.size() - 1;
+				}
+				else if (game->playerOne->selectedCardVector < 0) {
+					game->playerOne->selectedCardVector = 0;
+				}
+
+			}
+		}
 	}
 	if ((CInputManager::KeyArray[83] == KEY_FIRST_PRESS) || (CInputManager::KeyArray[115] == KEY_FIRST_PRESS)) { //S
 
@@ -212,9 +249,6 @@ void Update() {
 		{
 			game->playgameObjects.at(i)->Tick(deltaTime, game->playgameObjects.at(i));
 		}
-		//game->playerOne->DrawACard();
-		//game->playerTwo->DrawACard();
-		//game->playerAI->DrawACard();
 
 		game->playerOne->Tick(deltaTime);
 		game->playerTwo->Tick(deltaTime);
