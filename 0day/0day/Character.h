@@ -1,8 +1,9 @@
 #pragma once
 #include <iostream>
-#include "GameObject.h"
 #include <algorithm>
 #include <random>
+
+#include "GameObject.h"
 
 class CardPile {
 public:
@@ -33,16 +34,37 @@ public:
 	float getDamageMult() { return damageMult; };
 	virtual void updateAccuracy(float modifiyer) { accuracy += modifiyer; };
 	virtual void MaxHPUpdate(float HP) { maxHP += HP; currentHP += HP; };
+
+	virtual void moveGYToDeck() {
+		
+		Console_OutputLog(L"Shuffling Graveyard into Deck", LOGINFO);
+
+		for (size_t i = 0; i < cardPile->GY.size(); i++)
+		{
+			cardPile->Deck.push_back(cardPile->GY.at(i));
+		}
+
+		cardPile->GY.clear();
+
+		std::random_device rd;
+		std::mt19937 g(rd());
+
+		std::shuffle(cardPile->Deck.begin(), cardPile->Deck.end(), g);
+
+	};
+
 	virtual void DrawACard() { 
-		if (cardPile->Hand.size() < 11) { 
+		if (cardPile->Hand.size() < 11) {
 			if (cardPile->Deck.size() > 0) {
 				cardPile->Hand.push_back(cardPile->Deck.back());
 				cardPile->Deck.pop_back();
 			}
 			else {
+				moveGYToDeck();
 				Console_OutputLog(L"Cannot Deal Card As Deck Size is 0", LOGWARN);
 			}
-		} };
+		}
+	};
 
 	CardPile* cardPile;
 

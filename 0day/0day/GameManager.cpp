@@ -133,8 +133,6 @@ void PlayerInputLoop() {
 
 				game->playerOne->currentLines -= game->playerOne->cardPile->Hand.at(game->playerOne->selectedCardVector)->cost;
 
-				wcout << L"GO GO POWER RANGERS" << endl;
-
 				//play effect
 
 				game->playerOne->cardPile->Hand.at(game->playerOne->selectedCardVector)->Action(game->playerOne, game->playerAI, game->playerTwo);
