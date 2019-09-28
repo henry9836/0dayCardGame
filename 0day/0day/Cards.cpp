@@ -14,8 +14,6 @@ AttackCard::AttackCard(RenderClass * r, TickClass * t, Transform _trans, string 
 
 void AttackCard::Action(Character* _caster, Character* _target, Character* _otherPlayer)
 {
-	_caster->cardPile->GY.push_back(_caster->cardPile->Hand.at(_caster->selectedCardVector));
-	_caster->cardPile->Hand.erase(_caster->cardPile->Hand.begin() + _caster->selectedCardVector);
 
 	switch (cardType)
 	{
@@ -112,8 +110,6 @@ DefenceCard::DefenceCard(RenderClass * r, TickClass * t, Transform _trans, strin
 
 void DefenceCard::Action(Character* _caster, Character* _target, Character* _otherPlayer)
 {
-	_caster->cardPile->GY.push_back(_caster->cardPile->Hand.at(_caster->selectedCardVector));
-	_caster->cardPile->Hand.erase(_caster->cardPile->Hand.begin() + _caster->selectedCardVector);
 
 	switch (cardType)
 	{
@@ -173,8 +169,6 @@ UtilityCard::UtilityCard(RenderClass * r, TickClass * t, Transform _trans, strin
 
 void UtilityCard::Action(Character* _caster, Character* _target, Character* _otherPlayer)
 {
-	_caster->cardPile->GY.push_back(_caster->cardPile->Hand.at(_caster->selectedCardVector));
-	_caster->cardPile->Hand.erase(_caster->cardPile->Hand.begin() + _caster->selectedCardVector);
 	switch (cardType)
 	{
 		case UtilityCard::SYSTEMRESET:
