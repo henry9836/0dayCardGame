@@ -19,8 +19,11 @@ public:
 
 	private:
 	std::vector<Card*> OptionVect;
+	
 	glm::vec3 StartPosition;
 	Game* p_Game;
+	GameObject* indicatorPlayer1;
+	GameObject* indicatorPlayer2;
 	int MenuType;
 	int NumMenuOptions;
 	int CurrentOptionPlayerOne;

@@ -14,6 +14,8 @@ Selection::Selection(std::vector<Card*> _OptVect, glm::vec3 _Pos, int _Length, f
 	SeperationDistanceY = _SeperationDistanceY;
 	playerOneIsOn = _playerOneIsOn;
 	playerTwoIsOn = _playerTwoIsOn;
+	indicatorPlayer1 = new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture(Textures::Player1Indicator.data()), _Game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject(), Transform(glm::vec3(0,0,0),glm::vec3(0,0,0),glm::vec3(p_Game->ScreenSize.x * 0.015f,p_Game->ScreenSize.y * 0.015f,0)), "Player 1 Indicator");
+	indicatorPlayer2 = new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture(Textures::Player2Indicator.data()), _Game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject(), Transform(glm::vec3(0,0,0), glm::vec3(0,0,0), glm::vec3(p_Game->ScreenSize.x * 0.015f, p_Game->ScreenSize.y * 0.015f, 0)), "Player 2 Indicator");
 	int iterator = 0;
 	//Iterating through the provided option vect
 	while (iterator <= NumMenuOptions)
@@ -128,18 +130,22 @@ void Selection::SelectOption(unsigned int _Option1, unsigned int _Option2)
 	for (unsigned int i = 0; i < OptionVect.size(); ++i) {
 		if (i == _Option1 && MenuType == 1 && playerOneIsOn == true)
 		{
+			indicatorPlayer1->GetTransform().position = OptionVect[i]->GetTransform().position + glm::vec3(0.0f, p_Game->ScreenSize.y * 0.12f, 0.0f);
 			OptionVect[i]->GetTransform().scale = glm::vec3(p_Game->ScreenSize.x * 0.05f, p_Game->ScreenSize.y * 0.1f, 1.0f);
 		}
 		else if (i == _Option2 && MenuType == 2 && playerTwoIsOn == true)
 		{
+			indicatorPlayer2->GetTransform().position = OptionVect[i]->GetTransform().position + glm::vec3(0.0f, p_Game->ScreenSize.y * 0.12f, 0.0f);
 			OptionVect[i]->GetTransform().scale = glm::vec3(p_Game->ScreenSize.x * 0.05f, p_Game->ScreenSize.y * 0.1f, 1.0f);
 		}
 		else if (i == _Option1 && playerOneIsOn == true && MenuType == 0) 
 		{
+			indicatorPlayer1->GetTransform().position = OptionVect[i]->GetTransform().position + glm::vec3(0.0f, p_Game->ScreenSize.y * 0.12f, 0.0f);
 			OptionVect[i]->GetTransform().scale = glm::vec3(p_Game->ScreenSize.x * 0.05f, p_Game->ScreenSize.y * 0.1f, 1.0f);
 		}
 		else if (i == _Option2 && playerTwoIsOn == true && MenuType == 0)
 		{
+			indicatorPlayer2->GetTransform().position = OptionVect[i]->GetTransform().position + glm::vec3(0.0f, p_Game->ScreenSize.y * 0.12f, 0.0f);
 			OptionVect[i]->GetTransform().scale = glm::vec3(p_Game->ScreenSize.x * 0.05f, p_Game->ScreenSize.y * 0.1f, 1.0f);
 		}
 		else 
@@ -227,6 +233,10 @@ void Selection::Process(Character * _Player1, Character * _Player2)
 
 void Selection::Render()
 {
+	if(MenuType == 0 && playerOneIsOn == true || MenuType == 1 && playerOneIsOn == true)
+	indicatorPlayer1->Render();
+	if(MenuType == 0 && playerTwoIsOn == true || MenuType == 2 && playerTwoIsOn == true)
+	indicatorPlayer2->Render();
 	for (auto it : OptionVect) it->Render();
 }
 
