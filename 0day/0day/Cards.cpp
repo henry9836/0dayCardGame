@@ -19,19 +19,16 @@ void AttackCard::Action(Character* _caster, Character* _target, Character* _othe
 	{
 		case AttackCard::FUZZER:
 		{
-			_caster->UpdateLines(-30.0f);
 			_target->updateHP(-30.0f * _caster->getDamageMult());
 			break;
 		}
 		case AttackCard::ROBOFIGHT:
 		{
-			_caster->UpdateLines(-10.0f);
 			_target->updateHP(-5.0f * _caster->getDamageMult());
 			break;
 		}
 		case AttackCard::ZERODAY:
 		{
-			_caster->UpdateLines(-100.0f);
 			_otherPlayer->UpdateLines(-100.0f);
 
 			int damage = 0;
@@ -56,21 +53,18 @@ void AttackCard::Action(Character* _caster, Character* _target, Character* _othe
 		}
 		case AttackCard::DDOS:
 		{
-			_caster->UpdateLines(-70.0f);
 			_target->updateHP(-75.0f * _caster->getDamageMult());
 			break;
 		}
 		case AttackCard::SQL:
 		{
-			_caster->UpdateLines(-20.0f);
 			_target->updateHP(-10.0f * _caster->getDamageMult());
 			break;
 		}
 		case AttackCard::SKULL:
 		{
-			_caster->UpdateLines(-5.0f);
 
-			int card = rand() % _caster->cardPile->Hand.size();
+			int card = rand() % _caster->cardPile->Hand.size() - 1;
 
 			_target->updateHP(-(_caster->cardPile->Hand.at(card)->cost) * _caster->getDamageMult());
 
@@ -81,7 +75,6 @@ void AttackCard::Action(Character* _caster, Character* _target, Character* _othe
 		}
 		case AttackCard::REDCIRCLE:
 		{
-			_caster->UpdateLines(-50.0f);
 			_target->updateHP(-50.0f * _caster->getDamageMult());
 			break;
 		}
@@ -115,7 +108,6 @@ void DefenceCard::Action(Character* _caster, Character* _target, Character* _oth
 	{
 		case DefenceCard::TAPE:
 		{
-			_caster->UpdateLines(-15.0f);
 			_target->updateAccuracy(- _target->accuracy / 100.0f);
 			break;
 		}
@@ -126,21 +118,18 @@ void DefenceCard::Action(Character* _caster, Character* _target, Character* _oth
 		}
 		case DefenceCard::FIREWALL:
 		{
-			_caster->UpdateLines(-5.0f);
 			_target->updateAccuracy(- _target->accuracy/2.0f);
 			//until net attack
 			break;
 		}
 		case DefenceCard::CREDS:
 		{
-			_caster->UpdateLines(-20.0f);
 			_caster->UpdateLines(40.0f);
 			_target->UpdateLines(-40.0f);
 			break;
 		}
 		case DefenceCard::SUNGLASSES:
 		{
-			_caster->UpdateLines(-40.0f);
 			_caster->MaxHPUpdate(25.0f);
 			break;
 		}
@@ -173,7 +162,6 @@ void UtilityCard::Action(Character* _caster, Character* _target, Character* _oth
 	{
 		case UtilityCard::SYSTEMRESET:
 		{
-			_caster->UpdateLines(-100.0f);
 
 			for (int i = 0; i < (signed int)_caster->cardPile->Hand.size(); i++)
 			{
@@ -198,7 +186,6 @@ void UtilityCard::Action(Character* _caster, Character* _target, Character* _oth
 		}
 		case UtilityCard::FORKBOMB:
 		{
-			_caster->UpdateLines(-40.0f);
 			_caster->DrawACard();
 			_caster->DrawACard();
 			_otherPlayer->DrawACard();
@@ -208,32 +195,27 @@ void UtilityCard::Action(Character* _caster, Character* _target, Character* _oth
 		}
 		case UtilityCard::REINFORCED:
 		{
-			_caster->UpdateLines(-20.0f);
 			_otherPlayer->damageMult += 0.1f * _otherPlayer->damageMult;
 			break;
 		}
 		case UtilityCard::ENHNACED:
 		{
-			_caster->UpdateLines(-50.0f);
 			//double lines over next 5 seconds
 			break;
 		}
 		case UtilityCard::ENUMERATION:
 		{
-			_caster->UpdateLines(-25.0f);
 			_caster->DrawACard();
 			_caster->DrawACard();
 			break;
 		}
 		case UtilityCard::ACCOUNT:
 		{
-			_caster->UpdateLines(-20.0f);
 			_otherPlayer->UpdateLines(40.0f);
 			break;
 		}
 		case UtilityCard::SELFMODIFIYING:
 		{
-			_caster->UpdateLines(-5.0f);
 			int card = rand() % _caster->cardPile->Hand.size();
 			_caster->UpdateLines((float)_caster->cardPile->Hand.at(card)->cost);
 			_caster->cardPile->GY.push_back(_caster->cardPile->Hand.at(card));
