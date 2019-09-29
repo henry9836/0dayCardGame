@@ -22,7 +22,7 @@ class Character : public GameObject
 {
 public:
 	Character();
-	Character(CardPile* _cardPile, float _health, GameObject* _gameObject);
+	Character(CardPile* _cardPile, float _health, GameObject* _gameObject, bool _isAI);
 	~Character();
 
 	virtual void updateHP(float damage) { currentHP += damage; }; //implemet damage modifier
@@ -85,14 +85,18 @@ public:
 	float drawcardTimer = 0.0f;
 	float maxlines = 100.0f;
 	float currentLines = 0.0f;
+	float baseDamage = 2.0f;
 	GameObject* gameObject = nullptr;
+	Character* playerOne = nullptr;
+	Character* playerTwo = nullptr;
+	bool isAI = false;
 };
 
 class Human : public Character
 {
 public:
 
-	Human(CardPile* _cardPile, float _health, GameObject* _gameObject) : Character(_cardPile, _health, _gameObject)
+	Human(CardPile* _cardPile, float _health, GameObject* _gameObject, bool _isAI) : Character(_cardPile, _health, _gameObject, _isAI)
 	{
 		float initalHP = 100.0f;
 		float currentHP = initalHP;
@@ -111,7 +115,7 @@ class AI : public Character
 {
 public:
 
-	AI(int Level, CardPile* _cardPile, float _health, GameObject* _gameObject) : Character(_cardPile, _health, _gameObject)
+	AI(int Level, CardPile* _cardPile, float _health, GameObject* _gameObject, bool _isAI, Character* _playerOne, Character* _playerTwo) : Character(_cardPile, _health, _gameObject, _isAI)
 	{
 		float initalHP = 100.0f + ((Level * 10) * (Level * 10));
 		float currentHP = initalHP;
@@ -120,6 +124,9 @@ public:
 		float LinesMult = 1.0f;
 		float rateOfLinesMult = Level * 0.001f;
 		float accuracy = 1.0f;
+		isAI = _isAI;
+		playerOne = _playerOne;
+		playerTwo = _playerTwo;
 	};
 	~AI();
 
@@ -127,10 +134,13 @@ public:
 	void updateLevel(int _lvl) {
 		rateOfLinesMult = _lvl * 0.001f;
 		MaxHPUpdate((_lvl * 0.1f));
+		baseDamage *= 1.05f;
 	};
 
 
 	GameObject* gameObject = nullptr;
+
+
 
 private: 
 
