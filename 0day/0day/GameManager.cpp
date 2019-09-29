@@ -33,7 +33,7 @@ void DeckSelectionInit()
 }
 
 void FlashRed(glm::vec3* inColor, float deltaTime) {
-	float increase = 0.01f * deltaTime;
+	float increase = 0.005f * deltaTime;
 	if (goingup) {
 		if (inColor->x >= 1) {
 			goingup = !goingup;
@@ -317,13 +317,15 @@ void Update() {
 		game->playerOne->DrawACard();
 		game->playerTwo->DrawACard();
 		game->playerAI->DrawACard();
-		break;
+		
 		game->playerOne->Tick(deltaTime);
 		game->playerTwo->Tick(deltaTime);
 		game->playerAI->Tick(deltaTime);
 
 		PlayerInputLoop();
 		CInputManager::ProcessKeyInput();
+
+		break;
 		
 		
 	}
@@ -443,8 +445,12 @@ void populateGameObjectList() {
 
 
 	//GAMEPLAY OBJECTS
-	game->playgameObjects.push_back(new GameObject(new BarsRender(MeshManager::GetMesh(Object_Attributes::BAR_ENTITY), MeshManager::SetTexture("Resources/Textures/test.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER), game->playerOne, true), new TickObject, Transform(glm::vec3(game->ScreenSize.x * -0.25f, game->ScreenSize.y * -0.25f, 0), glm::vec3(0, 0, 0), glm::vec3(game->ScreenSize.x * 0.2f, game->ScreenSize.y * 0.01f, 1.0f)), "Player One Health Bar"));
-	game->playgameObjects.push_back(new GameObject(new BarsRender(MeshManager::GetMesh(Object_Attributes::BAR_ENTITY), MeshManager::SetTexture("Resources/Textures/test.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER), game->playerOne, false), new TickObject, Transform(glm::vec3(game->ScreenSize.x * -0.25f, game->ScreenSize.y * -0.2f, 0), glm::vec3(0, 0, 0), glm::vec3(game->ScreenSize.x * 0.2f, game->ScreenSize.y * 0.01f, 1.0f)), "Player One Lines Bar"));
+	game->playgameObjects.push_back(new GameObject(new BarsRender(MeshManager::GetMesh(Object_Attributes::BAR_ENTITY), MeshManager::SetTexture("Resources/Textures/barHealth.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER), game->playerOne, true), new TickObject, Transform(glm::vec3(game->ScreenSize.x * -0.25f, game->ScreenSize.y * -0.21f, 0), glm::vec3(0, 0, 0), glm::vec3(game->ScreenSize.x * 0.2f, game->ScreenSize.y * 0.01f, 1.0f)), "Player One Health Bar"));
+	game->playgameObjects.push_back(new GameObject(new BarsRender(MeshManager::GetMesh(Object_Attributes::BAR_ENTITY), MeshManager::SetTexture("Resources/Textures/barLines.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER), game->playerOne, false), new TickObject, Transform(glm::vec3(game->ScreenSize.x * -0.25f, game->ScreenSize.y * -0.25f, 0), glm::vec3(0, 0, 0), glm::vec3(game->ScreenSize.x * 0.2f, game->ScreenSize.y * 0.01f, 1.0f)), "Player One Lines Bar"));
+
+	game->playgameObjects.push_back(new GameObject(new BarsRender(MeshManager::GetMesh(Object_Attributes::BAR_ENTITY), MeshManager::SetTexture("Resources/Textures/barHealth.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER), game->playerTwo, true), new TickObject, Transform(glm::vec3(game->ScreenSize.x * 0.25f, game->ScreenSize.y * -0.21f, 0), glm::vec3(0, 0, 0), glm::vec3(game->ScreenSize.x * 0.2f, game->ScreenSize.y * 0.01f, 1.0f)), "Player Two Health Bar"));
+	game->playgameObjects.push_back(new GameObject(new BarsRender(MeshManager::GetMesh(Object_Attributes::BAR_ENTITY), MeshManager::SetTexture("Resources/Textures/barLines.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER), game->playerTwo, false), new TickObject, Transform(glm::vec3(game->ScreenSize.x * 0.25f, game->ScreenSize.y * -0.25f, 0), glm::vec3(0, 0, 0), glm::vec3(game->ScreenSize.x * 0.2f, game->ScreenSize.y * 0.01f, 1.0f)), "Player Two Lines Bar"));
+
 }
 
 void Exit()

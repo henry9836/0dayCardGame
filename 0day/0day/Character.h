@@ -76,7 +76,7 @@ public:
 	
 	const glm::vec3 defaultCardSize = glm::vec3(25.0f, 40.0f, 1.0f);
 	float accuracy;
-	float maxHP;
+	float maxHP = 100.0f;
 	float damageMult;
 	float currentHP;
 	float LinesMult = 1.0f;

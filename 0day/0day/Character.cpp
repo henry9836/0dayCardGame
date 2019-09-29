@@ -7,7 +7,7 @@ Character::Character()
 Character::Character(CardPile* _cardPile)
 {
 	cardPile = _cardPile;
-	
+	currentHP = maxHP;
 }
 
 Character::~Character()
