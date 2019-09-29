@@ -600,7 +600,6 @@ void Start(int argc, char** argv)
 
 	//Start MeshManager
 
-
 	//Start OpenGL
 
 	Console_OutputLog(L"OpenGL Service Starting...", LOGINFO);
