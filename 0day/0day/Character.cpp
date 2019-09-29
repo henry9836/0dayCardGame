@@ -4,10 +4,12 @@ Character::Character()
 }
 
 
-Character::Character(CardPile* _cardPile)
+Character::Character(CardPile* _cardPile, float _health, GameObject* _gameObject, bool _isAI)
 {
 	cardPile = _cardPile;
+	maxHP = _health;
 	currentHP = maxHP;
+	gameObject = _gameObject;
 }
 
 Character::~Character()
@@ -86,6 +88,34 @@ void Character::Tick(float deltaTime)
 		drawcardTimer = 0;
 	}
 
+	if (isAI) {
+		if (currentLines > 90) {
+			int c = rand() % 2;
+			wcout << "Dealing " << baseDamage << " To Player" << endl;
+			if (c == 0 && playerOne->currentHP > 0) {
+				playerOne->currentHP -= baseDamage;
+			}
+			else {
+				playerTwo->currentHP -= baseDamage;
+			}
+			currentLines = 0;
+		}
+	}
+
+}
+
+void Character::Reset()
+{
+	accuracy = accuracyInit;
+	maxHP = maxHPInit;
+	damageMult = damageMultInit;
+	currentHP = currentHPInit;
+	LinesMult = LinesMultInit;
+	drawcardThreshold = drawcardThresholdInit;
+	drawcardTimer = drawcardTimerInit;
+	maxlines = maxlinesInit;
+	currentLines = currentLinesInit;
+	baseDamage = baseDamageInit;
 }
 
 

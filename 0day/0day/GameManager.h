@@ -32,6 +32,7 @@ public:
 	vector<GameObject*> maingameObjects; //main menu
 	vector<GameObject*> playgameObjects; //game
 	vector<GameObject*> howtoplayObjects; // instructions of how to play
+	vector<GameObject*> lostObjects; //lose screen
 	vector<Card*> deckselectionObjects; //DeckSelection
 
 
@@ -39,7 +40,8 @@ public:
 	Character* playerTwo;
 	Character* playerAI;
 	
-
+	int currentLvl = 1;
+	bool gameover = false;
 
 	glm::vec2 ScreenSize = {1700,1000};
 	glm::vec2 MousePosition;

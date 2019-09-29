@@ -163,11 +163,11 @@ void Selection::SelectOption(unsigned int _Option1, unsigned int _Option2)
 void Selection::Process(Character * _Player1, Character * _Player2)
 {
 	//ResetRender();
-	if (CInputManager::KeySpecialArray[GLUT_KEY_DOWN] == KEY_FIRST_PRESS)
+	if (CInputManager::KeyArray['s'] == KEY_FIRST_PRESS)
 	{
 		playerOneIsOn = !playerOneIsOn;
 	}
-	if (CInputManager::KeyArray['s'] == KEY_FIRST_PRESS)
+	if (CInputManager::KeySpecialArray[GLUT_KEY_DOWN] == KEY_FIRST_PRESS)
 	{
 		playerTwoIsOn = !playerTwoIsOn;
 	}
@@ -184,13 +184,13 @@ void Selection::Process(Character * _Player1, Character * _Player2)
 		if (MenuType == 0 || MenuType == 1)
 		{
 			//could add more controls to the menu if needed.
-			if (CInputManager::KeySpecialArray[GLUT_KEY_LEFT] == KEY_FIRST_PRESS) {
+			if (CInputManager::KeyArray['a'] == KEY_FIRST_PRESS) {
 				DecrementMenu(1);
 			}
-			else if (CInputManager::KeySpecialArray[GLUT_KEY_RIGHT] == KEY_FIRST_PRESS) {
+			else if (CInputManager::KeyArray['d'] == KEY_FIRST_PRESS) {
 				IncrementMenu(1);
 			}
-			else if (CInputManager::KeySpecialArray[GLUT_KEY_UP] == KEY_FIRST_PRESS) {
+			else if (CInputManager::KeyArray['w'] == KEY_FIRST_PRESS) {
 				if (_Player1->cardPile->Deck.size() < 10 && MenuType == 0)
 				{
 					//Selected card goes in deck or is removed
@@ -209,15 +209,15 @@ void Selection::Process(Character * _Player1, Character * _Player2)
 	{
 		if (MenuType == 0 || MenuType == 2)
 		{
-			if (CInputManager::KeyArray['a'] == KEY_FIRST_PRESS)
+			if (CInputManager::KeySpecialArray[GLUT_KEY_LEFT] == KEY_FIRST_PRESS)
 			{
 				DecrementMenu(2);
 			}
-			else if (CInputManager::KeyArray['d'] == KEY_FIRST_PRESS)
+			else if (CInputManager::KeySpecialArray[GLUT_KEY_RIGHT] == KEY_FIRST_PRESS)
 			{
 				IncrementMenu(2);
 			}
-			else if (CInputManager::KeyArray['w'] == KEY_FIRST_PRESS)
+			else if (CInputManager::KeySpecialArray[GLUT_KEY_UP] == KEY_FIRST_PRESS)
 			{
 				if (_Player2->cardPile->Deck.size() < 10 && MenuType == 0)
 				{
