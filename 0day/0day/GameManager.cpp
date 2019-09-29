@@ -10,7 +10,32 @@ bool goingup = true;
 glm::vec3 backColor = glm::vec3(0.0, 0.0, 0.0);
 
 void Reset() {
+
+	//Reset Game Values
+
 	game->gameover = false;
+	game->currentLvl = 1;
+	game->currentScene = SCENE_MAIN;
+
+	//empty vectors
+
+	game->playerOne->cardPile->Deck.clear();
+	game->playerOne->cardPile->Hand.clear();
+	game->playerOne->cardPile->GY.clear();
+
+	game->playerTwo->cardPile->Deck.clear();
+	game->playerTwo->cardPile->Hand.clear();
+	game->playerTwo->cardPile->GY.clear();
+
+	game->playerAI->cardPile->Deck.clear();
+	game->playerAI->cardPile->Hand.clear();
+	game->playerAI->cardPile->GY.clear();
+
+	//reset character values
+	game->playerOne->Reset();
+	game->playerTwo->Reset();
+	game->playerAI->Reset();
+
 
 
 
@@ -64,42 +89,49 @@ void RenderCards() {
 	int moveAmount = 51;
 	float scaleFactor = 3.0f;
 
-	for (size_t i = 0; i < game->playerOne->cardPile->Hand.size(); i++)
-	{
-		//Create Positions for cards dyanmically
-		game->playerOne->cardPile->Hand.at(i)->GetTransform().position = glm::vec3(game->playerOne->cardPile->handPos.x + (posOffset * moveAmount), game->playerOne->cardPile->handPos.y, game->playerOne->cardPile->handPos.z);
 
-		if (i == game->playerOne->selectedCardVector) { //make card bigger
-			game->playerOne->cardPile->Hand.at(i)->GetTransform().position = glm::vec3(game->playerOne->cardPile->Hand.at(i)->GetTransform().position.x, game->playerOne->cardPile->Hand.at(i)->GetTransform().position.y, game->playerOne->cardPile->handPos.z + 0.1f);
-			game->playerOne->cardPile->Hand.at(i)->GetTransform().scale = game->playerOne->defaultCardSize * scaleFactor;
-		}
-		else {
-			game->playerOne->cardPile->Hand.at(i)->GetTransform().position = glm::vec3(game->playerOne->cardPile->Hand.at(i)->GetTransform().position.x, game->playerOne->cardPile->Hand.at(i)->GetTransform().position.y, game->playerOne->cardPile->handPos.z);
-			game->playerOne->cardPile->Hand.at(i)->GetTransform().scale = game->playerOne->defaultCardSize;
-		}
-		game->playerOne->cardPile->Hand.at(i)->Render();
+	if (game->playerOne->currentHP > 0) {
 
-		posOffset++;
+		for (size_t i = 0; i < game->playerOne->cardPile->Hand.size(); i++)
+		{
+			//Create Positions for cards dyanmically
+			game->playerOne->cardPile->Hand.at(i)->GetTransform().position = glm::vec3(game->playerOne->cardPile->handPos.x + (posOffset * moveAmount), game->playerOne->cardPile->handPos.y, game->playerOne->cardPile->handPos.z);
+
+			if (i == game->playerOne->selectedCardVector) { //make card bigger
+				game->playerOne->cardPile->Hand.at(i)->GetTransform().position = glm::vec3(game->playerOne->cardPile->Hand.at(i)->GetTransform().position.x, game->playerOne->cardPile->Hand.at(i)->GetTransform().position.y, game->playerOne->cardPile->handPos.z + 0.1f);
+				game->playerOne->cardPile->Hand.at(i)->GetTransform().scale = game->playerOne->defaultCardSize * scaleFactor;
+			}
+			else {
+				game->playerOne->cardPile->Hand.at(i)->GetTransform().position = glm::vec3(game->playerOne->cardPile->Hand.at(i)->GetTransform().position.x, game->playerOne->cardPile->Hand.at(i)->GetTransform().position.y, game->playerOne->cardPile->handPos.z);
+				game->playerOne->cardPile->Hand.at(i)->GetTransform().scale = game->playerOne->defaultCardSize;
+			}
+			game->playerOne->cardPile->Hand.at(i)->Render();
+
+			posOffset++;
+		}
 	}
 
 	posOffset = 0;
 
-	for (size_t i = 0; i < game->playerTwo->cardPile->Hand.size(); i++)
-	{
-		//Create Positions for cards dyanmically
-		game->playerTwo->cardPile->Hand.at(i)->GetTransform().position = glm::vec3(game->playerTwo->cardPile->handPos.x + (posOffset * moveAmount), game->playerTwo->cardPile->handPos.y, game->playerTwo->cardPile->handPos.z);
+	if (game->playerTwo->currentHP > 0) {
 
-		if (i == game->playerTwo->selectedCardVector) { //make card bigger
-			game->playerTwo->cardPile->Hand.at(i)->GetTransform().position = glm::vec3(game->playerTwo->cardPile->Hand.at(i)->GetTransform().position.x, game->playerTwo->cardPile->Hand.at(i)->GetTransform().position.y, game->playerTwo->cardPile->handPos.z + 0.1f);
-			game->playerTwo->cardPile->Hand.at(i)->GetTransform().scale = game->playerTwo->defaultCardSize * scaleFactor;
-		}
-		else {
-			game->playerTwo->cardPile->Hand.at(i)->GetTransform().position = glm::vec3(game->playerTwo->cardPile->Hand.at(i)->GetTransform().position.x, game->playerTwo->cardPile->Hand.at(i)->GetTransform().position.y, game->playerTwo->cardPile->handPos.z);
-			game->playerTwo->cardPile->Hand.at(i)->GetTransform().scale = game->playerTwo->defaultCardSize;
-		}
-		game->playerTwo->cardPile->Hand.at(i)->Render();
+		for (size_t i = 0; i < game->playerTwo->cardPile->Hand.size(); i++)
+		{
+			//Create Positions for cards dyanmically
+			game->playerTwo->cardPile->Hand.at(i)->GetTransform().position = glm::vec3(game->playerTwo->cardPile->handPos.x + (posOffset * moveAmount), game->playerTwo->cardPile->handPos.y, game->playerTwo->cardPile->handPos.z);
 
-		posOffset++;
+			if (i == game->playerTwo->selectedCardVector) { //make card bigger
+				game->playerTwo->cardPile->Hand.at(i)->GetTransform().position = glm::vec3(game->playerTwo->cardPile->Hand.at(i)->GetTransform().position.x, game->playerTwo->cardPile->Hand.at(i)->GetTransform().position.y, game->playerTwo->cardPile->handPos.z + 0.1f);
+				game->playerTwo->cardPile->Hand.at(i)->GetTransform().scale = game->playerTwo->defaultCardSize * scaleFactor;
+			}
+			else {
+				game->playerTwo->cardPile->Hand.at(i)->GetTransform().position = glm::vec3(game->playerTwo->cardPile->Hand.at(i)->GetTransform().position.x, game->playerTwo->cardPile->Hand.at(i)->GetTransform().position.y, game->playerTwo->cardPile->handPos.z);
+				game->playerTwo->cardPile->Hand.at(i)->GetTransform().scale = game->playerTwo->defaultCardSize;
+			}
+			game->playerTwo->cardPile->Hand.at(i)->Render();
+
+			posOffset++;
+		}
 	}
 
 	//DEBUG AI
@@ -160,7 +192,15 @@ void Render() {
 			game->howtoplayObjects.at(i)->Render();
 		}
 	}
+	case Scenes::SCENE_LOSE: {
 
+		for (size_t i = 0; i < game->lostObjects.size(); i++)
+		{
+			game->lostObjects.at(i)->Render();
+		}
+
+		break;
+	}
 	default:
 		break;
 	}
@@ -207,47 +247,54 @@ void PlayCard(Character* _caster, Character* _target, Character* _otherPlayer) {
 void PlayerInputLoop() {
 
 	//Player1 
-	if ((CInputManager::KeyArray[119] == KEY_FIRST_PRESS) || (CInputManager::KeyArray[87] == KEY_FIRST_PRESS)) { //W Play Card
+	if (game->playerOne->currentHP > 0) {
 
-		//Sanity Check
+		if ((CInputManager::KeyArray[119] == KEY_FIRST_PRESS) || (CInputManager::KeyArray[87] == KEY_FIRST_PRESS)) { //W Play Card
 
-		PlayCard(game->playerOne, game->playerAI, game->playerTwo);
+			//Sanity Check
 
-		
-	}
-	if ((CInputManager::KeyArray[83] == KEY_FIRST_PRESS) || (CInputManager::KeyArray[115] == KEY_FIRST_PRESS)) { //S
+			PlayCard(game->playerOne, game->playerAI, game->playerTwo);
 
-	}
-	if ((CInputManager::KeyArray[65] == KEY_FIRST_PRESS) || (CInputManager::KeyArray[97] == KEY_FIRST_PRESS)) { //A
 
-		if (game->playerOne->selectedCardVector > 0) {
-			game->playerOne->selectedCardVector--;
 		}
-	}
-	if ((CInputManager::KeyArray[68] == KEY_FIRST_PRESS) || (CInputManager::KeyArray[100] == KEY_FIRST_PRESS)) { //D
+		if ((CInputManager::KeyArray[83] == KEY_FIRST_PRESS) || (CInputManager::KeyArray[115] == KEY_FIRST_PRESS)) { //S
 
-		if (game->playerOne->selectedCardVector < game->playerOne->cardPile->Hand.size() - 1) {
-			game->playerOne->selectedCardVector++;
+		}
+		if ((CInputManager::KeyArray[65] == KEY_FIRST_PRESS) || (CInputManager::KeyArray[97] == KEY_FIRST_PRESS)) { //A
+
+			if (game->playerOne->selectedCardVector > 0) {
+				game->playerOne->selectedCardVector--;
+			}
+		}
+		if ((CInputManager::KeyArray[68] == KEY_FIRST_PRESS) || (CInputManager::KeyArray[100] == KEY_FIRST_PRESS)) { //D
+
+			if (game->playerOne->selectedCardVector < game->playerOne->cardPile->Hand.size() - 1) {
+				game->playerOne->selectedCardVector++;
+			}
 		}
 	}
 
 	//Player2
-	if (CInputManager::KeySpecialArray[GLUT_KEY_DOWN] == KEY_FIRST_PRESS) { //DOWN
-		//cycle
-	}
-	if (CInputManager::KeySpecialArray[GLUT_KEY_UP] == KEY_FIRST_PRESS) { //UP
-		PlayCard(game->playerTwo, game->playerAI, game->playerOne);
-	}
-	if (CInputManager::KeySpecialArray[GLUT_KEY_LEFT] == KEY_FIRST_PRESS) { //LEFT
 
-		if (game->playerTwo->selectedCardVector > 0) {
-			game->playerTwo->selectedCardVector--;
+	if (game->playerTwo->currentHP > 0) {
+
+		if (CInputManager::KeySpecialArray[GLUT_KEY_DOWN] == KEY_FIRST_PRESS) { //DOWN
+			//cycle
 		}
-	}
-	if (CInputManager::KeySpecialArray[GLUT_KEY_RIGHT] == KEY_FIRST_PRESS) { //RIGHT
+		if (CInputManager::KeySpecialArray[GLUT_KEY_UP] == KEY_FIRST_PRESS) { //UP
+			PlayCard(game->playerTwo, game->playerAI, game->playerOne);
+		}
+		if (CInputManager::KeySpecialArray[GLUT_KEY_LEFT] == KEY_FIRST_PRESS) { //LEFT
 
-		if (game->playerTwo->selectedCardVector < game->playerTwo->cardPile->Hand.size()-1){
-			game->playerTwo->selectedCardVector++;
+			if (game->playerTwo->selectedCardVector > 0) {
+				game->playerTwo->selectedCardVector--;
+			}
+		}
+		if (CInputManager::KeySpecialArray[GLUT_KEY_RIGHT] == KEY_FIRST_PRESS) { //RIGHT
+
+			if (game->playerTwo->selectedCardVector < game->playerTwo->cardPile->Hand.size() - 1) {
+				game->playerTwo->selectedCardVector++;
+			}
 		}
 	}
 
@@ -306,7 +353,7 @@ void Update() {
 		game->AddSelection->Process(game->playerOne, game->playerTwo);
 		game->Player1Selection->Process(game->playerOne, game->playerTwo);
 		game->Player2Selection->Process(game->playerOne, game->playerTwo);
-		if (CInputManager::KeyArray['\r'] == KEY_FIRST_PRESS || CInputManager::KeyArray[' '] == KEY_FIRST_PRESS && game->playerOne->cardPile->Deck.size() < 10 && game->playerTwo->cardPile->Deck.size() < 10)
+		if ((CInputManager::KeyArray['\r'] == KEY_FIRST_PRESS || CInputManager::KeyArray[' '] == KEY_FIRST_PRESS) && (game->playerOne->cardPile->Deck.size() >= 10 && game->playerTwo->cardPile->Deck.size() >= 10))
 		{
 			game->currentScene = Scenes::SCENE_GAME;
 			DeckSelectionDestory();
@@ -340,10 +387,9 @@ void Update() {
 			game->gameover = false;
 			game->currentLvl++;
 			game->playerAI->updateLevel(game->currentLvl);
-			Console_OutputLog(to_wstring("AI has been defeated, you have now progress to level: " + game->currentLvl), LOGINFO);
+			Console_OutputLog(to_wstring("AI has been defeated, you have now progress to level: " + to_string(game->currentLvl)), LOGINFO);
 
 			//reset hp
-
 			game->playerOne->currentHP = game->playerOne->maxHP;
 			game->playerTwo->currentHP = game->playerTwo->maxHP;
 			game->playerAI->currentHP = game->playerAI->maxHP;
@@ -351,10 +397,10 @@ void Update() {
 		}
 
 		if (game->gameover) {
-			//reset and kick back to main menu
-
+			//reset and kick back to lose screen
+			Console_OutputLog(L"GAMEOVER", LOGINFO);
 			Reset();
-
+			game->currentScene = SCENE_LOSE;
 		}
 
 		break;
@@ -379,6 +425,13 @@ void Update() {
 			break;
 		}
 
+	}
+	case Scenes::SCENE_LOSE: {
+		if (CInputManager::KeyArray['\r'] == KEY_FIRST_PRESS || CInputManager::KeyArray[' '] == KEY_FIRST_PRESS) {
+			game->currentScene = Scenes::SCENE_MAIN;
+		}
+		CInputManager::ProcessKeyInput();
+		break;
 	}
 	default:
 		break;
@@ -416,36 +469,6 @@ void DealCardsRandom(Character* _char) {
 	{
 		game->playerTwo->cardPile->Deck.push_back(game->playerTwo->cardPile->Deck.at(i));
 	}
-
-	//int moveX = 0;
-	//int moveAmount = 51;
-	//int dealAmount = 20;
-	//for (size_t i = 0; i < dealAmount; i++)
-	//{
-	//	int choice = rand() % 3;
-	//	switch (choice)
-	//	{
-	//	case 0: { //red ring
-	//		_char->cardPile->Deck.push_back(new AttackCard(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/REDRINGCard.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(_char->cardPile->handPos.x + moveX, _char->cardPile->handPos.y, _char->cardPile->handPos.z), glm::vec3(0, 0, 0), _char->defaultCardSize), "Red Ring Of Death Card", 50, 50, AttackCard::REDCIRCLE));
-	//		break;
-	//	}
-	//	case 1: { //DDOS
-	//		_char->cardPile->Deck.push_back(new AttackCard(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/DDOSCard.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(_char->cardPile->handPos.x + moveX, _char->cardPile->handPos.y, _char->cardPile->handPos.z), glm::vec3(0, 0, 0), _char->defaultCardSize), "DDOS Card", 70, 75, AttackCard::DDOS));
-	//		break;
-	//	}
-	//	case 2: { //SQL
-	//		_char->cardPile->Deck.push_back(new AttackCard(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/SQLCard.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(_char->cardPile->handPos.x + moveX, _char->cardPile->handPos.y, _char->cardPile->handPos.z), glm::vec3(0, 0, 0), _char->defaultCardSize), "SQL Card", 30, 10, AttackCard::SQL));
-	//		break;
-	//	}
-	//	default: {
-	//		i--;
-	//		moveX -= moveAmount;
-	//		Console_OutputLog(L"Deck Generation Choice out of bounds retrying...", LOGWARN);
-	//		break;
-	//	}
-	//	}
-	//	moveX += moveAmount;
-	//}
 }
 
 void populateGameObjectList() {
@@ -483,6 +506,9 @@ void populateGameObjectList() {
 
 	game->howtoplayObjects.push_back(new GameObject(new RenderText(new CTextLabel("insert instructions how to play here", Utility::NormalFontString.data(), glm::vec2(50.0f, 50.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, game, ("test1"))), new IdleTick, Transform(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "vText"));
 
+	game->howtoplayObjects.push_back(new GameObject(new RenderText(new CTextLabel("insert instructions how to play here", Utility::NormalFontString.data(), glm::vec2(50.0f, 50.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, game, ("test1"))), new IdleTick, Transform(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "vText"));
+
+	game->lostObjects.push_back(new GameObject(new RenderText(new CTextLabel("Game Over\nYou have lost the battle againest the robots\nPress Space To Continue...", Utility::NormalFontString.data(), glm::vec2(50.0f, 50.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, game, ("Lose Text"))), new IdleTick, Transform(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "Lose Text"));
 
 #pragma endregion
 
@@ -566,10 +592,12 @@ void Start(int argc, char** argv)
 	glClearColor(backColor.x, backColor.y, backColor.z, 1.0);
 	MeshManager::GetInstance();
 	CInputManager::CInputManager();
+
 	//create GameObjects
 	game->camera.initializeCamera();
 	game->camera.SwitchMode(Camera::ORTH, glm::vec3(0,0,0), glm::vec3(0,0,-2), glm::vec3(0,0,0), 2.0f, 0.0f);
 	populateGameObjectList();
+
 	//Start MeshManager
 
 

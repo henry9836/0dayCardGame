@@ -32,6 +32,7 @@ public:
 	vector<GameObject*> maingameObjects; //main menu
 	vector<GameObject*> playgameObjects; //game
 	vector<GameObject*> howtoplayObjects; // instructions of how to play
+	vector<GameObject*> lostObjects; //lose screen
 	vector<Card*> deckselectionObjects; //DeckSelection
 
 

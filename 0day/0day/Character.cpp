@@ -104,6 +104,20 @@ void Character::Tick(float deltaTime)
 
 }
 
+void Character::Reset()
+{
+	accuracy = accuracyInit;
+	maxHP = maxHPInit;
+	damageMult = damageMultInit;
+	currentHP = currentHPInit;
+	LinesMult = LinesMultInit;
+	drawcardThreshold = drawcardThresholdInit;
+	drawcardTimer = drawcardTimerInit;
+	maxlines = maxlinesInit;
+	currentLines = currentLinesInit;
+	baseDamage = baseDamageInit;
+}
+
 
 Human::~Human()
 {

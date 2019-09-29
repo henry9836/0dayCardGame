@@ -62,7 +62,7 @@ public:
 			}
 			else {
 				moveGYToDeck();
-				Console_OutputLog(L"Cannot Deal Card As Deck Size is 0", LOGWARN);
+				//Console_OutputLog(L"Cannot Deal Card As Deck Size is 0", LOGWARN);
 			}
 		}
 	};
@@ -71,12 +71,13 @@ public:
 
 	void Render();
 	void Tick(float deltaTime);
+	void Reset();
 
 	//render function //deck
 	int selectedCardVector = 0;
 	
 	const glm::vec3 defaultCardSize = glm::vec3(25.0f, 40.0f, 1.0f);
-	float accuracy;
+	float accuracy = 1.0f;;
 	float maxHP = 100.0f;
 	float damageMult = 1.0f;
 	float currentHP;
@@ -90,6 +91,19 @@ public:
 	Character* playerOne = nullptr;
 	Character* playerTwo = nullptr;
 	bool isAI = false;
+
+
+	float accuracyInit = 1.0f;
+	float maxHPInit = 100.0f;
+	float damageMultInit = 1.0f;
+	float currentHPInit = 100.0f;
+	float LinesMultInit = 1.0f;
+	float drawcardThresholdInit = 1.0f;
+	float drawcardTimerInit = 0.0f;
+	float maxlinesInit = 100.0f;
+	float currentLinesInit = 0.0f;
+	float baseDamageInit = 2.0f;
+
 };
 
 class Human : public Character
@@ -104,6 +118,14 @@ public:
 		float damageMult = 1.0f;
 		float LinesMult = 1.0f;
 		float accuracy = 1.0f;
+
+		float initalHPInit = initalHP;
+		float currentHPInit = initalHP;
+		float currentLinesInit = currentLines;
+		float damageMultInit = damageMult;
+		float LinesMultInit = LinesMult;
+		float accuracyInit = accuracy;
+
 	};
 	~Human();
 
@@ -127,6 +149,14 @@ public:
 		isAI = _isAI;
 		playerOne = _playerOne;
 		playerTwo = _playerTwo;
+
+		float initalHPInit = initalHP;
+		float currentHPInit = initalHP;
+		float currentLinesInit = currentLines;
+		float damageMultInit = damageMult;
+		float LinesMultInit = LinesMult;
+		float rateOfLinesMultInit = rateOfLinesMult;
+		float accuracyInit = accuracy;
 	};
 	~AI();
 
