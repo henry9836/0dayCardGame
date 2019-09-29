@@ -34,6 +34,7 @@ public:
 	float getDamageMult() { return damageMult; };
 	virtual void updateAccuracy(float modifiyer) { accuracy += modifiyer; };
 	virtual void MaxHPUpdate(float HP) { maxHP += HP; currentHP += HP; };
+	virtual void updateLevel(int _lvl) = 0;
 
 	virtual void moveGYToDeck() {
 		
@@ -77,7 +78,7 @@ public:
 	const glm::vec3 defaultCardSize = glm::vec3(25.0f, 40.0f, 1.0f);
 	float accuracy;
 	float maxHP = 100.0f;
-	float damageMult;
+	float damageMult = 1.0f;
 	float currentHP;
 	float LinesMult = 1.0f;
 	float drawcardThreshold = 1.0f;
@@ -102,6 +103,8 @@ public:
 	};
 	~Human();
 
+	void updateLevel(int _lvl) {};
+
 };
 
 class AI : public Character
@@ -121,6 +124,11 @@ public:
 	~AI();
 
 	void updateRateOfLinesMult(float deltaTime);
+	void updateLevel(int _lvl) {
+		rateOfLinesMult = _lvl * 0.001f;
+		MaxHPUpdate((_lvl * 0.1f));
+	};
+
 
 	GameObject* gameObject = nullptr;
 

@@ -39,7 +39,7 @@ public:
 	Character* playerTwo;
 	Character* playerAI;
 	
-
+	int currentLvl = 1;
 
 	glm::vec2 ScreenSize = {1700,1000};
 	glm::vec2 MousePosition;

@@ -317,9 +317,6 @@ void Update() {
 		{
 			game->playgameObjects.at(i)->Tick(deltaTime, game->playgameObjects.at(i));
 		}
-		game->playerOne->DrawACard();
-		game->playerTwo->DrawACard();
-		game->playerAI->DrawACard();
 		
 		game->playerOne->Tick(deltaTime);
 		game->playerTwo->Tick(deltaTime);
@@ -327,6 +324,21 @@ void Update() {
 
 		PlayerInputLoop();
 		CInputManager::ProcessKeyInput();
+
+		//Check Game Conditions
+
+		if (game->playerAI->currentHP <= 0) {
+			Console_OutputLog(L"AI has been defeated", LOGINFO);
+			game->currentLvl++;
+			game->playerAI->updateLevel(game->currentLvl);
+
+			//reset hp
+
+			game->playerOne->currentHP = game->playerOne->maxHP;
+			game->playerTwo->currentHP = game->playerTwo->maxHP;
+			game->playerAI->currentHP = game->playerAI->maxHP;
+
+		}
 
 		break;
 		
@@ -412,7 +424,7 @@ void populateGameObjectList() {
 	Console_OutputLog(L"Creating Players...", LOGINFO);
 	game->playerOne = new Human(new CardPile(glm::vec3(-700.0f, -350.0f, 0.5f)), 100.0f, new GameObject(new RenderObject(), new IdleTick(), Transform(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "Player One"));
 	game->playerTwo = new Human(new CardPile(glm::vec3(100.0f, -350.0f, 0.5f)), 100.0f, new GameObject(new RenderObject(), new IdleTick(), Transform(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0,0,0)), "Player Two"));
-	game->playerAI = new AI(1, new CardPile(glm::vec3(-1200.0f, 350.0f, 0.5f)), 100.0f, new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::BAR_ENTITY), MeshManager::SetTexture("Resources/Textures/tmpAI.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(0, 250, 0.5f), glm::vec3(0, 0, 0), glm::vec3(100.0f, 100.0f, 1.0f)), "AI"));
+	game->playerAI = new AI(game->currentLvl, new CardPile(glm::vec3(-1200.0f, 350.0f, 0.5f)), 100.0f, new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/tmpAI.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(0, 250, 0.5f), glm::vec3(0, 0, 0), glm::vec3(100.0f, 100.0f, 1.0f)), "AI"));
 	
 	//Temporarly Deal Cards Here
 	DealCardsRandom(game->playerOne);
