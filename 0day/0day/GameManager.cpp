@@ -9,6 +9,13 @@ float pasttime;
 bool goingup = true;
 glm::vec3 backColor = glm::vec3(0.0, 0.0, 0.0);
 
+void Reset() {
+	game->gameover = false;
+
+
+
+}
+
 void DeckSelectionDestory()
 {
 	game->deckselectionObjects.clear();
@@ -244,10 +251,7 @@ void PlayerInputLoop() {
 		}
 	}
 
-
-
 }
-
 //Update Loop
 void Update() {
 
@@ -312,7 +316,6 @@ void Update() {
 	}
 	case Scenes::SCENE_GAME:
 	{
-		Console_OutputLog(L"Drawing Cards", LOGINFO);
 		for (size_t i = 0; i < game->playgameObjects.size(); i++)
 		{
 			game->playgameObjects.at(i)->Tick(deltaTime, game->playgameObjects.at(i));
@@ -327,16 +330,30 @@ void Update() {
 
 		//Check Game Conditions
 
+		//AI Has Died
+
+		if ((game->playerOne->currentHP <= 0) && (game->playerTwo->currentHP <= 0)) {
+			game->gameover = true;
+		}
+
 		if (game->playerAI->currentHP <= 0) {
-			Console_OutputLog(L"AI has been defeated", LOGINFO);
+			game->gameover = false;
 			game->currentLvl++;
 			game->playerAI->updateLevel(game->currentLvl);
+			Console_OutputLog(to_wstring("AI has been defeated, you have now progress to level: " + game->currentLvl), LOGINFO);
 
 			//reset hp
 
 			game->playerOne->currentHP = game->playerOne->maxHP;
 			game->playerTwo->currentHP = game->playerTwo->maxHP;
 			game->playerAI->currentHP = game->playerAI->maxHP;
+
+		}
+
+		if (game->gameover) {
+			//reset and kick back to main menu
+
+			Reset();
 
 		}
 
@@ -389,35 +406,46 @@ void mouse(int button, int state, int x, int y) { //Click
 
 void DealCardsRandom(Character* _char) {
 	Console_OutputLog(L"Dealing Cards...", LOGINFO);
-	int moveX = 0;
-	int moveAmount = 51;
-	int dealAmount = 20;
-	for (size_t i = 0; i < dealAmount; i++)
+
+	for (size_t i = 0; i < game->playerOne->cardPile->Deck.size(); i++)
 	{
-		int choice = rand() % 3;
-		switch (choice)
-		{
-		case 0: { //red ring
-			_char->cardPile->Deck.push_back(new AttackCard(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/REDRINGCard.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(_char->cardPile->handPos.x + moveX, _char->cardPile->handPos.y, _char->cardPile->handPos.z), glm::vec3(0, 0, 0), _char->defaultCardSize), "Red Ring Of Death Card", 50, 50, AttackCard::REDCIRCLE));
-			break;
-		}
-		case 1: { //DDOS
-			_char->cardPile->Deck.push_back(new AttackCard(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/DDOSCard.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(_char->cardPile->handPos.x + moveX, _char->cardPile->handPos.y, _char->cardPile->handPos.z), glm::vec3(0, 0, 0), _char->defaultCardSize), "DDOS Card", 70, 75, AttackCard::DDOS));
-			break;
-		}
-		case 2: { //SQL
-			_char->cardPile->Deck.push_back(new AttackCard(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/SQLCard.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(_char->cardPile->handPos.x + moveX, _char->cardPile->handPos.y, _char->cardPile->handPos.z), glm::vec3(0, 0, 0), _char->defaultCardSize), "SQL Card", 30, 10, AttackCard::SQL));
-			break;
-		}
-		default: {
-			i--;
-			moveX -= moveAmount;
-			Console_OutputLog(L"Deck Generation Choice out of bounds retrying...", LOGWARN);
-			break;
-		}
-		}
-		moveX += moveAmount;
+		game->playerOne->cardPile->Deck.push_back(game->playerOne->cardPile->Deck.at(i));
 	}
+
+	for (size_t i = 0; i < game->playerTwo->cardPile->Deck.size(); i++)
+	{
+		game->playerTwo->cardPile->Deck.push_back(game->playerTwo->cardPile->Deck.at(i));
+	}
+
+	//int moveX = 0;
+	//int moveAmount = 51;
+	//int dealAmount = 20;
+	//for (size_t i = 0; i < dealAmount; i++)
+	//{
+	//	int choice = rand() % 3;
+	//	switch (choice)
+	//	{
+	//	case 0: { //red ring
+	//		_char->cardPile->Deck.push_back(new AttackCard(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/REDRINGCard.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(_char->cardPile->handPos.x + moveX, _char->cardPile->handPos.y, _char->cardPile->handPos.z), glm::vec3(0, 0, 0), _char->defaultCardSize), "Red Ring Of Death Card", 50, 50, AttackCard::REDCIRCLE));
+	//		break;
+	//	}
+	//	case 1: { //DDOS
+	//		_char->cardPile->Deck.push_back(new AttackCard(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/DDOSCard.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(_char->cardPile->handPos.x + moveX, _char->cardPile->handPos.y, _char->cardPile->handPos.z), glm::vec3(0, 0, 0), _char->defaultCardSize), "DDOS Card", 70, 75, AttackCard::DDOS));
+	//		break;
+	//	}
+	//	case 2: { //SQL
+	//		_char->cardPile->Deck.push_back(new AttackCard(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/SQLCard.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(_char->cardPile->handPos.x + moveX, _char->cardPile->handPos.y, _char->cardPile->handPos.z), glm::vec3(0, 0, 0), _char->defaultCardSize), "SQL Card", 30, 10, AttackCard::SQL));
+	//		break;
+	//	}
+	//	default: {
+	//		i--;
+	//		moveX -= moveAmount;
+	//		Console_OutputLog(L"Deck Generation Choice out of bounds retrying...", LOGWARN);
+	//		break;
+	//	}
+	//	}
+	//	moveX += moveAmount;
+	//}
 }
 
 void populateGameObjectList() {
@@ -467,6 +495,8 @@ void populateGameObjectList() {
 	game->playgameObjects.push_back(new GameObject(new BarsRender(MeshManager::GetMesh(Object_Attributes::BAR_ENTITY), MeshManager::SetTexture("Resources/Textures/barLines.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER), game->playerTwo, false), new TickObject, Transform(glm::vec3(game->ScreenSize.x * 0.35f, game->ScreenSize.y * -0.21f, 0), glm::vec3(0, 0, 0), glm::vec3(game->ScreenSize.x * 0.09f, game->ScreenSize.y * 0.005f, 1.0f)), "Player Two Lines Bar"));
 
 	game->playgameObjects.push_back(new GameObject(new BarsRender(MeshManager::GetMesh(Object_Attributes::BAR_ENTITY), MeshManager::SetTexture("Resources/Textures/barHealth.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER), game->playerAI, true), new TickObject, Transform(glm::vec3(game->ScreenSize.x * 0.00005f, game->ScreenSize.y * 0.40f, 0), glm::vec3(0, 0, 0), glm::vec3(game->ScreenSize.x * 0.1f, game->ScreenSize.y * 0.005f, 1.0f)), "Player AI Health Bar"));
+
+
 
 }
 

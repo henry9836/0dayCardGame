@@ -40,6 +40,7 @@ public:
 	Character* playerAI;
 	
 	int currentLvl = 1;
+	bool gameover = false;
 
 	glm::vec2 ScreenSize = {1700,1000};
 	glm::vec2 MousePosition;
