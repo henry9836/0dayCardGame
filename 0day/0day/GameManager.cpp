@@ -9,6 +9,29 @@ float pasttime;
 bool goingup = true;
 glm::vec3 backColor = glm::vec3(0.0, 0.0, 0.0);
 
+void DeckSelectionDestory()
+{
+	game->deckselectionObjects.clear();
+	delete game->AddSelection;
+	game->AddSelection = nullptr;
+	delete game->Player1Selection;
+	game->Player1Selection = nullptr;
+	delete game->Player2Selection;
+	game->Player2Selection = nullptr;
+}
+
+void DeckSelectionInit()
+{
+	//All player cards in the game get push in here.
+	game->deckselectionObjects.push_back(new AttackCard(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture(Textures::RedRing.data()), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "Red Ring Of Death Card", 50, 50, AttackCard::REDCIRCLE));
+	game->deckselectionObjects.push_back(new AttackCard(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture(Textures::DDOS.data()), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "DDOS Card", 70, 75, AttackCard::DDOS));
+	game->deckselectionObjects.push_back(new AttackCard(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture(Textures::SQL.data()), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "SQL Card", 30, 10, AttackCard::SQL));
+
+	game->AddSelection = new Selection(game->deckselectionObjects, glm::vec3(game->ScreenSize.x * - 0.15f, game->ScreenSize.y * 0.35f, 0.0f), 4, 0.1f, 0.2f, game, 0, true, true);
+	game->Player1Selection = new Selection(game->playerOne->cardPile->Deck, glm::vec3(game->ScreenSize.x * -0.45f, game->ScreenSize.y * 0.4f, 0.0f), 3, 0.09f, 0.17f, game, 1, false, false);
+	game->Player2Selection = new Selection(game->playerTwo->cardPile->Deck, glm::vec3(game->ScreenSize.x * 0.25f, game->ScreenSize.y * 0.4f, 0.0f), 3, 0.09f, 0.17f, game, 2, false, false);
+}
+
 void FlashRed(glm::vec3* inColor, float deltaTime) {
 	float increase = 0.01f * deltaTime;
 	if (goingup) {
@@ -92,37 +115,45 @@ void Render() {
 	}
 
 	//Render Based On Current Scene
-
-	if (game->currentScene == Scenes::SCENE_MAIN) {
+	switch (game->currentScene)
+	{
+	case Scenes::SCENE_MAIN:
+	{
 		game->StartMenu->Render();
 		for (size_t i = 0; i < game->maingameObjects.size(); i++)
 		{
 			game->maingameObjects.at(i)->Render();
 		}
+		break;
 	}
-	else if (game->currentScene == Scenes::SCENE_GAME) {
-
+	case Scenes::SCENE_SELECTION:
+	{
+		game->AddSelection->Render();
+		game->Player1Selection->Render();
+		game->Player2Selection->Render();
+		break;
+	}
+	case Scenes::SCENE_GAME:
+	{
 		for (size_t i = 0; i < game->playgameObjects.size(); i++)
 		{
 			game->playgameObjects.at(i)->Render();
 		}
-
 		RenderCards();
-
+		break;
 	}
-	else if (game->currentScene == Scenes::SCENE_HOWTOPLAY)
+	case Scenes::SCENE_HOWTOPLAY:
 	{
 		game->HowToPlayMenu->Render();
 		for (size_t i = 0; i < game->howtoplayObjects.size(); i++)
 		{
 			game->howtoplayObjects.at(i)->Render();
 		}
-
 	}
 
-
-
-
+	default:
+		break;
+	}
 	glutSwapBuffers();
 }
 
@@ -234,17 +265,21 @@ void Update() {
 
 	//Tick Based On Current Scene
 
-	if (game->currentScene == Scenes::SCENE_MAIN) {
-
+	switch (game->currentScene)
+	{
+	case Scenes::SCENE_MAIN:
+	{
 		int tempOutput = NULL;
 		game->StartMenu->Process(tempOutput);
 		CInputManager::ProcessKeyInput();
 		switch (tempOutput)
 		{
 		case 0:
-			game->currentScene = Scenes::SCENE_GAME;
+			game->currentScene = Scenes::SCENE_SELECTION;
+			DeckSelectionInit();
 			break;
 		case 1:
+			game->currentScene = Scenes::SCENE_MAIN; // Would be option screen
 			game->currentScene = Scenes::SCENE_HOWTOPLAY;
 			break;
 		case 2:
@@ -257,14 +292,32 @@ void Update() {
 		{
 			game->maingameObjects.at(i)->Tick(deltaTime, game->maingameObjects.at(i));
 		}
+		break;
 	}
-	else if (game->currentScene == Scenes::SCENE_GAME) {
-		//Draw Cards needs to be improved a lot
+	case Scenes::SCENE_SELECTION:
+	{
+		game->AddSelection->Process(game->playerOne, game->playerTwo);
+		game->Player1Selection->Process(game->playerOne, game->playerTwo);
+		game->Player2Selection->Process(game->playerOne, game->playerTwo);
+		if (CInputManager::KeyArray['\r'] == KEY_FIRST_PRESS || CInputManager::KeyArray[' '] == KEY_FIRST_PRESS && game->playerOne->cardPile->Deck.size() < 10 && game->playerTwo->cardPile->Deck.size() < 10)
+		{
+			game->currentScene = Scenes::SCENE_GAME;
+			DeckSelectionDestory();
+		}
+		CInputManager::ProcessKeyInput();
+		break;
+	}
+	case Scenes::SCENE_GAME:
+	{
+		Console_OutputLog(L"Drawing Cards", LOGINFO);
 		for (size_t i = 0; i < game->playgameObjects.size(); i++)
 		{
 			game->playgameObjects.at(i)->Tick(deltaTime, game->playgameObjects.at(i));
 		}
-
+		game->playerOne->DrawACard();
+		game->playerTwo->DrawACard();
+		game->playerAI->DrawACard();
+		break;
 		game->playerOne->Tick(deltaTime);
 		game->playerTwo->Tick(deltaTime);
 		game->playerAI->Tick(deltaTime);
@@ -274,10 +327,14 @@ void Update() {
 		
 		
 	}
-	else if (game->currentScene == Scenes::SCENE_HOWTOPLAY)
+	case Scenes::SCENE_HOWTOPLAY:
 	{
 		int tempOutput = NULL;
 		game->HowToPlayMenu->Process(tempOutput);
+		for (size_t i = 0; i < game->howtoplayObjects.size(); i++)
+		{
+			game->howtoplayObjects.at(i)->Tick(deltaTime, game->howtoplayObjects.at(i));
+		}
 		CInputManager::ProcessKeyInput();
 		switch (tempOutput)
 		{
@@ -288,11 +345,9 @@ void Update() {
 			break;
 		}
 
-		for (size_t i = 0; i < game->howtoplayObjects.size(); i++)
-		{
-			game->howtoplayObjects.at(i)->Tick(deltaTime, game->howtoplayObjects.at(i));
-		}
-
+	}
+	default:
+		break;
 	}
 
 	Render();
@@ -388,7 +443,8 @@ void populateGameObjectList() {
 
 
 	//GAMEPLAY OBJECTS
-
+	game->playgameObjects.push_back(new GameObject(new BarsRender(MeshManager::GetMesh(Object_Attributes::BAR_ENTITY), MeshManager::SetTexture("Resources/Textures/test.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER), game->playerOne, true), new TickObject, Transform(glm::vec3(game->ScreenSize.x * -0.25f, game->ScreenSize.y * -0.25f, 0), glm::vec3(0, 0, 0), glm::vec3(game->ScreenSize.x * 0.2f, game->ScreenSize.y * 0.01f, 1.0f)), "Player One Health Bar"));
+	game->playgameObjects.push_back(new GameObject(new BarsRender(MeshManager::GetMesh(Object_Attributes::BAR_ENTITY), MeshManager::SetTexture("Resources/Textures/test.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER), game->playerOne, false), new TickObject, Transform(glm::vec3(game->ScreenSize.x * -0.25f, game->ScreenSize.y * -0.2f, 0), glm::vec3(0, 0, 0), glm::vec3(game->ScreenSize.x * 0.2f, game->ScreenSize.y * 0.01f, 1.0f)), "Player One Lines Bar"));
 }
 
 void Exit()
@@ -496,4 +552,5 @@ void Game::switchScene(Scenes newScene)
 {
 	this->currentScene = newScene;
 }
+
 
