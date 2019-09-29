@@ -4,10 +4,12 @@ Character::Character()
 }
 
 
-Character::Character(CardPile* _cardPile)
+Character::Character(CardPile* _cardPile, float _health, GameObject* _gameObject)
 {
 	cardPile = _cardPile;
+	maxHP = _health;
 	currentHP = maxHP;
+	gameObject = _gameObject;
 }
 
 Character::~Character()

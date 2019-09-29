@@ -22,7 +22,7 @@ class Character : public GameObject
 {
 public:
 	Character();
-	Character(CardPile* _cardPile);
+	Character(CardPile* _cardPile, float _health, GameObject* _gameObject);
 	~Character();
 
 	virtual void updateHP(float damage) { currentHP += damage; }; //implemet damage modifier
@@ -84,14 +84,14 @@ public:
 	float drawcardTimer = 0.0f;
 	float maxlines = 100.0f;
 	float currentLines = 0.0f;
-
+	GameObject* gameObject = nullptr;
 };
 
 class Human : public Character
 {
 public:
 
-	Human(CardPile* _cardPile) : Character(_cardPile)
+	Human(CardPile* _cardPile, float _health, GameObject* _gameObject) : Character(_cardPile, _health, _gameObject)
 	{
 		float initalHP = 100.0f;
 		float currentHP = initalHP;
@@ -108,7 +108,7 @@ class AI : public Character
 {
 public:
 
-	AI(int Level, CardPile* _cardPile) : Character(_cardPile)
+	AI(int Level, CardPile* _cardPile, float _health, GameObject* _gameObject) : Character(_cardPile, _health, _gameObject)
 	{
 		float initalHP = 100.0f + ((Level * 10) * (Level * 10));
 		float currentHP = initalHP;
@@ -121,6 +121,8 @@ public:
 	~AI();
 
 	void updateRateOfLinesMult(float deltaTime);
+
+	GameObject* gameObject = nullptr;
 
 private: 
 

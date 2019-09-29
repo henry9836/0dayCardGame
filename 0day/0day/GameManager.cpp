@@ -139,6 +139,9 @@ void Render() {
 		{
 			game->playgameObjects.at(i)->Render();
 		}
+
+		game->playerAI->gameObject->Render();
+
 		RenderCards();
 		break;
 	}
@@ -407,9 +410,9 @@ void DealCardsRandom(Character* _char) {
 
 void populateGameObjectList() {
 	Console_OutputLog(L"Creating Players...", LOGINFO);
-	game->playerOne = new Human(new CardPile(glm::vec3(-700.0f, -350.0f, 0.5f)));
-	game->playerTwo = new Human(new CardPile(glm::vec3(100.0f, -350.0f, 0.5f)));
-	game->playerAI = new AI(1, new CardPile(glm::vec3(-1200.0f, 350.0f, 0.5f)));
+	game->playerOne = new Human(new CardPile(glm::vec3(-700.0f, -350.0f, 0.5f)), 100.0f, new GameObject(new RenderObject(), new IdleTick(), Transform(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "Player One"));
+	game->playerTwo = new Human(new CardPile(glm::vec3(100.0f, -350.0f, 0.5f)), 100.0f, new GameObject(new RenderObject(), new IdleTick(), Transform(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0,0,0)), "Player Two"));
+	game->playerAI = new AI(1, new CardPile(glm::vec3(-1200.0f, 350.0f, 0.5f)), 100.0f, new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::BAR_ENTITY), MeshManager::SetTexture("Resources/Textures/tmpAI.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(0, 250, 0.5f), glm::vec3(0, 0, 0), glm::vec3(100.0f, 100.0f, 1.0f)), "AI"));
 	
 	//Temporarly Deal Cards Here
 	DealCardsRandom(game->playerOne);
@@ -430,7 +433,7 @@ void populateGameObjectList() {
 	game->StartMenu = new CMenu(StartOpt, glm::vec2(0.0f, 0.0f), game);
 #pragma endregion
 
-	//HOW TO PLAY objects
+	//HOW TO PLAY OBJECTS
 #pragma region how to play menu 
 
 	std::vector<std::string> menuopts;
@@ -445,11 +448,13 @@ void populateGameObjectList() {
 
 
 	//GAMEPLAY OBJECTS
-	game->playgameObjects.push_back(new GameObject(new BarsRender(MeshManager::GetMesh(Object_Attributes::BAR_ENTITY), MeshManager::SetTexture("Resources/Textures/barHealth.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER), game->playerOne, true), new TickObject, Transform(glm::vec3(game->ScreenSize.x * -0.25f, game->ScreenSize.y * -0.21f, 0), glm::vec3(0, 0, 0), glm::vec3(game->ScreenSize.x * 0.2f, game->ScreenSize.y * 0.01f, 1.0f)), "Player One Health Bar"));
-	game->playgameObjects.push_back(new GameObject(new BarsRender(MeshManager::GetMesh(Object_Attributes::BAR_ENTITY), MeshManager::SetTexture("Resources/Textures/barLines.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER), game->playerOne, false), new TickObject, Transform(glm::vec3(game->ScreenSize.x * -0.25f, game->ScreenSize.y * -0.25f, 0), glm::vec3(0, 0, 0), glm::vec3(game->ScreenSize.x * 0.2f, game->ScreenSize.y * 0.01f, 1.0f)), "Player One Lines Bar"));
+	game->playgameObjects.push_back(new GameObject(new BarsRender(MeshManager::GetMesh(Object_Attributes::BAR_ENTITY), MeshManager::SetTexture("Resources/Textures/barHealth.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER), game->playerOne, true), new TickObject, Transform(glm::vec3(game->ScreenSize.x * -0.35f, game->ScreenSize.y * -0.21f, 0), glm::vec3(0, 0, 0), glm::vec3(game->ScreenSize.x * 0.09f, game->ScreenSize.y * 0.005f, 1.0f)), "Player One Health Bar"));
+	game->playgameObjects.push_back(new GameObject(new BarsRender(MeshManager::GetMesh(Object_Attributes::BAR_ENTITY), MeshManager::SetTexture("Resources/Textures/barLines.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER), game->playerOne, false), new TickObject, Transform(glm::vec3(game->ScreenSize.x * -0.15f, game->ScreenSize.y * -0.21f, 0), glm::vec3(0, 0, 0), glm::vec3(game->ScreenSize.x * 0.09f, game->ScreenSize.y * 0.005f, 1.0f)), "Player One Lines Bar"));
 
-	game->playgameObjects.push_back(new GameObject(new BarsRender(MeshManager::GetMesh(Object_Attributes::BAR_ENTITY), MeshManager::SetTexture("Resources/Textures/barHealth.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER), game->playerTwo, true), new TickObject, Transform(glm::vec3(game->ScreenSize.x * 0.25f, game->ScreenSize.y * -0.21f, 0), glm::vec3(0, 0, 0), glm::vec3(game->ScreenSize.x * 0.2f, game->ScreenSize.y * 0.01f, 1.0f)), "Player Two Health Bar"));
-	game->playgameObjects.push_back(new GameObject(new BarsRender(MeshManager::GetMesh(Object_Attributes::BAR_ENTITY), MeshManager::SetTexture("Resources/Textures/barLines.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER), game->playerTwo, false), new TickObject, Transform(glm::vec3(game->ScreenSize.x * 0.25f, game->ScreenSize.y * -0.25f, 0), glm::vec3(0, 0, 0), glm::vec3(game->ScreenSize.x * 0.2f, game->ScreenSize.y * 0.01f, 1.0f)), "Player Two Lines Bar"));
+	game->playgameObjects.push_back(new GameObject(new BarsRender(MeshManager::GetMesh(Object_Attributes::BAR_ENTITY), MeshManager::SetTexture("Resources/Textures/barHealth.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER), game->playerTwo, true), new TickObject, Transform(glm::vec3(game->ScreenSize.x * 0.15f, game->ScreenSize.y * -0.21f, 0), glm::vec3(0, 0, 0), glm::vec3(game->ScreenSize.x * 0.09f, game->ScreenSize.y * 0.005f, 1.0f)), "Player Two Health Bar"));
+	game->playgameObjects.push_back(new GameObject(new BarsRender(MeshManager::GetMesh(Object_Attributes::BAR_ENTITY), MeshManager::SetTexture("Resources/Textures/barLines.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER), game->playerTwo, false), new TickObject, Transform(glm::vec3(game->ScreenSize.x * 0.35f, game->ScreenSize.y * -0.21f, 0), glm::vec3(0, 0, 0), glm::vec3(game->ScreenSize.x * 0.09f, game->ScreenSize.y * 0.005f, 1.0f)), "Player Two Lines Bar"));
+
+	game->playgameObjects.push_back(new GameObject(new BarsRender(MeshManager::GetMesh(Object_Attributes::BAR_ENTITY), MeshManager::SetTexture("Resources/Textures/barHealth.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER), game->playerAI, true), new TickObject, Transform(glm::vec3(game->ScreenSize.x * 0.00005f, game->ScreenSize.y * 0.40f, 0), glm::vec3(0, 0, 0), glm::vec3(game->ScreenSize.x * 0.1f, game->ScreenSize.y * 0.005f, 1.0f)), "Player AI Health Bar"));
 
 }
 
