@@ -127,7 +127,7 @@ void DefenceCard::Action(Character* _caster, Character* _target, Character* _oth
 		}
 		case DefenceCard::SUNGLASSES:
 		{
-			_caster->MaxHPUpdate(25.0f);
+			_caster->MaxHPUpdate(_caster->maxHP + 25.0f);
 			break;
 		}
 		default:
