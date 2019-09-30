@@ -72,6 +72,7 @@ CTextLabel::CTextLabel(std::string newText, std::string newFont, glm::vec2 pos, 
 //Renders the text on to the screen
 void CTextLabel::Render()
 {
+	glDisable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glUseProgram(program);
@@ -118,6 +119,7 @@ void CTextLabel::Render()
 
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_BLEND);
+	glEnable(GL_DEPTH_TEST);
 }
 
 GLuint CTextLabel::GenerateTexture(FT_Face face)
