@@ -182,6 +182,7 @@ void Render() {
 
 	//Render Objects
 
+
 	for (size_t i = 0; i < game->gameObjects.size(); i++) 
 	{
 		game->gameObjects.at(i)->Render();
@@ -192,6 +193,7 @@ void Render() {
 	{
 	case Scenes::SCENE_MAIN:
 	{
+		game->background->Render();
 		game->StartMenu->Render();
 		for (size_t i = 0; i < game->maingameObjects.size(); i++)
 		{
@@ -201,6 +203,7 @@ void Render() {
 	}
 	case Scenes::SCENE_SELECTION:
 	{
+		game->background->Render();
 		game->AddSelection->Render();
 		game->Player1Selection->Render();
 		game->Player2Selection->Render();
@@ -208,6 +211,9 @@ void Render() {
 	}
 	case Scenes::SCENE_GAME:
 	{
+		if (!(game->playerOne->currentHP <= 0) && !(game->playerTwo->currentHP <= 0))
+			game->gameBackground->Render();
+
 		for (size_t i = 0; i < game->playgameObjects.size(); i++)
 		{
 			game->playgameObjects.at(i)->Render();
@@ -234,6 +240,7 @@ void Render() {
 	}
 	case Scenes::SCENE_HOWTOPLAY:
 	{
+		game->background->Render();
 		game->HowToPlayMenu->Render();
 		for (size_t i = 0; i < game->howtoplayObjects.size(); i++)
 		{
@@ -242,7 +249,7 @@ void Render() {
 		break;
 	}
 	case Scenes::SCENE_LOSE: {
-
+		game->background->Render();
 		for (size_t i = 0; i < game->lostObjects.size(); i++)
 		{
 			game->lostObjects.at(i)->Render();
@@ -253,6 +260,8 @@ void Render() {
 	default:
 		break;
 	}
+
+
 	glutSwapBuffers();
 }
 
@@ -543,7 +552,7 @@ void populateGameObjectList() {
 	game->howtoplayObjects.push_back(new GameObject(new RenderText(new CTextLabel("player 1: A/D to change selection, W to play a card, ", Utility::NormalFontString.data(), glm::vec2(50.0f, 50.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, game, ("test1"))), new IdleTick, Transform(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "vText"));
 	game->howtoplayObjects.push_back(new GameObject(new RenderText(new CTextLabel("insert instructions how to play here", Utility::NormalFontString.data(), glm::vec2(50.0f, 50.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, game, ("test1"))), new IdleTick, Transform(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "vText"));
 
-	game->lostObjects.push_back(new GameObject(new RenderText(new CTextLabel("Game Over\nYou have lost the battle againest the robots\nPress Space To Continue...", Utility::NormalFontString.data(), glm::vec2(50.0f, 50.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, game, ("Lose Text"))), new IdleTick, Transform(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "Lose Text"));
+	game->lostObjects.push_back(new GameObject(new RenderText(new CTextLabel("Game Over\nYou have lost the battle againest the robots\nPress Space To Continue...", Utility::NormalFontString.data(), glm::vec2(0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, game, ("Lose Text"))), new IdleTick, Transform(glm::vec3(game->ScreenSize.x * -0.35f, 0.0f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "Lose Text"));
 
 #pragma endregion
 
@@ -556,6 +565,7 @@ void populateGameObjectList() {
 	game->playgameObjects.push_back(new GameObject(new BarsRender(MeshManager::GetMesh(Object_Attributes::BAR_ENTITY), MeshManager::SetTexture("Resources/Textures/barLines.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER), game->playerTwo, false), new TickObject, Transform(glm::vec3(game->ScreenSize.x * 0.35f, game->ScreenSize.y * -0.21f, 0), glm::vec3(0, 0, 0), glm::vec3(game->ScreenSize.x * 0.09f, game->ScreenSize.y * 0.005f, 1.0f)), "Player Two Lines Bar"));
 
 	game->playgameObjects.push_back(new GameObject(new BarsRender(MeshManager::GetMesh(Object_Attributes::BAR_ENTITY), MeshManager::SetTexture("Resources/Textures/barHealth.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER), game->playerAI, true), new TickObject, Transform(glm::vec3(game->ScreenSize.x * 0.00005f, game->ScreenSize.y * 0.40f, 0), glm::vec3(0, 0, 0), glm::vec3(game->ScreenSize.x * 0.1f, game->ScreenSize.y * 0.005f, 1.0f)), "Player AI Health Bar"));
+	game->playgameObjects.push_back(new GameObject(new BarsRender(MeshManager::GetMesh(Object_Attributes::BAR_ENTITY), MeshManager::SetTexture("Resources/Textures/barLines.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER), game->playerAI, false), new TickObject, Transform(glm::vec3(game->ScreenSize.x * 0.00005f, game->ScreenSize.y * 0.45f, 0), glm::vec3(0, 0, 0), glm::vec3(game->ScreenSize.x * 0.09f, game->ScreenSize.y * 0.005f, 1.0f)), "Player AI Lines Bar"));
 
 	game->p1DeckVisual = new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/CardBack.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(game->ScreenSize.x * -0.45f, game->ScreenSize.y * -0.15f, 0), glm::vec3(0, 0, 0), game->playerOne->defaultCardSize), "Deck Visual");
 	game->p1GYVisual = new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/CardBack.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(game->ScreenSize.x * 0.0f, game->ScreenSize.y * -0.25f, 0), glm::vec3(0, 0, 90), game->playerOne->defaultCardSize), "Deck Visual");
@@ -563,7 +573,8 @@ void populateGameObjectList() {
 	game->p2DeckVisual = new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/CardBack.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(game->ScreenSize.x * 0.45f, game->ScreenSize.y * -0.15f, 0), glm::vec3(0, 0, 0), game->playerOne->defaultCardSize), "Deck Visual");
 	game->p2GYVisual = new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/CardBack.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(game->ScreenSize.x * 0.0f, game->ScreenSize.y * -0.35f, 0), glm::vec3(0, 0, 90), game->playerOne->defaultCardSize), "Deck Visual");
 
-
+	game->gameBackground = new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/ground.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(0.0f, 0.0f, -0.9f), glm::vec3(0, 0, 0), glm::vec3(1000, 1000, 1)), "Background Layer");
+	game->background = new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/background.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(0.0f, 0.0f, -0.9f), glm::vec3(0, 0, 0), glm::vec3(1000, 1000, 1)), "Background");
 }
 
 void Exit()

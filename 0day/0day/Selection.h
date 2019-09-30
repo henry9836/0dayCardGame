@@ -16,6 +16,7 @@ public:
 	void Render();
 	void RemoveCard(bool isPlayer1, Character * _Player1, Character * _Player2);
 	void AddCard(bool isPlayer1, Character * _Player1, Character * _Player2);
+	bool CheckCard(Character* _Player, Card* _newCard);
 
 	private:
 	std::vector<Card*> OptionVect;

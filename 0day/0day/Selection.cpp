@@ -133,29 +133,29 @@ void Selection::ResetSize(bool _isPlayer, Character * _Player1, Character * _Pla
 void Selection::SelectOption(unsigned int _Option1, unsigned int _Option2)
 {
 	for (unsigned int i = 0; i < OptionVect.size(); ++i) {
-		if (i == _Option1 && MenuType == 1 && playerOneIsOn == true)
-		{
-			indicatorPlayer1->GetTransform().position = OptionVect[i]->GetTransform().position + glm::vec3(0.0f, p_Game->ScreenSize.y * 0.12f, 0.0f);
-			OptionVect[i]->GetTransform().scale = glm::vec3(p_Game->ScreenSize.x * 0.05f, p_Game->ScreenSize.y * 0.1f, 1.0f);
-		}
-		else if (i == _Option2 && MenuType == 2 && playerTwoIsOn == true)
-		{
-			indicatorPlayer2->GetTransform().position = OptionVect[i]->GetTransform().position + glm::vec3(0.0f, p_Game->ScreenSize.y * 0.12f, 0.0f);
-			OptionVect[i]->GetTransform().scale = glm::vec3(p_Game->ScreenSize.x * 0.05f, p_Game->ScreenSize.y * 0.1f, 1.0f);
-		}
-		else if (i == _Option1 && playerOneIsOn == true && MenuType == 0) 
-		{
-			indicatorPlayer1->GetTransform().position = OptionVect[i]->GetTransform().position + glm::vec3(0.0f, p_Game->ScreenSize.y * 0.12f, 0.0f);
-			OptionVect[i]->GetTransform().scale = glm::vec3(p_Game->ScreenSize.x * 0.05f, p_Game->ScreenSize.y * 0.1f, 1.0f);
-		}
-		else if (i == _Option2 && playerTwoIsOn == true && MenuType == 0)
-		{
-			indicatorPlayer2->GetTransform().position = OptionVect[i]->GetTransform().position + glm::vec3(0.0f, p_Game->ScreenSize.y * 0.12f, 0.0f);
-			OptionVect[i]->GetTransform().scale = glm::vec3(p_Game->ScreenSize.x * 0.05f, p_Game->ScreenSize.y * 0.1f, 1.0f);
-		}
-		else 
+		if (i != _Option1 || i != _Option2 || !playerOneIsOn || !playerTwoIsOn)
 		{
 			OptionVect[i]->GetTransform().scale = glm::vec3(p_Game->ScreenSize.x * 0.03f, p_Game->ScreenSize.y * 0.06f, 1.0f);
+		}
+		if (i == _Option1 && MenuType == 1 && playerOneIsOn == true)
+		{
+			indicatorPlayer1->GetTransform().position = OptionVect[i]->GetTransform().position + glm::vec3(p_Game->ScreenSize.x * -0.03f, p_Game->ScreenSize.y * 0.12f, 0.1f);
+			OptionVect[i]->GetTransform().scale = glm::vec3(p_Game->ScreenSize.x * 0.05f, p_Game->ScreenSize.y * 0.1f, 1.0f);
+		}
+		if (i == _Option2 && MenuType == 2 && playerTwoIsOn == true)
+		{
+			indicatorPlayer2->GetTransform().position = OptionVect[i]->GetTransform().position + glm::vec3(p_Game->ScreenSize.x * 0.03f, p_Game->ScreenSize.y * 0.12f, 0.1f);
+			OptionVect[i]->GetTransform().scale = glm::vec3(p_Game->ScreenSize.x * 0.05f, p_Game->ScreenSize.y * 0.1f, 1.0f);
+		}
+		if (i == _Option1 && playerOneIsOn == true && MenuType == 0) 
+		{
+			indicatorPlayer1->GetTransform().position = OptionVect[i]->GetTransform().position + glm::vec3(p_Game->ScreenSize.x * -0.03f, p_Game->ScreenSize.y * 0.12f, 0.1f);
+			OptionVect[i]->GetTransform().scale = glm::vec3(p_Game->ScreenSize.x * 0.05f, p_Game->ScreenSize.y * 0.1f, 1.0f);
+		}
+		if (i == _Option2 && playerTwoIsOn == true && MenuType == 0)
+		{
+			indicatorPlayer2->GetTransform().position = OptionVect[i]->GetTransform().position + glm::vec3(p_Game->ScreenSize.x * 0.03f, p_Game->ScreenSize.y * 0.12f, 0.1f);
+			OptionVect[i]->GetTransform().scale = glm::vec3(p_Game->ScreenSize.x * 0.05f, p_Game->ScreenSize.y * 0.1f, 1.0f);
 		}
 	}
 }
@@ -240,11 +240,11 @@ void Selection::Render()
 {
 	if (MenuType == 0)
 	Start->Render();
-	if(MenuType == 0 && playerOneIsOn == true || MenuType == 1 && playerOneIsOn == true)
-	indicatorPlayer1->Render();
-	if(MenuType == 0 && playerTwoIsOn == true || MenuType == 2 && playerTwoIsOn == true)
-	indicatorPlayer2->Render();
 	for (auto it : OptionVect) it->Render();
+	if (MenuType == 0 && playerOneIsOn == true || MenuType == 1 && playerOneIsOn == true)
+		indicatorPlayer1->Render();
+	if (MenuType == 0 && playerTwoIsOn == true || MenuType == 2 && playerTwoIsOn == true)
+		indicatorPlayer2->Render();
 }
 
 void Selection::RemoveCard(bool isPlayer1, Character* _Player1, Character* _Player2)
@@ -269,13 +269,32 @@ void Selection::AddCard(bool isPlayer1, Character* _Player1, Character* _Player2
 	if (isPlayer1)
 	{
 		Card* newCard = OptionVect[CurrentOptionPlayerOne]->clone();
-		_Player1->cardPile->Deck.push_back(newCard);
+		if (CheckCard(_Player1, newCard))
+		{
+			_Player1->cardPile->Deck.push_back(newCard);
 		NumMenuOptions = _Player1->cardPile->Deck.size() - 1;
+		}
 	}
 	else if (!isPlayer1)
 	{
 		Card* newCard = OptionVect[CurrentOptionPlayerTwo]->clone();
-		_Player2->cardPile->Deck.push_back(newCard);
+		if (CheckCard(_Player2, newCard))
+		{
+			_Player2->cardPile->Deck.push_back(newCard);
 		NumMenuOptions = _Player2->cardPile->Deck.size() - 1;
+		}
 	}
 }
+
+bool Selection::CheckCard(Character* _Player, Card* _newCard)
+{
+	for (auto it : _Player->cardPile->Deck)
+	{
+		if (_newCard->GetName() == it->GetName())
+		{
+			return false;
+		}
+	}
+	return true;
+}
+

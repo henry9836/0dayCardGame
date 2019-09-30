@@ -107,17 +107,6 @@ protected:
 
 class Card : public GameObject {
 public:
-	virtual enum CARDS {
-		FUZZER,
-		ROBOFIGHT,
-		ZERODAY,
-		DDOS,
-		SQL,
-		SKULL,
-		REDCIRCLE
-	};
-
-
 	Card();
 	Card(RenderClass* r, TickClass* t, Transform _trans, string _name, int _cost);
 	~Card();
@@ -132,7 +121,7 @@ public:
 
 	virtual Card* clone() const = 0;
 
-	CARDS cardType;
+	string GetName() { return name; };
 
 	int cost = 10;
 };
