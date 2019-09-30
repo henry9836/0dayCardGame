@@ -1,6 +1,7 @@
 #include "GameManager.h"
 
 Game* game;
+AudioSystem* audio;
 
 bool mouseDown = false;
 float currentTime;
@@ -598,6 +599,12 @@ void Start(int argc, char** argv)
 	populateGameObjectList();
 
 	//Start MeshManager
+
+	//audio
+
+	audio = new AudioSystem();
+	audio->AudioInit();
+	audio->Play(AudioSystem::BACK);
 
 	//Start OpenGL
 

@@ -8,6 +8,7 @@
 #include "Selection.h"
 #include "Bars.h"
 #include "Menu.h"
+#include "Audio.h"
 
 class CMenu;
 class Selection;
