@@ -40,6 +40,8 @@ public:
 	GameObject* p1GYVisual;
 	GameObject* p2DeckVisual;
 	GameObject* p2GYVisual;
+	GameObject* gameBackground;
+	GameObject* background;
 
 	Character* playerOne;
 	Character* playerTwo;
