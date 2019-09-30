@@ -60,7 +60,7 @@ void CMenu::ReplaceOption(int _OptIndex, std::string _OptionText) {
 void CMenu::SelectOption(unsigned int _Option) {
 	for (unsigned int i = 0; i < OptionVect.size(); ++i) {
 		if (i == _Option) {
-			OptionVect[i].SetColor(glm::vec3(0.10f, 0.2f, 0.37f));
+			OptionVect[i].SetColor(glm::vec3(1.0f, 0.0f, 0.0f));
 			OptionVect[i].SetScale(0.8f);
 		}
 		else {
