@@ -33,7 +33,7 @@ public:
 	virtual float getLinesBatPersent() { return currentLines / maxlines; };
 	float getDamageMult() { return damageMult; };
 	virtual void updateAccuracy(float modifiyer) { accuracy += modifiyer; };
-	virtual void MaxHPUpdate(float HP) { maxHP += HP; currentHP += HP; };
+	virtual void MaxHPUpdate(float HP) { maxHP = HP; currentHP = HP; };
 	virtual void updateLevel(int _lvl) = 0;
 
 	virtual void moveGYToDeck() {
@@ -81,12 +81,12 @@ public:
 	float maxHP = 100.0f;
 	float damageMult = 1.0f;
 	float currentHP;
-	float LinesMult = 1.0f;
+	float LinesMult = 0.25f;
 	float drawcardThreshold = 1.0f;
 	float drawcardTimer = 0.0f;
 	float maxlines = 100.0f;
 	float currentLines = 0.0f;
-	float baseDamage = 2.0f;
+	float baseDamage = 17.5f;
 	GameObject* gameObject = nullptr;
 	Character* playerOne = nullptr;
 	Character* playerTwo = nullptr;
@@ -116,7 +116,7 @@ public:
 		float currentHP = initalHP;
 		float currentLines = 35.0f;
 		float damageMult = 1.0f;
-		float LinesMult = 1.0f;
+		float LinesMult = 0.25;
 		float accuracy = 1.0f;
 
 		float initalHPInit = initalHP;
@@ -139,12 +139,12 @@ public:
 
 	AI(int Level, CardPile* _cardPile, float _health, GameObject* _gameObject, bool _isAI, Character* _playerOne, Character* _playerTwo) : Character(_cardPile, _health, _gameObject, _isAI)
 	{
-		float initalHP = 100.0f + ((Level * 10) * (Level * 10));
+		float initalHP = 200.0f ;
 		float currentHP = initalHP;
 		float currentLines = 0.0f;
 		float damageMult = 1.0f;
-		float LinesMult = 1.0f;
-		float rateOfLinesMult = Level * 0.001f;
+		float LinesMult = 0.25;
+		float rateOfLinesMult = 1.0f;
 		float accuracy = 1.0f;
 		isAI = _isAI;
 		playerOne = _playerOne;
@@ -163,7 +163,7 @@ public:
 	void updateRateOfLinesMult(float deltaTime);
 	void updateLevel(int _lvl) {
 		rateOfLinesMult = _lvl * 0.001f;
-		MaxHPUpdate((_lvl * 0.1f));
+		MaxHPUpdate(100.0f + ((_lvl * 10) * (_lvl * 10)));
 		baseDamage *= 1.05f;
 	};
 
