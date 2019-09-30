@@ -175,7 +175,7 @@ void Selection::Process(Character * _Player1, Character * _Player2)
 	{
 		ResetSize(true, _Player1, _Player2);
 	}
-	else if (MenuType == 2 && OptionVect.size() != _Player2->cardPile->Deck.size())
+	if (MenuType == 2 && OptionVect.size() != _Player2->cardPile->Deck.size())
 	{
 		ResetSize(false, _Player1, _Player2);
 	}
@@ -272,7 +272,6 @@ void Selection::AddCard(bool isPlayer1, Character* _Player1, Character* _Player2
 		if (CheckCard(_Player1, newCard))
 		{
 			_Player1->cardPile->Deck.push_back(newCard);
-		NumMenuOptions = _Player1->cardPile->Deck.size() - 1;
 		}
 	}
 	else if (!isPlayer1)
@@ -281,7 +280,6 @@ void Selection::AddCard(bool isPlayer1, Character* _Player1, Character* _Player2
 		if (CheckCard(_Player2, newCard))
 		{
 			_Player2->cardPile->Deck.push_back(newCard);
-		NumMenuOptions = _Player2->cardPile->Deck.size() - 1;
 		}
 	}
 }

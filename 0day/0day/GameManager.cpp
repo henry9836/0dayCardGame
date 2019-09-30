@@ -282,13 +282,16 @@ void PlayCard(Character* _caster, Character* _target, Character* _otherPlayer) {
 
 			//move card
 			if (true) {
-				_caster->cardPile->GY.push_back(_caster->cardPile->Hand.at(_caster->selectedCardVector));
+				if ((_caster->cardPile->Hand.size() > 0) && ((_caster->cardPile->Hand.size()-1) >= _caster->selectedCardVector)) {
+					_caster->cardPile->GY.push_back(_caster->cardPile->Hand.at(_caster->selectedCardVector));
+				}
 			}
 
 			//remove card
 
-			_caster->cardPile->Hand.erase(_caster->cardPile->Hand.begin() + _caster->selectedCardVector);
-
+			if ((_caster->cardPile->Hand.size() > 0) && ((_caster->cardPile->Hand.size() - 1) >= _caster->selectedCardVector)) {
+				_caster->cardPile->Hand.erase(_caster->cardPile->Hand.begin() + _caster->selectedCardVector);
+			}
 			//am I beyond range?
 
 			if (_caster->selectedCardVector > _caster->cardPile->Hand.size() - 1) {
