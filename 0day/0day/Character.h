@@ -22,7 +22,7 @@ class Character : public GameObject
 {
 public:
 	Character();
-	Character(CardPile* _cardPile);
+	Character(CardPile* _cardPile, float _health, GameObject* _gameObject, bool _isAI);
 	~Character();
 
 	virtual void updateHP(float damage) { currentHP += damage; }; //implemet damage modifier
@@ -34,6 +34,7 @@ public:
 	float getDamageMult() { return damageMult; };
 	virtual void updateAccuracy(float modifiyer) { accuracy += modifiyer; };
 	virtual void MaxHPUpdate(float HP) { maxHP += HP; currentHP += HP; };
+	virtual void updateLevel(int _lvl) = 0;
 
 	virtual void moveGYToDeck() {
 		
@@ -61,7 +62,7 @@ public:
 			}
 			else {
 				moveGYToDeck();
-				Console_OutputLog(L"Cannot Deal Card As Deck Size is 0", LOGWARN);
+				//Console_OutputLog(L"Cannot Deal Card As Deck Size is 0", LOGWARN);
 			}
 		}
 	};
@@ -70,20 +71,38 @@ public:
 
 	void Render();
 	void Tick(float deltaTime);
+	void Reset();
 
 	//render function //deck
 	int selectedCardVector = 0;
 	
 	const glm::vec3 defaultCardSize = glm::vec3(25.0f, 40.0f, 1.0f);
-	float accuracy;
-	float maxHP;
-	float damageMult;
+	float accuracy = 1.0f;;
+	float maxHP = 100.0f;
+	float damageMult = 1.0f;
 	float currentHP;
 	float LinesMult = 1.0f;
 	float drawcardThreshold = 1.0f;
 	float drawcardTimer = 0.0f;
 	float maxlines = 100.0f;
 	float currentLines = 0.0f;
+	float baseDamage = 2.0f;
+	GameObject* gameObject = nullptr;
+	Character* playerOne = nullptr;
+	Character* playerTwo = nullptr;
+	bool isAI = false;
+
+
+	float accuracyInit = 1.0f;
+	float maxHPInit = 100.0f;
+	float damageMultInit = 1.0f;
+	float currentHPInit = 100.0f;
+	float LinesMultInit = 1.0f;
+	float drawcardThresholdInit = 1.0f;
+	float drawcardTimerInit = 0.0f;
+	float maxlinesInit = 100.0f;
+	float currentLinesInit = 0.0f;
+	float baseDamageInit = 2.0f;
 
 };
 
@@ -91,7 +110,7 @@ class Human : public Character
 {
 public:
 
-	Human(CardPile* _cardPile) : Character(_cardPile)
+	Human(CardPile* _cardPile, float _health, GameObject* _gameObject, bool _isAI) : Character(_cardPile, _health, _gameObject, _isAI)
 	{
 		float initalHP = 100.0f;
 		float currentHP = initalHP;
@@ -99,8 +118,18 @@ public:
 		float damageMult = 1.0f;
 		float LinesMult = 1.0f;
 		float accuracy = 1.0f;
+
+		float initalHPInit = initalHP;
+		float currentHPInit = initalHP;
+		float currentLinesInit = currentLines;
+		float damageMultInit = damageMult;
+		float LinesMultInit = LinesMult;
+		float accuracyInit = accuracy;
+
 	};
 	~Human();
+
+	void updateLevel(int _lvl) {};
 
 };
 
@@ -108,7 +137,7 @@ class AI : public Character
 {
 public:
 
-	AI(int Level, CardPile* _cardPile) : Character(_cardPile)
+	AI(int Level, CardPile* _cardPile, float _health, GameObject* _gameObject, bool _isAI, Character* _playerOne, Character* _playerTwo) : Character(_cardPile, _health, _gameObject, _isAI)
 	{
 		float initalHP = 100.0f + ((Level * 10) * (Level * 10));
 		float currentHP = initalHP;
@@ -117,10 +146,31 @@ public:
 		float LinesMult = 1.0f;
 		float rateOfLinesMult = Level * 0.001f;
 		float accuracy = 1.0f;
+		isAI = _isAI;
+		playerOne = _playerOne;
+		playerTwo = _playerTwo;
+
+		float initalHPInit = initalHP;
+		float currentHPInit = initalHP;
+		float currentLinesInit = currentLines;
+		float damageMultInit = damageMult;
+		float LinesMultInit = LinesMult;
+		float rateOfLinesMultInit = rateOfLinesMult;
+		float accuracyInit = accuracy;
 	};
 	~AI();
 
 	void updateRateOfLinesMult(float deltaTime);
+	void updateLevel(int _lvl) {
+		rateOfLinesMult = _lvl * 0.001f;
+		MaxHPUpdate((_lvl * 0.1f));
+		baseDamage *= 1.05f;
+	};
+
+
+	GameObject* gameObject = nullptr;
+
+
 
 private: 
 

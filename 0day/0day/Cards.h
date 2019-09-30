@@ -28,6 +28,8 @@ public:
 	virtual void SetTexture(GLuint _tex) { _r->SetTexture(_tex); };
 	virtual void SetShader(GLuint _shader) { _r->SetTexture(_shader); };
 
+	Card* clone() const { return new AttackCard(*this); }
+
 	int damage = 0;
 	AttackCard::CARDS cardType = CARDS::FUZZER;
 
@@ -55,6 +57,8 @@ public:
 
 	virtual void SetTexture(GLuint _tex) { _r->SetTexture(_tex); };
 	virtual void SetShader(GLuint _shader) { _r->SetTexture(_shader); };
+
+	Card* clone() const { return new DefenceCard(*this); }
 
 	int damage = 0;
 	DefenceCard::CARDS cardType = CARDS::TAPE;
@@ -85,6 +89,8 @@ public:
 
 	virtual void SetTexture(GLuint _tex) { _r->SetTexture(_tex); };
 	virtual void SetShader(GLuint _shader) { _r->SetTexture(_shader); };
+
+	Card* clone() const { return new UtilityCard(*this); }
 
 	int damage = 0;
 	UtilityCard::CARDS cardType = CARDS::SYSTEMRESET;
