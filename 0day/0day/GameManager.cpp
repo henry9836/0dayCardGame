@@ -10,6 +10,26 @@ float pasttime;
 bool goingup = true;
 glm::vec3 backColor = glm::vec3(0.0, 0.0, 0.0);
 
+
+void DealCardsRandom(Character* _char) {
+	Console_OutputLog(L"Dealing Cards...", LOGINFO);
+
+	int mSize = game->playerOne->cardPile->Deck.size();
+
+	for (size_t i = 0; i < mSize; i++)
+	{
+		game->playerOne->cardPile->Deck.push_back(game->playerOne->cardPile->Deck.at(i));
+	}
+
+	mSize = game->playerTwo->cardPile->Deck.size();
+
+	for (size_t i = 0; i < mSize; i++)
+	{
+		game->playerTwo->cardPile->Deck.push_back(game->playerTwo->cardPile->Deck.at(i));
+	}
+}
+
+
 void Reset() {
 
 	//Reset Game Values
@@ -181,6 +201,20 @@ void Render() {
 		}
 
 		game->playerAI->gameObject->Render();
+
+		if (game->playerOne->cardPile->Deck.size() > 0) {
+			game->p1DeckVisual->Render();
+		}
+		if (game->playerOne->cardPile->GY.size() > 0) {
+			game->p1GYVisual->Render();
+		}
+		
+		if (game->playerTwo->cardPile->Deck.size() > 0) {
+			game->p2DeckVisual->Render();
+		}
+		if (game->playerTwo->cardPile->GY.size() > 0) {
+			game->p2GYVisual->Render();
+		}
 
 		RenderCards();
 		break;
@@ -358,6 +392,9 @@ void Update() {
 		if ((CInputManager::KeyArray['\r'] == KEY_FIRST_PRESS || CInputManager::KeyArray[' '] == KEY_FIRST_PRESS) && (game->playerOne->cardPile->Deck.size() >= 10 && game->playerTwo->cardPile->Deck.size() >= 10))
 		{
 			game->currentScene = Scenes::SCENE_GAME;
+			DealCardsRandom(game->playerOne);
+			DealCardsRandom(game->playerTwo);
+			DealCardsRandom(game->playerAI);
 			DeckSelectionDestory();
 		}
 		CInputManager::ProcessKeyInput();
@@ -459,20 +496,6 @@ void mouse(int button, int state, int x, int y) { //Click
 	}
 }
 
-void DealCardsRandom(Character* _char) {
-	Console_OutputLog(L"Dealing Cards...", LOGINFO);
-
-	for (size_t i = 0; i < game->playerOne->cardPile->Deck.size(); i++)
-	{
-		game->playerOne->cardPile->Deck.push_back(game->playerOne->cardPile->Deck.at(i));
-	}
-
-	for (size_t i = 0; i < game->playerTwo->cardPile->Deck.size(); i++)
-	{
-		game->playerTwo->cardPile->Deck.push_back(game->playerTwo->cardPile->Deck.at(i));
-	}
-}
-
 void populateGameObjectList() {
 	Console_OutputLog(L"Creating Players...", LOGINFO);
 	game->playerOne = new Human(new CardPile(glm::vec3(-700.0f, -350.0f, 0.5f)), 100.0f, new GameObject(new RenderObject(), new IdleTick(), Transform(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "Player One"), false);
@@ -480,9 +503,7 @@ void populateGameObjectList() {
 	game->playerAI = new AI(game->currentLvl, new CardPile(glm::vec3(-1200.0f, 350.0f, 0.5f)), 100.0f, new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/tmpAI.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(0, 250, 0.5f), glm::vec3(0, 0, 0), glm::vec3(100.0f, 100.0f, 1.0f)), "AI"), true, game->playerOne, game->playerTwo);
 	
 	//Temporarly Deal Cards Here
-	DealCardsRandom(game->playerOne);
-	DealCardsRandom(game->playerTwo);
-	DealCardsRandom(game->playerAI);
+
 
 	Console_OutputLog(L"Creating GameObjects...", LOGINFO);
 
@@ -522,6 +543,11 @@ void populateGameObjectList() {
 
 	game->playgameObjects.push_back(new GameObject(new BarsRender(MeshManager::GetMesh(Object_Attributes::BAR_ENTITY), MeshManager::SetTexture("Resources/Textures/barHealth.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER), game->playerAI, true), new TickObject, Transform(glm::vec3(game->ScreenSize.x * 0.00005f, game->ScreenSize.y * 0.40f, 0), glm::vec3(0, 0, 0), glm::vec3(game->ScreenSize.x * 0.1f, game->ScreenSize.y * 0.005f, 1.0f)), "Player AI Health Bar"));
 
+	game->p1DeckVisual = new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/CardBack.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(game->ScreenSize.x * -0.45f, game->ScreenSize.y * -0.15f, 0), glm::vec3(0, 0, 0), game->playerOne->defaultCardSize), "Deck Visual");
+	game->p1GYVisual = new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/CardBack.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(game->ScreenSize.x * 0.0f, game->ScreenSize.y * -0.25f, 0), glm::vec3(0, 0, 90), game->playerOne->defaultCardSize), "Deck Visual");
+
+	game->p2DeckVisual = new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/CardBack.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(game->ScreenSize.x * 0.45f, game->ScreenSize.y * -0.15f, 0), glm::vec3(0, 0, 0), game->playerOne->defaultCardSize), "Deck Visual");
+	game->p2GYVisual = new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/CardBack.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(game->ScreenSize.x * 0.0f, game->ScreenSize.y * -0.35f, 0), glm::vec3(0, 0, 90), game->playerOne->defaultCardSize), "Deck Visual");
 
 
 }

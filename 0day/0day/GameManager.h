@@ -36,6 +36,10 @@ public:
 	vector<GameObject*> lostObjects; //lose screen
 	vector<Card*> deckselectionObjects; //DeckSelection
 
+	GameObject* p1DeckVisual;
+	GameObject* p1GYVisual;
+	GameObject* p2DeckVisual;
+	GameObject* p2GYVisual;
 
 	Character* playerOne;
 	Character* playerTwo;
@@ -43,6 +47,7 @@ public:
 	
 	int currentLvl = 1;
 	bool gameover = false;
+	bool once = false;
 
 	glm::vec2 ScreenSize = {1700,1000};
 	glm::vec2 MousePosition;
