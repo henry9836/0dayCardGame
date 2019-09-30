@@ -55,7 +55,7 @@ public:
 	};
 
 	virtual void DrawACard() { 
-		if (cardPile->Hand.size() < 11) {
+		if (cardPile->Hand.size() < 10) {
 			if (cardPile->Deck.size() > 0) {
 				cardPile->Hand.push_back(cardPile->Deck.back());
 				cardPile->Deck.pop_back();
@@ -82,7 +82,7 @@ public:
 	float damageMult = 1.0f;
 	float currentHP;
 	float LinesMult = 0.25f;
-	float drawcardThreshold = 1.0f;
+	float drawcardThreshold = 2.0f;
 	float drawcardTimer = 0.0f;
 	float maxlines = 100.0f;
 	float currentLines = 0.0f;

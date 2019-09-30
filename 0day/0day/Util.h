@@ -115,6 +115,16 @@ namespace Textures
 	const std::string RedRing = "Resources/Textures/REDRINGCard.png";
 	const std::string DDOS = "Resources/Textures/DDOSCard.png";
 	const std::string SQL = "Resources/Textures/SQLCard.png";
+
+	const std::string AccountTransfer = "Resources/Textures/accounttransfer.png";
+	const std::string EnterKey = "Resources/Textures/enterkey.png";
+	const std::string Enumeration = "Resources/Textures/enumeration.png";
+	const std::string FalsifiedCredentials = "Resources/Textures/FalsifiedCredentials.png";
+	const std::string ForkBomb = "Resources/Textures/forkbomb.png";
+	const std::string ModCode = "Resources/Textures/Self-Modifiying Code.png";
+	const std::string Skull = "Resources/Textures/skullonscreen.png";
+
+
 	const std::string Player1Indicator = "Resources/Textures/Player1Indicator.png";
 	const std::string Player2Indicator = "Resources/Textures/Player2Indicator.png";
 }

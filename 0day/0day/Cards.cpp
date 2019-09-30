@@ -64,13 +64,15 @@ void AttackCard::Action(Character* _caster, Character* _target, Character* _othe
 		case AttackCard::SKULL:
 		{
 
-			int card = rand() % _caster->cardPile->Hand.size() - 1;
+			if (_caster->cardPile->Hand.size() > 0) {
 
-			_target->updateHP(-(_caster->cardPile->Hand.at(card)->cost) * _caster->getDamageMult());
+				int card = rand() % (_caster->cardPile->Hand.size() - 1);
 
-			_caster->cardPile->GY.push_back(_caster->cardPile->Hand.at(card));
-			_caster->cardPile->Hand.erase(_caster->cardPile->Hand.begin() + card);
+				_target->updateHP(-(_caster->cardPile->Hand.at(card)->cost) * _caster->getDamageMult());
 
+				_caster->cardPile->GY.push_back(_caster->cardPile->Hand.at(card));
+				_caster->cardPile->Hand.erase(_caster->cardPile->Hand.begin() + card);
+			}
 			break;
 		}
 		case AttackCard::REDCIRCLE:
