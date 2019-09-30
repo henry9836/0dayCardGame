@@ -55,7 +55,7 @@ public:
 	};
 
 	virtual void DrawACard() { 
-		if (cardPile->Hand.size() < 11) {
+		if (cardPile->Hand.size() < 10) {
 			if (cardPile->Deck.size() > 0) {
 				cardPile->Hand.push_back(cardPile->Deck.back());
 				cardPile->Deck.pop_back();

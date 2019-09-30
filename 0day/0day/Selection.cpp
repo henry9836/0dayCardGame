@@ -249,17 +249,17 @@ void Selection::Render()
 
 void Selection::RemoveCard(bool isPlayer1, Character* _Player1, Character* _Player2)
 {
-	if (isPlayer1 && _Player1->cardPile->Deck.size() != 0)
+	if (isPlayer1 && _Player1->cardPile->Deck.size() > 0)
 	{
 		_Player1->cardPile->Deck.erase(_Player1->cardPile->Deck.begin() + CurrentOptionPlayerOne);
 		CurrentOptionPlayerOne = 0;
-		NumMenuOptions--;
+		NumMenuOptions = _Player1->cardPile->Deck.size() - 1;
 	}
-	else if (!isPlayer1 && _Player2->cardPile->Deck.size() != 0)
+	else if (!isPlayer1 && _Player2->cardPile->Deck.size() > 0)
 	{
 		_Player2->cardPile->Deck.erase(_Player2->cardPile->Deck.begin() + CurrentOptionPlayerTwo);
 		CurrentOptionPlayerTwo = 0;
-		NumMenuOptions--;
+		NumMenuOptions = _Player2->cardPile->Deck.size() - 1;
 	}
 	
 }
@@ -270,10 +270,12 @@ void Selection::AddCard(bool isPlayer1, Character* _Player1, Character* _Player2
 	{
 		Card* newCard = OptionVect[CurrentOptionPlayerOne]->clone();
 		_Player1->cardPile->Deck.push_back(newCard);
+		NumMenuOptions = _Player1->cardPile->Deck.size() - 1;
 	}
 	else if (!isPlayer1)
 	{
 		Card* newCard = OptionVect[CurrentOptionPlayerTwo]->clone();
 		_Player2->cardPile->Deck.push_back(newCard);
+		NumMenuOptions = _Player2->cardPile->Deck.size() - 1;
 	}
 }

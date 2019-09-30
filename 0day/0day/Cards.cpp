@@ -64,7 +64,7 @@ void AttackCard::Action(Character* _caster, Character* _target, Character* _othe
 		case AttackCard::SKULL:
 		{
 
-			int card = rand() % _caster->cardPile->Hand.size() - 1;
+			int card = rand() % (_caster->cardPile->Hand.size() - 1);
 
 			_target->updateHP(-(_caster->cardPile->Hand.at(card)->cost) * _caster->getDamageMult());
 

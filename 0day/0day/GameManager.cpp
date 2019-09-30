@@ -79,6 +79,19 @@ void DeckSelectionInit()
 	game->deckselectionObjects.push_back(new AttackCard(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture(Textures::RedRing.data()), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "Red Ring Of Death Card", 50, 50, AttackCard::REDCIRCLE));
 	game->deckselectionObjects.push_back(new AttackCard(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture(Textures::DDOS.data()), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "DDOS Card", 70, 75, AttackCard::DDOS));
 	game->deckselectionObjects.push_back(new AttackCard(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture(Textures::SQL.data()), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "SQL Card", 30, 10, AttackCard::SQL));
+	game->deckselectionObjects.push_back(new AttackCard(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture(Textures::Skull.data()), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "skull on screen Card", 30, 10, AttackCard::SKULL));
+
+
+	game->deckselectionObjects.push_back(new UtilityCard(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture(Textures::AccountTransfer.data()), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "Account Transfer Card", 20, 0, UtilityCard::ACCOUNT));
+	game->deckselectionObjects.push_back(new UtilityCard(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture(Textures::EnterKey.data()), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "Reinforced Enter Key Card", 20, 0, UtilityCard::ENHNACED));
+	game->deckselectionObjects.push_back(new UtilityCard(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture(Textures::Enumeration.data()), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "Enumertion Card", 25, 0, UtilityCard::ENUMERATION));
+	game->deckselectionObjects.push_back(new UtilityCard(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture(Textures::ForkBomb.data()), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "fork bomb Card", 40, 0, UtilityCard::FORKBOMB));
+	game->deckselectionObjects.push_back(new UtilityCard(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture(Textures::ModCode.data()), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "self-modifiyng code Card", 5, 0, UtilityCard::SELFMODIFIYING));
+
+
+	game->deckselectionObjects.push_back(new DefenceCard(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture(Textures::FalsifiedCredentials.data()), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new TickObject, Transform(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "falsified credentials Card", 20, 0, DefenceCard::CREDS));
+
+
 
 	game->AddSelection = new Selection(game->deckselectionObjects, glm::vec3(game->ScreenSize.x * - 0.15f, game->ScreenSize.y * 0.35f, 0.0f), 4, 0.1f, 0.2f, game, 0, true, true);
 	game->Player1Selection = new Selection(game->playerOne->cardPile->Deck, glm::vec3(game->ScreenSize.x * -0.45f, game->ScreenSize.y * 0.4f, 0.0f), 3, 0.09f, 0.17f, game, 1, false, false);
@@ -527,6 +540,7 @@ void populateGameObjectList() {
 
 	game->HowToPlayMenu = new CMenu(menuopts, glm::vec2(0.0f, 0.0f), game);
 
+	game->howtoplayObjects.push_back(new GameObject(new RenderText(new CTextLabel("player 1: A/D to change selection, W to play a card, ", Utility::NormalFontString.data(), glm::vec2(50.0f, 50.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, game, ("test1"))), new IdleTick, Transform(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "vText"));
 	game->howtoplayObjects.push_back(new GameObject(new RenderText(new CTextLabel("insert instructions how to play here", Utility::NormalFontString.data(), glm::vec2(50.0f, 50.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, game, ("test1"))), new IdleTick, Transform(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "vText"));
 
 	game->lostObjects.push_back(new GameObject(new RenderText(new CTextLabel("Game Over\nYou have lost the battle againest the robots\nPress Space To Continue...", Utility::NormalFontString.data(), glm::vec2(50.0f, 50.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, game, ("Lose Text"))), new IdleTick, Transform(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "Lose Text"));
