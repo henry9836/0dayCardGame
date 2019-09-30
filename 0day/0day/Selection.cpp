@@ -133,29 +133,29 @@ void Selection::ResetSize(bool _isPlayer, Character * _Player1, Character * _Pla
 void Selection::SelectOption(unsigned int _Option1, unsigned int _Option2)
 {
 	for (unsigned int i = 0; i < OptionVect.size(); ++i) {
-		if (i == _Option1 && MenuType == 1 && playerOneIsOn == true)
-		{
-			indicatorPlayer1->GetTransform().position = OptionVect[i]->GetTransform().position + glm::vec3(0.0f, p_Game->ScreenSize.y * 0.12f, 0.1f);
-			OptionVect[i]->GetTransform().scale = glm::vec3(p_Game->ScreenSize.x * 0.05f, p_Game->ScreenSize.y * 0.1f, 1.0f);
-		}
-		else if (i == _Option2 && MenuType == 2 && playerTwoIsOn == true)
-		{
-			indicatorPlayer2->GetTransform().position = OptionVect[i]->GetTransform().position + glm::vec3(0.0f, p_Game->ScreenSize.y * 0.12f, 0.1f);
-			OptionVect[i]->GetTransform().scale = glm::vec3(p_Game->ScreenSize.x * 0.05f, p_Game->ScreenSize.y * 0.1f, 1.0f);
-		}
-		else if (i == _Option1 && playerOneIsOn == true && MenuType == 0) 
-		{
-			indicatorPlayer1->GetTransform().position = OptionVect[i]->GetTransform().position + glm::vec3(0.0f, p_Game->ScreenSize.y * 0.12f, 0.1f);
-			OptionVect[i]->GetTransform().scale = glm::vec3(p_Game->ScreenSize.x * 0.05f, p_Game->ScreenSize.y * 0.1f, 1.0f);
-		}
-		else if (i == _Option2 && playerTwoIsOn == true && MenuType == 0)
-		{
-			indicatorPlayer2->GetTransform().position = OptionVect[i]->GetTransform().position + glm::vec3(0.0f, p_Game->ScreenSize.y * 0.12f, 0.1f);
-			OptionVect[i]->GetTransform().scale = glm::vec3(p_Game->ScreenSize.x * 0.05f, p_Game->ScreenSize.y * 0.1f, 1.0f);
-		}
-		else 
+		if (i != _Option1 || i != _Option2 || !playerOneIsOn || !playerTwoIsOn)
 		{
 			OptionVect[i]->GetTransform().scale = glm::vec3(p_Game->ScreenSize.x * 0.03f, p_Game->ScreenSize.y * 0.06f, 1.0f);
+		}
+		if (i == _Option1 && MenuType == 1 && playerOneIsOn == true)
+		{
+			indicatorPlayer1->GetTransform().position = OptionVect[i]->GetTransform().position + glm::vec3(p_Game->ScreenSize.x * -0.03f, p_Game->ScreenSize.y * 0.12f, 0.1f);
+			OptionVect[i]->GetTransform().scale = glm::vec3(p_Game->ScreenSize.x * 0.05f, p_Game->ScreenSize.y * 0.1f, 1.0f);
+		}
+		if (i == _Option2 && MenuType == 2 && playerTwoIsOn == true)
+		{
+			indicatorPlayer2->GetTransform().position = OptionVect[i]->GetTransform().position + glm::vec3(p_Game->ScreenSize.x * 0.03f, p_Game->ScreenSize.y * 0.12f, 0.1f);
+			OptionVect[i]->GetTransform().scale = glm::vec3(p_Game->ScreenSize.x * 0.05f, p_Game->ScreenSize.y * 0.1f, 1.0f);
+		}
+		if (i == _Option1 && playerOneIsOn == true && MenuType == 0) 
+		{
+			indicatorPlayer1->GetTransform().position = OptionVect[i]->GetTransform().position + glm::vec3(p_Game->ScreenSize.x * -0.03f, p_Game->ScreenSize.y * 0.12f, 0.1f);
+			OptionVect[i]->GetTransform().scale = glm::vec3(p_Game->ScreenSize.x * 0.05f, p_Game->ScreenSize.y * 0.1f, 1.0f);
+		}
+		if (i == _Option2 && playerTwoIsOn == true && MenuType == 0)
+		{
+			indicatorPlayer2->GetTransform().position = OptionVect[i]->GetTransform().position + glm::vec3(p_Game->ScreenSize.x * 0.03f, p_Game->ScreenSize.y * 0.12f, 0.1f);
+			OptionVect[i]->GetTransform().scale = glm::vec3(p_Game->ScreenSize.x * 0.05f, p_Game->ScreenSize.y * 0.1f, 1.0f);
 		}
 	}
 }
