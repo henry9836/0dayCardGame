@@ -191,6 +191,7 @@ void Render() {
 		{
 			game->howtoplayObjects.at(i)->Render();
 		}
+		break;
 	}
 	case Scenes::SCENE_LOSE: {
 
@@ -503,8 +504,6 @@ void populateGameObjectList() {
 	menuopts.push_back("back");
 
 	game->HowToPlayMenu = new CMenu(menuopts, glm::vec2(0.0f, 0.0f), game);
-
-	game->howtoplayObjects.push_back(new GameObject(new RenderText(new CTextLabel("insert instructions how to play here", Utility::NormalFontString.data(), glm::vec2(50.0f, 50.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, game, ("test1"))), new IdleTick, Transform(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "vText"));
 
 	game->howtoplayObjects.push_back(new GameObject(new RenderText(new CTextLabel("insert instructions how to play here", Utility::NormalFontString.data(), glm::vec2(50.0f, 50.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, game, ("test1"))), new IdleTick, Transform(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "vText"));
 
