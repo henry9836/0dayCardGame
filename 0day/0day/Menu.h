@@ -28,7 +28,7 @@ public:
 private:
 	std::vector<CTextLabel> OptionVect;
 
-	GLuint TextShader;
-	int NumMenuOptions;
-	int CurrentOption;
+	//GLuint TextShader; //seems unused and casuses warning -vaughan
+	int NumMenuOptions = 0;
+	int CurrentOption = 0;
 };

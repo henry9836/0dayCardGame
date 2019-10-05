@@ -16,14 +16,14 @@ void DealCardsRandom(Character* _char) {
 
 	int mSize = game->playerOne->cardPile->Deck.size();
 
-	for (size_t i = 0; i < mSize; i++)
+	for (int i = 0; i < mSize; i++)
 	{
 		game->playerOne->cardPile->Deck.push_back(game->playerOne->cardPile->Deck.at(i));
 	}
 
 	mSize = game->playerTwo->cardPile->Deck.size();
 
-	for (size_t i = 0; i < mSize; i++)
+	for (int i = 0; i < mSize; i++)
 	{
 		game->playerTwo->cardPile->Deck.push_back(game->playerTwo->cardPile->Deck.at(i));
 	}
@@ -282,19 +282,19 @@ void PlayCard(Character* _caster, Character* _target, Character* _otherPlayer) {
 
 			//move card
 			if (true) {
-				if ((_caster->cardPile->Hand.size() > 0) && ((_caster->cardPile->Hand.size()-1) >= _caster->selectedCardVector)) {
+				if ((_caster->cardPile->Hand.size() > 0) && ((static_cast<int>(_caster->cardPile->Hand.size()) -1) >= _caster->selectedCardVector)) {
 					_caster->cardPile->GY.push_back(_caster->cardPile->Hand.at(_caster->selectedCardVector));
 				}
 			}
 
 			//remove card
 
-			if ((_caster->cardPile->Hand.size() > 0) && ((_caster->cardPile->Hand.size() - 1) >= _caster->selectedCardVector)) {
+			if ((_caster->cardPile->Hand.size() > 0) &&  ((static_cast<int>(_caster->cardPile->Hand.size()) - 1) >= _caster->selectedCardVector)) {
 				_caster->cardPile->Hand.erase(_caster->cardPile->Hand.begin() + _caster->selectedCardVector);
 			}
 			//am I beyond range?
 
-			if (_caster->selectedCardVector > _caster->cardPile->Hand.size() - 1) {
+			if (_caster->selectedCardVector > static_cast<int>(_caster->cardPile->Hand.size() - 1)) {
 				_caster->selectedCardVector = _caster->cardPile->Hand.size() - 1;
 			}
 			else if (_caster->selectedCardVector < 0) {
@@ -329,7 +329,7 @@ void PlayerInputLoop() {
 		}
 		if ((CInputManager::KeyArray[68] == KEY_FIRST_PRESS) || (CInputManager::KeyArray[100] == KEY_FIRST_PRESS)) { //D
 
-			if (game->playerOne->selectedCardVector < game->playerOne->cardPile->Hand.size() - 1) {
+			if (game->playerOne->selectedCardVector < static_cast<int>(game->playerOne->cardPile->Hand.size() - 1)) {
 				game->playerOne->selectedCardVector++;
 			}
 		}
@@ -353,7 +353,7 @@ void PlayerInputLoop() {
 		}
 		if (CInputManager::KeySpecialArray[GLUT_KEY_RIGHT] == KEY_FIRST_PRESS) { //RIGHT
 
-			if (game->playerTwo->selectedCardVector < game->playerTwo->cardPile->Hand.size() - 1) {
+			if (game->playerTwo->selectedCardVector < static_cast<int>(game->playerTwo->cardPile->Hand.size() - 1)) {
 				game->playerTwo->selectedCardVector++;
 			}
 		}

@@ -1,6 +1,8 @@
 #include "Menu.h"
 
-CMenu::CMenu() {};
+CMenu::CMenu() 
+{
+};
 
 CMenu::~CMenu()
 {
