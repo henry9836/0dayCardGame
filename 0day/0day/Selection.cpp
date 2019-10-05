@@ -47,29 +47,35 @@ Selection::~Selection()
 
 void Selection::IncrementMenu(int _Player)
 {
-	if (_Player == 1)
+	if (OptionVect.size() != 0)
 	{
-		if (CurrentOptionPlayerOne == NumMenuOptions) CurrentOptionPlayerOne = 0;
-		else ++CurrentOptionPlayerOne;
-	}
-	else if (_Player == 2)
-	{
-		if (CurrentOptionPlayerTwo == NumMenuOptions) CurrentOptionPlayerTwo = 0;
-		else ++CurrentOptionPlayerTwo;
+		if (_Player == 1)
+		{
+			if (CurrentOptionPlayerOne == NumMenuOptions) CurrentOptionPlayerOne = 0;
+			else ++CurrentOptionPlayerOne;
+		}
+		else if (_Player == 2)
+		{
+			if (CurrentOptionPlayerTwo == NumMenuOptions) CurrentOptionPlayerTwo = 0;
+			else ++CurrentOptionPlayerTwo;
+		}
 	}
 }
 
 void Selection::DecrementMenu(int _Player)
 {
-	if (_Player == 1)
+	if (OptionVect.size() != 0)
 	{
-		if (CurrentOptionPlayerOne == 0) CurrentOptionPlayerOne = NumMenuOptions;
-		else --CurrentOptionPlayerOne;
-	}
-	else if (_Player == 2)
-	{
-		if(CurrentOptionPlayerTwo == 0) CurrentOptionPlayerTwo = NumMenuOptions;
-		else --CurrentOptionPlayerTwo;
+		if (_Player == 1)
+		{
+			if (CurrentOptionPlayerOne == 0) CurrentOptionPlayerOne = NumMenuOptions;
+			else --CurrentOptionPlayerOne;
+		}
+		else if (_Player == 2)
+		{
+			if (CurrentOptionPlayerTwo == 0) CurrentOptionPlayerTwo = NumMenuOptions;
+			else --CurrentOptionPlayerTwo;
+		}
 	}
 }
 
@@ -95,19 +101,18 @@ void Selection::ResetRender()
 	}
 }
 
-void Selection::ResetSize(bool _isPlayer, Character * _Player1, Character * _Player2)
+void Selection::ResetSize(bool _isPlayer1, Character * _Player1, Character * _Player2)
 {
-	
-	if (_isPlayer)
+	if (_isPlayer1)
 	{
-		NumMenuOptions = _Player1->cardPile->Deck.size() - 1;
 		OptionVect = _Player1->cardPile->Deck;
+		NumMenuOptions = OptionVect.size() - 1;
 
 	}
-	else if (!_isPlayer)
+	else if (!_isPlayer1)
 	{
-		NumMenuOptions = _Player2->cardPile->Deck.size() - 1;
 		OptionVect = _Player2->cardPile->Deck;
+		NumMenuOptions = OptionVect.size() - 1;
 	}
 	int iterator = 0;
 	glm::vec3 NewPosition = StartPosition;
@@ -171,11 +176,11 @@ void Selection::Process(Character * _Player1, Character * _Player2)
 	{
 		playerTwoIsOn = !playerTwoIsOn;
 	}
-	if (MenuType == 1 && OptionVect.size() != _Player1->cardPile->Deck.size())
+	if (MenuType == 1 && OptionVect != _Player1->cardPile->Deck)
 	{
 		ResetSize(true, _Player1, _Player2);
 	}
-	if (MenuType == 2 && OptionVect.size() != _Player2->cardPile->Deck.size())
+	if (MenuType == 2 && OptionVect != _Player2->cardPile->Deck)
 	{
 		ResetSize(false, _Player1, _Player2);
 	}

@@ -66,7 +66,7 @@ void AttackCard::Action(Character* _caster, Character* _target, Character* _othe
 
 			if (_caster->cardPile->Hand.size() > 0) {
 
-				int card = rand() % (_caster->cardPile->Hand.size() - 1);
+				int card = rand() % (_caster->cardPile->Hand.size());
 
 				_target->updateHP(-(_caster->cardPile->Hand.at(card)->cost) * _caster->getDamageMult());
 
@@ -213,10 +213,12 @@ void UtilityCard::Action(Character* _caster, Character* _target, Character* _oth
 		}
 		case UtilityCard::SELFMODIFIYING:
 		{
-			int card = rand() % _caster->cardPile->Hand.size();
-			_caster->UpdateLines((float)_caster->cardPile->Hand.at(card)->cost);
-			_caster->cardPile->GY.push_back(_caster->cardPile->Hand.at(card));
-			_caster->cardPile->Hand.erase(_caster->cardPile->Hand.begin() + card);//double check
+			if (_caster->cardPile->Hand.size() > 0) {
+				int card = rand() % _caster->cardPile->Hand.size();
+				_caster->UpdateLines((float)_caster->cardPile->Hand.at(card)->cost);
+				_caster->cardPile->GY.push_back(_caster->cardPile->Hand.at(card));
+				_caster->cardPile->Hand.erase(_caster->cardPile->Hand.begin() + card);//double check
+			}
 			break;
 		}
 		default:
