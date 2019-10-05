@@ -33,14 +33,14 @@ void AttackCard::Action(Character* _caster, Character* _target, Character* _othe
 
 			int damage = 0;
 
-			for (int i = 0; i < _caster->cardPile->Hand.size(); i++)
+			for (int i = 0; i < static_cast<int>(_caster->cardPile->Hand.size()); i++)
 			{
 				damage += _caster->cardPile->Hand.at(0)->cost;
 				_caster->cardPile->GY.push_back(_caster->cardPile->Hand.at(0));
 				_caster->cardPile->Hand.erase(_caster->cardPile->Hand.begin());
 				i--;
 			}
-			for (int i = 0; i < _otherPlayer->cardPile->Hand.size(); i++)
+			for (int i = 0; i < static_cast<int>(_otherPlayer->cardPile->Hand.size()); i++)
 			{
 				damage += _otherPlayer->cardPile->Hand.at(0)->cost;
 				_otherPlayer->cardPile->GY.push_back(_otherPlayer->cardPile->Hand.at(0));

@@ -25,7 +25,7 @@ Selection::Selection(std::vector<Card*> _OptVect, glm::vec3 _Pos, int _Length, f
 	//Iterating through the provided option vect
 	while (iterator <= NumMenuOptions)
 	{
-		for (unsigned int i = 0; i < _Length; i++)
+		for (int i = 0; i < _Length; i++)
 		{
 			if (iterator > NumMenuOptions)
 			{
@@ -86,7 +86,7 @@ void Selection::ResetRender()
 	//Iterating through the provided option vect
 	while (iterator <= NumMenuOptions)
 	{
-		for (unsigned int i = 0; i < Length; i++)
+		for (int i = 0; i < Length; i++)
 		{
 			if (iterator > NumMenuOptions)
 			{
@@ -119,7 +119,7 @@ void Selection::ResetSize(bool _isPlayer1, Character * _Player1, Character * _Pl
 	//Iterating through the provided option vect
 	while (iterator <= NumMenuOptions)
 	{
-		for (unsigned int i = 0; i < Length; i++)
+		for (int i = 0; i < Length; i++)
 		{
 			if (iterator > NumMenuOptions)
 			{

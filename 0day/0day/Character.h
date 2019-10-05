@@ -174,6 +174,6 @@ public:
 
 private: 
 
-	float rateOfLinesMult;
+	float rateOfLinesMult = 1.0f;
 
 };
