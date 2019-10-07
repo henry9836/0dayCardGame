@@ -537,11 +537,17 @@ void populateGameObjectList() {
 	//MAINMENU OBJECTS
 
 #pragma region StartMenu
+
 	std::vector<std::string> StartOpt;
 	StartOpt.push_back("Start");
 	StartOpt.push_back("How To Play");
 	StartOpt.push_back("Quit");
+	game->maingameObjects.push_back(new GameObject(new RenderText(new CTextLabel("0Day", Utility::NormalFontString.data(), glm::vec2(0.0f, (game->ScreenSize.y / 2) - 150), glm::vec3(1.0f, 1.0f, 1.0f), 2.0f, game, ("test1"))), new IdleTick, Transform(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "vText"));
+
+	
+
 	game->StartMenu = new CMenu(StartOpt, glm::vec2(0.0f, 0.0f), game);
+
 #pragma endregion
 
 	//HOW TO PLAY OBJECTS
@@ -552,8 +558,10 @@ void populateGameObjectList() {
 
 	game->HowToPlayMenu = new CMenu(menuopts, glm::vec2(0.0f, 0.0f), game);
 
-	game->howtoplayObjects.push_back(new GameObject(new RenderText(new CTextLabel("player 1: A/D to change selection, W to play a card, ", Utility::NormalFontString.data(), glm::vec2(50.0f, 50.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, game, ("test1"))), new IdleTick, Transform(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "vText"));
-	game->howtoplayObjects.push_back(new GameObject(new RenderText(new CTextLabel("insert instructions how to play here", Utility::NormalFontString.data(), glm::vec2(50.0f, 50.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, game, ("test1"))), new IdleTick, Transform(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "vText"));
+	game->howtoplayObjects.push_back(new GameObject(new RenderText(new CTextLabel("player 1: A/D to change selection, W to play a card, ", Utility::NormalFontString.data(), glm::vec2((-game->ScreenSize.x / 2) + 50, (game->ScreenSize.y / 2) - 50), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, game, ("test1"))), new IdleTick, Transform(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "vText"));
+	game->howtoplayObjects.push_back(new GameObject(new RenderText(new CTextLabel("insert how to play here", Utility::NormalFontString.data(), glm::vec2((-game->ScreenSize.x / 2) + 50, (game->ScreenSize.y / 2) - 100), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, game, ("test1"))), new IdleTick, Transform(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "vText"));
+	game->howtoplayObjects.push_back(new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/CardBack.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(-60, 0.0f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(25.0f, 40.0f, 1.0f)), "test image"));
+
 
 	game->lostObjects.push_back(new GameObject(new RenderText(new CTextLabel("Game Over\nYou have lost the battle againest the robots\nPress Space To Continue...", Utility::NormalFontString.data(), glm::vec2(0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, game, ("Lose Text"))), new IdleTick, Transform(glm::vec3(game->ScreenSize.x * -0.35f, 0.0f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "Lose Text"));
 
