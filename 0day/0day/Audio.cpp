@@ -19,19 +19,14 @@ bool AudioSystem::AudioInit()
 
 	/* CREATE SOUNDS */
 
-	result = audioSystem->createSound("Resources/Sounds/VeryGoodThemeMusic.mp3", FMOD_LOOP_NORMAL, 0, &backMusic);
+	result = audioSystem->createSound("Resources/Sounds/Menu.mp3", FMOD_LOOP_NORMAL, 0, &backMusic);
 	if (result != FMOD_OK) {
-		Console_OutputLog(L"Cannot Initalise Audio Track VeryGoodThemeMusic.mp3", LOGWARN);
+		Console_OutputLog(L"Cannot Initalise Audio Track Menu.mp3", LOGWARN);
 	}
 
-	result = audioSystem->createSound("Resources/Sounds/GameBack.mp3", FMOD_LOOP_NORMAL, 0, &backGameMusic);
+	result = audioSystem->createSound("Resources/Sounds/Game.mp3", FMOD_LOOP_NORMAL, 0, &backGameMusic);
 	if (result != FMOD_OK) {
-		Console_OutputLog(L"Cannot Initalise Audio Track GameBack.mp3", LOGWARN);
-	}
-
-	result = audioSystem->createSound("Resources/Sounds/SelectBack.mp3", FMOD_LOOP_NORMAL, 0, &backGameMusic);
-	if (result != FMOD_OK) {
-		Console_OutputLog(L"Cannot Initalise Audio Track SelectBack.mp3", LOGWARN);
+		Console_OutputLog(L"Cannot Initalise Audio Track Game.mp3", LOGWARN);
 	}
 
 	Console_OutputLog(L"Initalized Audio...", LOGINFO);

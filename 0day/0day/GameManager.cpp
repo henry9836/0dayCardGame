@@ -423,13 +423,13 @@ void Update() {
 	}
 	case Scenes::SCENE_SELECTION:
 	{
-		if (!game->Selectonce) {
+		/*if (!game->Selectonce) {
 			audio->Restart();
 			audio->Play(AudioSystem::SELECTBACK);
 			game->Gameonce = false;
 			game->once = false;
 			game->Selectonce = true;
-		}
+		}*/
 		game->AddSelection->Process(game->playerOne, game->playerTwo);
 		game->Player1Selection->Process(game->playerOne, game->playerTwo);
 		game->Player2Selection->Process(game->playerOne, game->playerTwo);
