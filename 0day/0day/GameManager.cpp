@@ -57,7 +57,8 @@ void Reset() {
 	game->playerTwo->Reset();
 	game->playerAI->Reset();
 
-
+	//stop music
+	audio->Restart();
 
 
 }
@@ -221,6 +222,7 @@ void Render() {
 	}
 	case Scenes::SCENE_GAME:
 	{
+
 		if (!(game->playerOne->currentHP <= 0) && !(game->playerTwo->currentHP <= 0))
 			game->gameBackground->Render();
 
@@ -246,6 +248,9 @@ void Render() {
 		}
 
 		RenderCards();
+
+		game->levelText->Render();
+
 		break;
 	}
 	case Scenes::SCENE_HOWTOPLAY:
@@ -394,6 +399,13 @@ void Update() {
 	{
 	case Scenes::SCENE_MAIN:
 	{
+		if (!game->once) {
+			audio->Restart();
+			audio->Play(AudioSystem::BACK);
+			game->once = true;
+			game->Selectonce = false;
+			game->Gameonce = false;
+		}
 		int tempOutput = NULL;
 		game->StartMenu->Process(tempOutput);
 		CInputManager::ProcessKeyInput();
@@ -421,6 +433,13 @@ void Update() {
 	}
 	case Scenes::SCENE_SELECTION:
 	{
+		/*if (!game->Selectonce) {
+			audio->Restart();
+			audio->Play(AudioSystem::SELECTBACK);
+			game->Gameonce = false;
+			game->once = false;
+			game->Selectonce = true;
+		}*/
 		game->AddSelection->Process(game->playerOne, game->playerTwo);
 		game->Player1Selection->Process(game->playerOne, game->playerTwo);
 		game->Player2Selection->Process(game->playerOne, game->playerTwo);
@@ -442,6 +461,14 @@ void Update() {
 			game->playgameObjects.at(i)->Tick(deltaTime, game->playgameObjects.at(i));
 		}
 		
+		if (!game->Gameonce) {
+			audio->Restart();
+			audio->Play(AudioSystem::GAMEBACK);
+			game->Gameonce = true;
+			game->once = false;
+			game->Selectonce = false;
+		}
+
 		game->playerOne->Tick(deltaTime);
 		game->playerTwo->Tick(deltaTime);
 		game->playerAI->Tick(deltaTime);
@@ -462,6 +489,8 @@ void Update() {
 			game->currentLvl++;
 			game->playerAI->updateLevel(game->currentLvl);
 			Console_OutputLog(to_wstring("AI has been defeated, you have now progress to level: " + to_string(game->currentLvl)), LOGINFO);
+
+			game->levelText->SetText("Level: " + to_string(game->currentLvl));
 
 			//reset hp
 			game->playerOne->currentHP = game->playerOne->maxHP;
@@ -554,8 +583,6 @@ void populateGameObjectList() {
 	StartOpt.push_back("Quit");
 	game->maingameObjects.push_back(new GameObject(new RenderText(new CTextLabel("0Day", Utility::NormalFontString.data(), glm::vec2(0.0f, (game->ScreenSize.y / 2) - 150), glm::vec3(1.0f, 1.0f, 1.0f), 2.0f, game, ("test1"))), new IdleTick, Transform(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "vText"));
 
-	
-
 	game->StartMenu = new CMenu(StartOpt, glm::vec2(0.0f, 0.0f), game);
 
 #pragma endregion
@@ -573,8 +600,9 @@ void populateGameObjectList() {
 	game->howtoplayObjects.push_back(new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/CardBack.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(-60, 0.0f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(25.0f, 40.0f, 1.0f)), "test image"));
 
 
-	game->lostObjects.push_back(new GameObject(new RenderText(new CTextLabel("Game Over\nYou have lost the battle againest the robots\nPress Space To Continue...", Utility::NormalFontString.data(), glm::vec2(0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, game, ("Lose Text"))), new IdleTick, Transform(glm::vec3(game->ScreenSize.x * -0.35f, 0.0f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "Lose Text"));
+	game->lostObjects.push_back(new GameObject(new RenderText(new CTextLabel("Game Over\nYou have lost the battle againest the robots\nPress Space To Continue...", Utility::NormalFontString.data(), glm::vec2(game->ScreenSize.x * -10.0f, game->ScreenSize.y * 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, game, ("Lose Text"))), new IdleTick, Transform(glm::vec3(game->ScreenSize.x * -0.35f, 0.0f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "Lose Text"));
 
+	game->levelText = new CTextLabel("Level: 1", Utility::NormalFontString.data(), glm::vec2(game->ScreenSize.x * -0.45f, game->ScreenSize.y * 0.45f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, game, ("Level Text"));
 #pragma endregion
 
 
@@ -676,7 +704,7 @@ void Start(int argc, char** argv)
 
 	audio = new AudioSystem();
 	audio->AudioInit();
-	audio->Play(AudioSystem::BACK);
+
 
 	//Start OpenGL
 
