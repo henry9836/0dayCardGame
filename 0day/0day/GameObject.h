@@ -57,7 +57,7 @@ public:
 	virtual void SetTexture(GLuint _tex) {};
 	virtual void SetShader(GLuint _shader) {};
 
-	CTextLabel* text;
+	CTextLabel* text = nullptr;
 };
 
 class TickClass {
@@ -97,12 +97,27 @@ public:
 
 	Transform& GetTransform() { return transform; };
 	
+	RenderClass* GetRender() { return _r; };
+
 protected:
 	Transform transform;
 	RenderClass* _r;
 	TickClass* _t;
 	
 	string name;
+};
+
+class TextObject : public GameObject {
+public:
+	TextObject();
+	TextObject(RenderText* r, TickClass* t, Transform _trans, string _name);
+	~TextObject();
+
+	virtual void Tick() {  };
+	virtual void Render() { _r->Render(&transform); };
+
+
+
 };
 
 class Card : public GameObject {

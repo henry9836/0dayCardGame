@@ -47,6 +47,8 @@ public:
 	Character* playerTwo;
 	Character* playerAI;
 	
+	CTextLabel* levelText;
+
 	int currentLvl = 1;
 	bool gameover = false;
 	bool once = false;
