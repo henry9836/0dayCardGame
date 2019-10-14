@@ -13,10 +13,12 @@ public:
 
 	enum Tracks {
 		BACK,
-		GAMEBACK
+		GAMEBACK,
+		SELECTBACK
 	};
 
 	FMOD::System* audioSystem;
 	FMOD::Sound* backMusic;
 	FMOD::Sound* backGameMusic;
-};
+	FMOD::Sound* selectBackGameMusic;
+}; 

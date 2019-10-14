@@ -57,7 +57,8 @@ void Reset() {
 	game->playerTwo->Reset();
 	game->playerAI->Reset();
 
-
+	//stop music
+	audio->Restart();
 
 
 }
@@ -211,8 +212,6 @@ void Render() {
 	}
 	case Scenes::SCENE_GAME:
 	{
-
-		
 
 		if (!(game->playerOne->currentHP <= 0) && !(game->playerTwo->currentHP <= 0))
 			game->gameBackground->Render();
@@ -390,6 +389,13 @@ void Update() {
 	{
 	case Scenes::SCENE_MAIN:
 	{
+		if (!game->once) {
+			audio->Restart();
+			audio->Play(AudioSystem::BACK);
+			game->once = true;
+			game->Selectonce = false;
+			game->Gameonce = false;
+		}
 		int tempOutput = NULL;
 		game->StartMenu->Process(tempOutput);
 		CInputManager::ProcessKeyInput();
@@ -417,6 +423,13 @@ void Update() {
 	}
 	case Scenes::SCENE_SELECTION:
 	{
+		if (!game->Selectonce) {
+			audio->Restart();
+			audio->Play(AudioSystem::SELECTBACK);
+			game->Gameonce = false;
+			game->once = false;
+			game->Selectonce = true;
+		}
 		game->AddSelection->Process(game->playerOne, game->playerTwo);
 		game->Player1Selection->Process(game->playerOne, game->playerTwo);
 		game->Player2Selection->Process(game->playerOne, game->playerTwo);
@@ -438,6 +451,14 @@ void Update() {
 			game->playgameObjects.at(i)->Tick(deltaTime, game->playgameObjects.at(i));
 		}
 		
+		if (!game->Gameonce) {
+			audio->Restart();
+			audio->Play(AudioSystem::GAMEBACK);
+			game->Gameonce = true;
+			game->once = false;
+			game->Selectonce = false;
+		}
+
 		game->playerOne->Tick(deltaTime);
 		game->playerTwo->Tick(deltaTime);
 		game->playerAI->Tick(deltaTime);
@@ -673,8 +694,6 @@ void Start(int argc, char** argv)
 
 	audio = new AudioSystem();
 	audio->AudioInit();
-	audio->Play(AudioSystem::BACK);
-	audio->Restart(); //Stops all sound
 
 
 	//Start OpenGL

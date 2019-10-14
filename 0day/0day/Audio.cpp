@@ -29,6 +29,11 @@ bool AudioSystem::AudioInit()
 		Console_OutputLog(L"Cannot Initalise Audio Track GameBack.mp3", LOGWARN);
 	}
 
+	result = audioSystem->createSound("Resources/Sounds/SelectBack.mp3", FMOD_LOOP_NORMAL, 0, &backGameMusic);
+	if (result != FMOD_OK) {
+		Console_OutputLog(L"Cannot Initalise Audio Track SelectBack.mp3", LOGWARN);
+	}
+
 	Console_OutputLog(L"Initalized Audio...", LOGINFO);
 
 	return true;
@@ -50,6 +55,10 @@ void AudioSystem::Play(int track) {
 	}
 	case GAMEBACK: {
 		result = audioSystem->playSound(backGameMusic, 0, false, 0);
+		break;
+	}
+	case SELECTBACK: {
+		result = audioSystem->playSound(selectBackGameMusic, 0, false, 0);
 		break;
 	}
 	default: {

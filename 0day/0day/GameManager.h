@@ -52,6 +52,8 @@ public:
 	int currentLvl = 1;
 	bool gameover = false;
 	bool once = false;
+	bool Selectonce = false;
+	bool Gameonce = false;
 
 	glm::vec2 ScreenSize = {1700,1000};
 	glm::vec2 MousePosition;
