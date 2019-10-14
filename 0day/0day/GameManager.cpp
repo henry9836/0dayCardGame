@@ -552,8 +552,6 @@ void populateGameObjectList() {
 	StartOpt.push_back("Quit");
 	game->maingameObjects.push_back(new GameObject(new RenderText(new CTextLabel("0Day", Utility::NormalFontString.data(), glm::vec2(0.0f, (game->ScreenSize.y / 2) - 150), glm::vec3(1.0f, 1.0f, 1.0f), 2.0f, game, ("test1"))), new IdleTick, Transform(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "vText"));
 
-	
-
 	game->StartMenu = new CMenu(StartOpt, glm::vec2(0.0f, 0.0f), game);
 
 #pragma endregion
@@ -676,6 +674,8 @@ void Start(int argc, char** argv)
 	audio = new AudioSystem();
 	audio->AudioInit();
 	audio->Play(AudioSystem::BACK);
+	audio->Restart(); //Stops all sound
+
 
 	//Start OpenGL
 

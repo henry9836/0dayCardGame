@@ -7,13 +7,16 @@ class AudioSystem {
 public:
 
 	bool AudioInit();
+	void Restart();
 	void Play(int track);
 	void Tick();
 
 	enum Tracks {
-		BACK
+		BACK,
+		GAMEBACK
 	};
 
 	FMOD::System* audioSystem;
 	FMOD::Sound* backMusic;
+	FMOD::Sound* backGameMusic;
 };

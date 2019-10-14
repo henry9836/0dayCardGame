@@ -24,9 +24,19 @@ bool AudioSystem::AudioInit()
 		Console_OutputLog(L"Cannot Initalise Audio Track VeryGoodThemeMusic.mp3", LOGWARN);
 	}
 
+	result = audioSystem->createSound("Resources/Sounds/GameBack.mp3", FMOD_LOOP_NORMAL, 0, &backGameMusic);
+	if (result != FMOD_OK) {
+		Console_OutputLog(L"Cannot Initalise Audio Track GameBack.mp3", LOGWARN);
+	}
+
 	Console_OutputLog(L"Initalized Audio...", LOGINFO);
 
 	return true;
+}
+
+void AudioSystem::Restart() {
+	audioSystem->release();
+	AudioInit();
 }
 
 void AudioSystem::Play(int track) {
@@ -36,6 +46,10 @@ void AudioSystem::Play(int track) {
 	{
 	case BACK: {
 		result = audioSystem->playSound(backMusic, 0, false, 0);
+		break;
+	}
+	case GAMEBACK: {
+		result = audioSystem->playSound(backGameMusic, 0, false, 0);
 		break;
 	}
 	default: {
