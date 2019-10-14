@@ -87,17 +87,22 @@ public:
 	float maxlines = 100.0f;
 	float currentLines = 0.0f;
 	float baseDamage = 17.5f;
+	float lineStopped = 0.0f;
+	float generateLine = 0.0f;
 	GameObject* gameObject = nullptr;
 	Character* playerOne = nullptr;
 	Character* playerTwo = nullptr;
 	bool isAI = false;
-
+	bool isAttackReduced = false;
+	bool isStopped = false;
+	bool isGenerate = false;
+	
 
 	float accuracyInit = 1.0f;
 	float maxHPInit = 100.0f;
 	float damageMultInit = 1.0f;
 	float currentHPInit = 100.0f;
-	float LinesMultInit = 1.0f;
+	float LinesMultInit = LinesMult;
 	float drawcardThresholdInit = 1.0f;
 	float drawcardTimerInit = 0.0f;
 	float maxlinesInit = 100.0f;
@@ -112,19 +117,6 @@ public:
 
 	Human(CardPile* _cardPile, float _health, GameObject* _gameObject, bool _isAI) : Character(_cardPile, _health, _gameObject, _isAI)
 	{
-		float initalHP = 100.0f;
-		float currentHP = initalHP;
-		float currentLines = 35.0f;
-		float damageMult = 1.0f;
-		float LinesMult = 0.25;
-		float accuracy = 1.0f;
-
-		float initalHPInit = initalHP;
-		float currentHPInit = initalHP;
-		float currentLinesInit = currentLines;
-		float damageMultInit = damageMult;
-		float LinesMultInit = LinesMult;
-		float accuracyInit = accuracy;
 
 	};
 	~Human();
@@ -139,24 +131,9 @@ public:
 
 	AI(int Level, CardPile* _cardPile, float _health, GameObject* _gameObject, bool _isAI, Character* _playerOne, Character* _playerTwo) : Character(_cardPile, _health, _gameObject, _isAI)
 	{
-		float initalHP = 200.0f ;
-		float currentHP = initalHP;
-		float currentLines = 0.0f;
-		float damageMult = 1.0f;
-		float LinesMult = 0.25;
-		float rateOfLinesMult = 1.0f;
-		float accuracy = 1.0f;
 		isAI = _isAI;
 		playerOne = _playerOne;
 		playerTwo = _playerTwo;
-
-		float initalHPInit = initalHP;
-		float currentHPInit = initalHP;
-		float currentLinesInit = currentLines;
-		float damageMultInit = damageMult;
-		float LinesMultInit = LinesMult;
-		float rateOfLinesMultInit = rateOfLinesMult;
-		float accuracyInit = accuracy;
 	};
 	~AI();
 

@@ -19,6 +19,31 @@ Character::~Character()
 //dounstantly ticking up increacing lines/ modifiable by lines muiltplayer
 void Character::constantuUpdateLines(float deltaTime)
 {
+	if (this->isAI && isStopped == true)
+	{
+		lineStopped += deltaTime;
+
+		if (lineStopped < 5.0f)
+		{
+			return;
+		}
+		lineStopped = 0.0f;
+		isStopped = false;
+	}
+
+	if (!this->isAI && isGenerate == true)
+	{
+		generateLine += deltaTime;
+
+		if (generateLine >= 5.0f)
+		{
+			LinesMult = LinesMultInit;
+			generateLine = 0.0f;
+			isGenerate = false;
+		}
+
+	}
+
 	if (this->currentLines < 100.0f)
 	{
 		this->currentLines += deltaTime * LinesMult;
@@ -89,14 +114,21 @@ void Character::Tick(float deltaTime)
 	}
 
 	if (isAI) {
-		if (currentLines > 90) {
+		if (currentLines >= 100) {
 			int c = rand() % 2;
 			wcout << "Dealing " << baseDamage << " To Player" << endl;
+			float tempdamage = damageMult;
+			if (isAttackReduced == true)
+			{
+				tempdamage = damageMult / 2.0f;
+				isAttackReduced = false;
+			}
 			if (c == 0 && playerOne->currentHP > 0) {
-				playerOne->currentHP -= baseDamage;
+				playerOne->currentHP -= baseDamage * tempdamage;
+				
 			}
 			else {
-				playerTwo->currentHP -= baseDamage;
+				playerTwo->currentHP -= baseDamage * tempdamage;
 			}
 			currentLines = 0;
 		}
@@ -118,16 +150,10 @@ void Character::Reset()
 	baseDamage = baseDamageInit;
 }
 
-
+//THIS NEEDS TO BE UPDATE TO DESTORY STUFF SO NULLPTR AND DELETE EVERYTHING IN HERE
 Human::~Human()
 {
-	maxHP = 100.0f;
-	currentHP = maxHP;
-	maxlines = 100.0f;
-	currentLines = 35.0f;
-	float damageMult = 1.0f;
-	float LinesMult = 1.0f;
-	float accuracy = 1.0f;
+
 }
 
 AI::~AI()
