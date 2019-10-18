@@ -29,6 +29,16 @@ bool AudioSystem::AudioInit()
 		Console_OutputLog(L"Cannot Initalise Audio Track Game.mp3", LOGWARN);
 	}
 
+	result = audioSystem->createSound("Resources/Sounds/error.wav", FMOD_DEFAULT, 0, &denySound);
+	if (result != FMOD_OK) {
+		Console_OutputLog(L"Cannot Initalise Audio Track error.wav", LOGWARN);
+	}
+
+	result = audioSystem->createSound("Resources/Sounds/success.wav", FMOD_DEFAULT, 0, &successSound);
+	if (result != FMOD_OK) {
+		Console_OutputLog(L"Cannot Initalise Audio Track success.wav", LOGWARN);
+	}
+
 	Console_OutputLog(L"Initalized Audio...", LOGINFO);
 
 	return true;
@@ -54,6 +64,14 @@ void AudioSystem::Play(int track) {
 	}
 	case SELECTBACK: {
 		result = audioSystem->playSound(selectBackGameMusic, 0, false, 0);
+		break;
+	}
+	case DENY: {
+		result = audioSystem->playSound(denySound, 0, false, 0);
+		break;
+	}
+	case SUCCESS: {
+		result = audioSystem->playSound(successSound, 0, false, 0);
 		break;
 	}
 	default: {

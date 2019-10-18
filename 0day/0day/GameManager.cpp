@@ -281,11 +281,15 @@ void Render() {
 }
 
 void PlayCard(Character* _caster, Character* _target, Character* _otherPlayer) {
-	if (_caster->cardPile->Hand.size() >= 1) {
+	//Sanity Check
+	if (_caster->cardPile->Hand.size() >= 1 && _caster->selectedCardVector < _caster->cardPile->Hand.size()) {
 
 		//Check cost
 
 		if (_caster->currentLines >= _caster->cardPile->Hand.at(_caster->selectedCardVector)->cost) {
+
+			//SFX
+			audio->Play(AudioSystem::SUCCESS);
 
 			//Charge player
 
@@ -317,6 +321,16 @@ void PlayCard(Character* _caster, Character* _target, Character* _otherPlayer) {
 			}
 
 		}
+		//Player cannot afford card
+		else {
+			audio->Play(AudioSystem::DENY);
+		}
+	}
+	//Sanity Check Failed
+	else {
+		//Reset selected card to 0 something went wrong
+		Console_OutputLog(L"BUG ID: 1 Behaviour Caught, applying fix", LOGWARN);
+		_caster->selectedCardVector = 0;
 	}
 }
 
