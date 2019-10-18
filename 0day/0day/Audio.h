@@ -14,11 +14,15 @@ public:
 	enum Tracks {
 		BACK,
 		GAMEBACK,
-		SELECTBACK
+		SELECTBACK,
+		DENY,
+		SUCCESS
 	};
 
 	FMOD::System* audioSystem;
 	FMOD::Sound* backMusic;
 	FMOD::Sound* backGameMusic;
 	FMOD::Sound* selectBackGameMusic;
+	FMOD::Sound* denySound;
+	FMOD::Sound* successSound;
 }; 
