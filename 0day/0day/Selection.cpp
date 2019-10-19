@@ -43,6 +43,13 @@ Selection::Selection(std::vector<Card*> _OptVect, glm::vec3 _Pos, int _Length, f
 Selection::~Selection()
 {
 	OptionVect.clear();
+	delete indicatorPlayer1;
+	indicatorPlayer1 = nullptr;
+	delete indicatorPlayer2;
+	indicatorPlayer2 = nullptr;
+	delete Start;
+	Start = nullptr;
+	p_Game = nullptr;
 }
 
 void Selection::IncrementMenu(int _Player)
@@ -263,9 +270,9 @@ void Selection::Render()
 	if (MenuType == 0)
 	Start->Render();
 	for (auto it : OptionVect) it->Render();
-	if (MenuType == 0 && playerOneIsOn == true || MenuType == 1 && playerOneIsOn == true)
+	if (MenuType == 0 && playerOneIsOn == true || MenuType == 1 && playerOneIsOn == true && OptionVect.size() != 0)
 		indicatorPlayer1->Render();
-	if (MenuType == 0 && playerTwoIsOn == true || MenuType == 2 && playerTwoIsOn == true)
+	if (MenuType == 0 && playerTwoIsOn == true || MenuType == 2 && playerTwoIsOn == true && OptionVect.size() != 0)
 		indicatorPlayer2->Render();
 }
 

@@ -104,9 +104,9 @@ void DeckSelectionInit()
 
 
 
-	game->AddSelection = new Selection(game->deckselectionObjects, glm::vec3(game->ScreenSize.x * - 0.15f, game->ScreenSize.y * 0.35f, 0.0f), 4, 0.1f, 0.2f, game, 0, true, true);
-	game->Player1Selection = new Selection(game->playerOne->cardPile->Deck, glm::vec3(game->ScreenSize.x * -0.45f, game->ScreenSize.y * 0.4f, 0.0f), 3, 0.09f, 0.17f, game, 1, false, false);
-	game->Player2Selection = new Selection(game->playerTwo->cardPile->Deck, glm::vec3(game->ScreenSize.x * 0.25f, game->ScreenSize.y * 0.4f, 0.0f), 3, 0.09f, 0.17f, game, 2, false, false);
+	game->AddSelection = new Selection(game->deckselectionObjects, glm::vec3(game->ScreenSize.x * - 0.20f, game->ScreenSize.y * 0.35f, 0.0f), 5, 0.1f, 0.2f, game, 0, true, true);
+	game->Player1Selection = new Selection(game->playerOne->cardPile->Deck, glm::vec3(game->ScreenSize.x * -0.45f, game->ScreenSize.y * 0.4f, 0.0f), 2, 0.09f, 0.17f, game, 1, false, false);
+	game->Player2Selection = new Selection(game->playerTwo->cardPile->Deck, glm::vec3(game->ScreenSize.x * 0.35f, game->ScreenSize.y * 0.4f, 0.0f), 2, 0.09f, 0.17f, game, 2, false, false);
 }
 
 void FlashRed(glm::vec3* inColor, float deltaTime) {
@@ -282,7 +282,7 @@ void Render() {
 
 void PlayCard(Character* _caster, Character* _target, Character* _otherPlayer) {
 	//Sanity Check
-	if (_caster->cardPile->Hand.size() >= 1 && _caster->selectedCardVector < _caster->cardPile->Hand.size()) {
+	if (_caster->cardPile->Hand.size() >= 1 && _caster->selectedCardVector <  (int)_caster->cardPile->Hand.size()) {
 
 		//Check cost
 
