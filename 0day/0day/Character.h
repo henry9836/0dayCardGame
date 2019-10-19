@@ -42,29 +42,31 @@ public:
 		
 		Console_OutputLog(L"Shuffling Graveyard into Deck", LOGINFO);
 
-		for (size_t i = 0; i < cardPile->GY.size(); i++)
+		for (size_t i = 0; i < this->cardPile->GY.size(); i++)
 		{
-			cardPile->Deck.push_back(cardPile->GY.at(i));
+			this->cardPile->Deck.push_back(this->cardPile->GY.at(i));
 		}
 
-		cardPile->GY.clear();
+		this->cardPile->GY.clear();
 
 		std::random_device rd;
 		std::mt19937 g(rd());
 
-		std::shuffle(cardPile->Deck.begin(), cardPile->Deck.end(), g);
+		std::shuffle(this->cardPile->Deck.begin(), this->cardPile->Deck.end(), g);
 
 	};
 
 	virtual void DrawACard() { 
-		if (cardPile->Hand.size() < 10) {
-			if (cardPile->Deck.size() > 0) {
-				cardPile->Hand.push_back(cardPile->Deck.back());
-				cardPile->Deck.pop_back();
-			}
-			else {
-				moveGYToDeck();
-				//Console_OutputLog(L"Cannot Deal Card As Deck Size is 0", LOGWARN);
+		if (!this->isAI) {
+			if (this->cardPile->Hand.size() < 10) {
+				if (this->cardPile->Deck.size() > 0) {
+					this->cardPile->Hand.push_back(this->cardPile->Deck.back());
+					this->cardPile->Deck.pop_back();
+				}
+				else {
+					moveGYToDeck();
+					Console_OutputLog(L"Cannot Deal Card As Deck Size is 0, Shuffing...", LOGWARN);
+				}
 			}
 		}
 	};

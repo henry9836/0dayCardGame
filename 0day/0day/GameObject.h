@@ -75,6 +75,11 @@ public:
 	virtual void Tick(float deltaTime, GameObject* _gameObject);
 };
 
+class TickObjectMoveable : public TickClass {
+public:
+	virtual void Tick(float deltaTime, GameObject* _gameObject);
+};
+
 class DeckObject : public TickClass {
 public:
 	virtual void Tick(float deltaTime, GameObject* _gameObject);
@@ -96,13 +101,20 @@ public:
 	
 
 	Transform& GetTransform() { return transform; };
-	
 	RenderClass* GetRender() { return _r; };
+	
+	Transform transform;
+	Transform target;
+	float speed = 1.0f;
 
 protected:
-	Transform transform;
+	
+	
+
 	RenderClass* _r;
 	TickClass* _t;
+	
+
 	
 	string name;
 };
