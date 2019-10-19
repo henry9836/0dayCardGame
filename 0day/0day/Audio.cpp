@@ -39,6 +39,11 @@ bool AudioSystem::AudioInit()
 		Console_OutputLog(L"Cannot Initalise Audio Track success.wav", LOGWARN);
 	}
 
+	result = audioSystem->createSound("Resources/Sounds/button.wav", FMOD_DEFAULT, 0, &buttonSound);
+	if (result != FMOD_OK) {
+		Console_OutputLog(L"Cannot Initalise Audio Track button.wav", LOGWARN);
+	}
+
 	Console_OutputLog(L"Initalized Audio...", LOGINFO);
 
 	return true;
@@ -72,6 +77,10 @@ void AudioSystem::Play(int track) {
 	}
 	case SUCCESS: {
 		result = audioSystem->playSound(successSound, 0, false, 0);
+		break;
+	}
+	case BUTTONPRESS: {
+		result = audioSystem->playSound(buttonSound, 0, false, 0);
 		break;
 	}
 	default: {

@@ -454,9 +454,9 @@ void Update() {
 			game->once = false;
 			game->Selectonce = true;
 		}*/
-		game->AddSelection->Process(game->playerOne, game->playerTwo);
-		game->Player1Selection->Process(game->playerOne, game->playerTwo);
-		game->Player2Selection->Process(game->playerOne, game->playerTwo);
+		game->AddSelection->Process(game->playerOne, game->playerTwo, audio);
+		game->Player1Selection->Process(game->playerOne, game->playerTwo, audio);
+		game->Player2Selection->Process(game->playerOne, game->playerTwo, audio);
 		if ((CInputManager::KeyArray['\r'] == KEY_FIRST_PRESS || CInputManager::KeyArray[' '] == KEY_FIRST_PRESS) && (game->playerOne->cardPile->Deck.size() >= 10 && game->playerTwo->cardPile->Deck.size() >= 10))
 		{
 			game->currentScene = Scenes::SCENE_GAME;
