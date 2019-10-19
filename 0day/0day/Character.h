@@ -13,6 +13,8 @@ public:
 	vector<Card*> Hand;
 	vector<Card*> GY;
 
+
+
 	glm::vec3 handPos;
 
 	void shuffleDeck();
