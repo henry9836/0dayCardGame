@@ -16,7 +16,8 @@ public:
 		GAMEBACK,
 		SELECTBACK,
 		DENY,
-		SUCCESS
+		SUCCESS,
+		BUTTONPRESS
 	};
 
 	FMOD::System* audioSystem;
@@ -25,4 +26,5 @@ public:
 	FMOD::Sound* selectBackGameMusic;
 	FMOD::Sound* denySound;
 	FMOD::Sound* successSound;
+	FMOD::Sound* buttonSound;
 }; 

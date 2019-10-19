@@ -1,6 +1,7 @@
 #pragma once
 #include "Cards.h"
 #include "Character.h"
+#include "Audio.h"
 
 class Selection
 {
@@ -12,10 +13,10 @@ public:
 	void ResetRender();
 	void ResetSize(bool _isPlayer, Character * _Player1, Character * _Player2);
 	void SelectOption(unsigned int _Option1, unsigned int _Option2);
-	void Process(Character* _Player1, Character* _Player2);
+	void Process(Character* _Player1, Character* _Player2, AudioSystem* audio);
 	void Render();
-	void RemoveCard(bool isPlayer1, Character * _Player1, Character * _Player2);
-	void AddCard(bool isPlayer1, Character * _Player1, Character * _Player2);
+	void RemoveCard(bool isPlayer1, Character * _Player1, Character * _Player2, AudioSystem* audio);
+	void AddCard(bool isPlayer1, Character * _Player1, Character * _Player2, AudioSystem* audio);
 	bool CheckCard(Character* _Player, Card* _newCard);
 
 	private:
