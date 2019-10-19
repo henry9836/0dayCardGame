@@ -136,3 +136,93 @@ void RenderMenuText::Render(Transform* _transform)
 void DeckObject::Tick(float deltaTime, GameObject* _gameObject)
 {
 }
+
+void TickObjectMoveable::Tick(float deltaTime, GameObject* _gameObject)
+{
+	//Move towards target
+	if (_gameObject->GetTransform().position != _gameObject->target.position) {
+		
+		//GO LEFT
+		if (_gameObject->transform.position.x > _gameObject->target.position.x) {
+			_gameObject->transform.position.x -= _gameObject->speed * deltaTime;
+		}
+
+		//GO RIGHT
+		else if (_gameObject->transform.position.x < _gameObject->target.position.x) {
+			_gameObject->transform.position.x += _gameObject->speed * deltaTime;
+		}
+
+		//GO UP
+		if (_gameObject->transform.position.y < _gameObject->target.position.y) {
+			_gameObject->transform.position.y += _gameObject->speed * deltaTime;
+		}
+
+		//GO DOWN
+		if (_gameObject->transform.position.y > _gameObject->target.position.y) {
+			_gameObject->transform.position.y -= _gameObject->speed * deltaTime;
+		}
+
+	}
+
+	//Rotate towards target
+	if (_gameObject->GetTransform().rotation != _gameObject->target.rotation) {
+
+		//GO DOWN
+		if (_gameObject->transform.rotation.x > _gameObject->target.rotation.x) {
+			_gameObject->transform.rotation.x -= _gameObject->speed * deltaTime;
+		}
+
+		//GO UP
+		else if (_gameObject->transform.rotation.x < _gameObject->target.rotation.x) {
+			_gameObject->transform.rotation.x += _gameObject->speed * deltaTime;
+		}
+
+		//GO DOWN
+		if (_gameObject->transform.rotation.y < _gameObject->target.rotation.y) {
+			_gameObject->transform.rotation.y -= _gameObject->speed * deltaTime;
+		}
+
+		//GO UP
+		if (_gameObject->transform.rotation.y > _gameObject->target.rotation.y) {
+			_gameObject->transform.rotation.y += _gameObject->speed * deltaTime;
+		}
+
+		//GO DOWN
+		if (_gameObject->transform.rotation.z > _gameObject->target.rotation.z) {
+			_gameObject->transform.rotation.z -= _gameObject->speed * deltaTime;
+		}
+
+		//GO UP
+		if (_gameObject->transform.rotation.z < _gameObject->target.rotation.z) {
+			_gameObject->transform.rotation.z += _gameObject->speed * deltaTime;
+		}
+		
+
+	}
+
+
+	//Scale towards target
+	if (_gameObject->GetTransform().scale != _gameObject->target.scale) {
+
+		//GO DOWN
+		if (_gameObject->transform.scale.x > _gameObject->target.scale.x) {
+			_gameObject->transform.scale.x -= _gameObject->speed * deltaTime;
+		}
+
+		//GO UP
+		else if (_gameObject->transform.scale.x < _gameObject->target.scale.x) {
+			_gameObject->transform.scale.x += _gameObject->speed * deltaTime;
+		}
+
+		//GO DOWN
+		if (_gameObject->transform.scale.y >_gameObject->target.scale.y) {
+			_gameObject->transform.scale.y -= _gameObject->speed * deltaTime;
+		}
+
+		//GO UP
+		if (_gameObject->transform.scale.y < _gameObject->target.scale.y) {
+			_gameObject->transform.scale.y += _gameObject->speed * deltaTime;
+		}
+
+	}
+}
