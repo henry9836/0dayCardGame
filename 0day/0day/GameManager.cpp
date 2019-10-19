@@ -139,6 +139,9 @@ void RenderCards() {
 
 		for (size_t i = 0; i < game->playerOne->cardPile->Hand.size(); i++)
 		{
+			//Reset any werid stuff
+			game->playerOne->cardPile->Hand.at(i)->GetTransform() = Transform(glm::vec3(0,0,0), glm::vec3(0,0,0), game->playerOne->defaultCardSize);
+
 			//Create Positions for cards dyanmically
 			game->playerOne->cardPile->Hand.at(i)->GetTransform().position = glm::vec3(game->playerOne->cardPile->handPos.x + (posOffset * moveAmount), game->playerOne->cardPile->handPos.y, game->playerOne->cardPile->handPos.z);
 
@@ -155,10 +158,17 @@ void RenderCards() {
 			posOffset++;
 		}
 
+		//Render GY
+
 		for (size_t i = 0; i < game->playerOne->cardPile->GY.size(); i++)
 		{
 			game->playerOne->cardPile->GY.at(i)->Render();
 		}
+
+		if (game->playerOne->cardPile->GY.size() > 0) {
+			game->playerOne->cardPile->GY.back()->transform.position.z = game->playerOne->cardPile->handPos.z - 0.1f;
+		}
+
 	}
 
 	posOffset = 0;
@@ -167,6 +177,9 @@ void RenderCards() {
 
 		for (size_t i = 0; i < game->playerTwo->cardPile->Hand.size(); i++)
 		{
+			//Reset any werid stuff
+			game->playerTwo->cardPile->Hand.at(i)->GetTransform() = Transform(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), game->playerTwo->defaultCardSize);
+
 			//Create Positions for cards dyanmically
 			game->playerTwo->cardPile->Hand.at(i)->GetTransform().position = glm::vec3(game->playerTwo->cardPile->handPos.x + (posOffset * moveAmount), game->playerTwo->cardPile->handPos.y, game->playerTwo->cardPile->handPos.z);
 
@@ -186,7 +199,13 @@ void RenderCards() {
 		for (size_t i = 0; i < game->playerTwo->cardPile->GY.size(); i++)
 		{
 			game->playerTwo->cardPile->GY.at(i)->Render();
+			game->playerTwo->cardPile->GY.back()->transform.position.z = game->playerTwo->cardPile->handPos.z;
 		}
+
+		if (game->playerTwo->cardPile->GY.size() > 0) {
+			game->playerTwo->cardPile->GY.back()->transform.position.z = game->playerTwo->cardPile->handPos.z - 0.1f;
+		}
+
 	}
 
 	//DEBUG AI
@@ -388,7 +407,7 @@ void PlayerInputLoop() {
 			if (game->playerTwo->cardPile->GY.size() > 0) {
 				//move back of GY to GY visually
 				game->playerTwo->cardPile->GY.back()->target = game->p2GYVisual->transform;
-				Console_OutputLog(L"MOVING TO GY", LOGINFO);
+				Console_OutputLog(L"MOVING TO GY", LOGINFO); 
 			}
 		}
 		if (CInputManager::KeySpecialArray[GLUT_KEY_LEFT] == KEY_FIRST_PRESS) { //LEFT
