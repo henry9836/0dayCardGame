@@ -162,12 +162,19 @@ void RenderCards() {
 
 		for (size_t i = 0; i < game->playerOne->cardPile->GY.size(); i++)
 		{
+			game->playerOne->cardPile->GY.back()->target.position.z = game->playerOne->cardPile->handPos.z;
+		}
+
+		//Draw last card ontop of pile
+		if (game->playerOne->cardPile->GY.size() > 0) {
+			game->playerOne->cardPile->GY.back()->transform.position.z = game->playerOne->cardPile->handPos.z + 0.1f;
+		}
+
+		for (size_t i = 0; i < game->playerOne->cardPile->GY.size(); i++)
+		{
 			game->playerOne->cardPile->GY.at(i)->Render();
 		}
 
-		if (game->playerOne->cardPile->GY.size() > 0) {
-			game->playerOne->cardPile->GY.back()->transform.position.z = game->playerOne->cardPile->handPos.z - 0.1f;
-		}
 
 	}
 
@@ -196,14 +203,24 @@ void RenderCards() {
 			posOffset++;
 		}
 
+		
+
+		//Render GY
+		for (size_t i = 0; i < game->playerTwo->cardPile->GY.size(); i++)
+		{
+			
+			game->playerTwo->cardPile->GY.back()->target.position.z = game->playerTwo->cardPile->handPos.z;
+		}
+		
+		//Draw last card ontop of pile
+		if (game->playerTwo->cardPile->GY.size() > 0) {
+			game->playerTwo->cardPile->GY.back()->target.position.z = game->playerTwo->cardPile->handPos.z + 0.1f;
+			game->playerTwo->cardPile->GY.back()->transform.position.z = game->playerTwo->cardPile->handPos.z + 0.1f;
+		}
+
 		for (size_t i = 0; i < game->playerTwo->cardPile->GY.size(); i++)
 		{
 			game->playerTwo->cardPile->GY.at(i)->Render();
-			game->playerTwo->cardPile->GY.back()->transform.position.z = game->playerTwo->cardPile->handPos.z;
-		}
-
-		if (game->playerTwo->cardPile->GY.size() > 0) {
-			game->playerTwo->cardPile->GY.back()->transform.position.z = game->playerTwo->cardPile->handPos.z - 0.1f;
 		}
 
 	}
