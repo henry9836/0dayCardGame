@@ -1,6 +1,6 @@
 #include "Bars.h"
 
-BarsRender::BarsRender(std::shared_ptr<MESH> _mesh, GLuint _texture, Game * _game, GLuint _shaderProgram, Character * _Characterptr, bool _isHealthBar)
+BarsRender::BarsRender(std::shared_ptr<MESH> _mesh, GLuint _texture, Game* _game, GLuint _shaderProgram, Character* _Characterptr, bool _isHealthBar)
 {
 	VAO = _mesh->VAO;
 	indiceCount = _mesh->IndicesCount;
@@ -11,20 +11,37 @@ BarsRender::BarsRender(std::shared_ptr<MESH> _mesh, GLuint _texture, Game * _gam
 	isHealthBar = _isHealthBar;
 	characterPtr = _Characterptr;
 	Vertices = _mesh->Vertices;
+	barInfo = new CTextLabel("INFO", Utility::NormalFontString.data(), glm::vec2(0, 0), glm::vec3(1.0f, 1.0f, 1.0f), 0.3f, _game);
 }
+
+BarsRender::~BarsRender()
+{
+	game = nullptr;
+	characterPtr = nullptr;
+	Vertices.clear();
+	delete barInfo;
+	barInfo = nullptr;
+}
+
 
 void BarsRender::Render(Transform * _transform)
 {
+	barInfo->SetPosition(glm::vec2(_transform->position.x + game->ScreenSize.x * -0.01f, _transform->position.y + game->ScreenSize.y * -0.005f));
+	
 	float Percentage;
 	if (isHealthBar)
 	{
 		Percentage = characterPtr->getHpBarPersent();
+		barInfo->SetText(std::to_string((int)characterPtr->currentHP) + " / " + std::to_string((int)characterPtr->maxHP));
 	}
 	else
 	{
 		Percentage = characterPtr->getLinesBatPersent();
+		barInfo->SetText(std::to_string((int)characterPtr->currentLines) + " / " + std::to_string((int)characterPtr->maxlines));
 	}
+	
 	ChangingVertices(Percentage);
+	
 	glUseProgram(this->shaderProgram);
 
 	//Binding the array
@@ -96,6 +113,7 @@ void BarsRender::Render(Transform * _transform)
 	//Clearing the vertex array
 	glBindVertexArray(0);
 	glUseProgram(0);
+	barInfo->Render();
 }
 
 void BarsRender::ChangingVertices(float _Value)

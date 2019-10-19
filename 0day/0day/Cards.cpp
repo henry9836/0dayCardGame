@@ -113,7 +113,10 @@ void DefenceCard::Action(Character* _caster, Character* _target, Character* _oth
 	{
 		case DefenceCard::TAPE:
 		{
-			_caster->currentHP += 5.0f;
+			if (_caster->currentHP < _caster->maxHP)
+			{
+				_caster->currentHP += 5.0f;
+			}		
 			break;
 		}
 		case DefenceCard::LOGIN:
