@@ -57,6 +57,7 @@ public:
 	};
 
 	virtual void DrawACard() { 
+		//The AI does not have a hand
 		if (!this->isAI) {
 			if (this->cardPile->Hand.size() < 10) {
 				if (this->cardPile->Deck.size() > 0) {
