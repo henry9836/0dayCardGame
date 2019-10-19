@@ -45,6 +45,10 @@ public:
 		for (size_t i = 0; i < this->cardPile->GY.size(); i++)
 		{
 			this->cardPile->Deck.push_back(this->cardPile->GY.at(i));
+			this->cardPile->Deck.back()->transform.rotation = glm::vec3(0, 0, 0);
+			this->cardPile->Deck.back()->transform.scale = this->defaultCardSize;
+			this->cardPile->Deck.back()->target.rotation = glm::vec3(0, 0, 0);
+			this->cardPile->Deck.back()->target.scale = this->defaultCardSize;
 		}
 
 		this->cardPile->GY.clear();

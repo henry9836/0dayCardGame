@@ -154,12 +154,12 @@ void TickObjectMoveable::Tick(float deltaTime, GameObject* _gameObject)
 
 		//GO UP
 		if (_gameObject->transform.position.y < _gameObject->target.position.y) {
-			_gameObject->transform.position.y -= _gameObject->speed * deltaTime;
+			_gameObject->transform.position.y += _gameObject->speed * deltaTime;
 		}
 
 		//GO DOWN
 		if (_gameObject->transform.position.y > _gameObject->target.position.y) {
-			_gameObject->transform.position.y += _gameObject->speed * deltaTime;
+			_gameObject->transform.position.y -= _gameObject->speed * deltaTime;
 		}
 
 	}
@@ -186,33 +186,43 @@ void TickObjectMoveable::Tick(float deltaTime, GameObject* _gameObject)
 		if (_gameObject->transform.rotation.y > _gameObject->target.rotation.y) {
 			_gameObject->transform.rotation.y += _gameObject->speed * deltaTime;
 		}
+
+		//GO DOWN
+		if (_gameObject->transform.rotation.z > _gameObject->target.rotation.z) {
+			_gameObject->transform.rotation.z -= _gameObject->speed * deltaTime;
+		}
+
+		//GO UP
+		if (_gameObject->transform.rotation.z < _gameObject->target.rotation.z) {
+			_gameObject->transform.rotation.z += _gameObject->speed * deltaTime;
+		}
 		
 
 	}
 
 
-	////Scale towards target
-	//if (_gameObject->GetTransform().scale != _gameObject->target.scale) {
+	//Scale towards target
+	if (_gameObject->GetTransform().scale != _gameObject->target.scale) {
 
-	//	//GO DOWN
-	//	if (_gameObject->transform.scale.x > _gameObject->target.scale.x) {
-	//		_gameObject->transform.scale.x -= _gameObject->speed * deltaTime;
-	//	}
+		//GO DOWN
+		if (_gameObject->transform.scale.x > _gameObject->target.scale.x) {
+			_gameObject->transform.scale.x -= _gameObject->speed * deltaTime;
+		}
 
-	//	//GO UP
-	//	else if (_gameObject->transform.scale.x < _gameObject->target.scale.x) {
-	//		_gameObject->transform.scale.x += _gameObject->speed * deltaTime;
-	//	}
+		//GO UP
+		else if (_gameObject->transform.scale.x < _gameObject->target.scale.x) {
+			_gameObject->transform.scale.x += _gameObject->speed * deltaTime;
+		}
 
-	//	//GO DOWN
-	//	if (_gameObject->transform.scale.y < _gameObject->target.scale.y) {
-	//		_gameObject->transform.scale.y -= _gameObject->speed * deltaTime;
-	//	}
+		//GO DOWN
+		if (_gameObject->transform.scale.y >_gameObject->target.scale.y) {
+			_gameObject->transform.scale.y -= _gameObject->speed * deltaTime;
+		}
 
-	//	//GO UP
-	//	if (_gameObject->transform.scale.y > _gameObject->target.scale.y) {
-	//		_gameObject->transform.scale.y += _gameObject->speed * deltaTime;
-	//	}
+		//GO UP
+		if (_gameObject->transform.scale.y < _gameObject->target.scale.y) {
+			_gameObject->transform.scale.y += _gameObject->speed * deltaTime;
+		}
 
-	//}
+	}
 }
