@@ -162,6 +162,16 @@ void TickObjectMoveable::Tick(float deltaTime, GameObject* _gameObject)
 			_gameObject->transform.position.y -= _gameObject->speed * deltaTime;
 		}
 
+		//GO Z+
+		if (_gameObject->transform.position.z < _gameObject->target.position.z) {
+			_gameObject->transform.position.z += _gameObject->speed * deltaTime;
+		}
+
+		//GO Z-
+		if (_gameObject->transform.position.z > _gameObject->target.position.z) {
+			_gameObject->transform.position.z -= _gameObject->speed * deltaTime;
+		}
+
 	}
 
 	//Rotate towards target
