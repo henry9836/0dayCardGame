@@ -158,18 +158,15 @@ void RenderCards() {
 			posOffset++;
 		}
 
-		//Render GY
-
+		//Update target
 		for (size_t i = 0; i < game->playerOne->cardPile->GY.size(); i++)
 		{
-			game->playerOne->cardPile->GY.back()->target.position.z = game->playerOne->cardPile->handPos.z;
+			game->playerOne->cardPile->GY.at(i)->target = game->p1GYVisual->transform;
+			game->playerOne->cardPile->GY.at(i)->target.position.z = game->p1GYVisual->transform.position.z + (0.01f * i);
+			game->playerOne->cardPile->GY.at(i)->transform.position.z = game->p1GYVisual->transform.position.z + (0.01f * i);
 		}
 
-		//Draw last card ontop of pile
-		if (game->playerOne->cardPile->GY.size() > 0) {
-			game->playerOne->cardPile->GY.back()->transform.position.z = game->playerOne->cardPile->handPos.z + 0.1f;
-		}
-
+		//Render GY
 		for (size_t i = 0; i < game->playerOne->cardPile->GY.size(); i++)
 		{
 			game->playerOne->cardPile->GY.at(i)->Render();
@@ -205,23 +202,20 @@ void RenderCards() {
 
 		
 
-		//Render GY
+		//Update target
 		for (size_t i = 0; i < game->playerTwo->cardPile->GY.size(); i++)
 		{
-			
-			game->playerTwo->cardPile->GY.back()->target.position.z = game->playerTwo->cardPile->handPos.z;
-		}
-		
-		//Draw last card ontop of pile
-		if (game->playerTwo->cardPile->GY.size() > 0) {
-			game->playerTwo->cardPile->GY.back()->target.position.z = game->playerTwo->cardPile->handPos.z + 0.1f;
-			game->playerTwo->cardPile->GY.back()->transform.position.z = game->playerTwo->cardPile->handPos.z + 0.1f;
+			game->playerTwo->cardPile->GY.at(i)->target = game->p2GYVisual->transform;
+			game->playerTwo->cardPile->GY.at(i)->target.position.z = game->p2GYVisual->transform.position.z + (0.01f * i);
+			game->playerTwo->cardPile->GY.at(i)->transform.position.z = game->p2GYVisual->transform.position.z + (0.01f * i);
 		}
 
+		//Render GY
 		for (size_t i = 0; i < game->playerTwo->cardPile->GY.size(); i++)
 		{
 			game->playerTwo->cardPile->GY.at(i)->Render();
 		}
+
 
 	}
 
@@ -388,11 +382,6 @@ void PlayerInputLoop() {
 		if ((CInputManager::KeyArray[119] == KEY_FIRST_PRESS) || (CInputManager::KeyArray[87] == KEY_FIRST_PRESS)) { //W Play Card
 
 			PlayCard(game->playerOne, game->playerAI, game->playerTwo);
-			if (game->playerOne->cardPile->GY.size() > 0) {
-				//move back of GY to GY visually
-				game->playerOne->cardPile->GY.back()->target = game->p1GYVisual->transform;
-				Console_OutputLog(L"MOVING TO GY", LOGINFO);
-			}
 
 		}
 		if ((CInputManager::KeyArray[83] == KEY_FIRST_PRESS) || (CInputManager::KeyArray[115] == KEY_FIRST_PRESS)) { //S
@@ -421,11 +410,6 @@ void PlayerInputLoop() {
 		}
 		if (CInputManager::KeySpecialArray[GLUT_KEY_UP] == KEY_FIRST_PRESS) { //UP
 			PlayCard(game->playerTwo, game->playerAI, game->playerOne);
-			if (game->playerTwo->cardPile->GY.size() > 0) {
-				//move back of GY to GY visually
-				game->playerTwo->cardPile->GY.back()->target = game->p2GYVisual->transform;
-				Console_OutputLog(L"MOVING TO GY", LOGINFO); 
-			}
 		}
 		if (CInputManager::KeySpecialArray[GLUT_KEY_LEFT] == KEY_FIRST_PRESS) { //LEFT
 
