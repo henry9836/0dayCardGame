@@ -17,7 +17,7 @@ Character::~Character()
 }
 
 //dounstantly ticking up increacing lines/ modifiable by lines muiltplayer
-void Character::constantuUpdateLines(float deltaTime)
+void Character::constantuUpdateLines(float deltaTime , int waves)
 {
 	//AI cannot attack
 	if (this->isAI && isStopped == true)
@@ -48,7 +48,7 @@ void Character::constantuUpdateLines(float deltaTime)
 
 	if (this->currentLines < 100.0f)
 	{
-		this->currentLines += deltaTime * LinesMult * 0.5f; //actual speed * mods * constant to slow gameplay down
+		this->currentLines += deltaTime * LinesMult * 0.25f * (1+ (waves * 0.1f)); //actual speed * mods * constant to slow gameplay down
 	}
 
 	if (this->currentLines > 100.0f)
@@ -104,11 +104,11 @@ void Character::Render()
 	}
 }
 
-void Character::Tick(float deltaTime)
+void Character::Tick(float deltaTime, int wave)
 {
-	constantuUpdateLines(deltaTime);
+	constantuUpdateLines(deltaTime, wave);
 
-	drawcardTimer += deltaTime/60 * 0.75f; // deltatimne * constant to slow gameplay down
+	drawcardTimer += deltaTime/60 * 0.5f * (1 +(wave * 0.1f)); // deltatimne * constant to slow gameplay down * scale
 
 	if (drawcardTimer > drawcardThreshold) {
 		DrawACard();

@@ -618,9 +618,9 @@ void Update() {
 
 		TickCards(deltaTime);
 
-		game->playerOne->Tick(deltaTime);
-		game->playerTwo->Tick(deltaTime);
-		game->playerAI->Tick(deltaTime);
+		game->playerOne->Tick(deltaTime, game->currentLvl);
+		game->playerTwo->Tick(deltaTime, game->currentLvl);
+		game->playerAI->Tick(deltaTime , game->currentLvl);
 
 		PlayerInputLoop();
 		CInputManager::ProcessKeyInput();
@@ -742,11 +742,11 @@ void populateGameObjectList() {
 	std::vector<std::string> menuopts;
 	menuopts.push_back("back");
 
-	game->HowToPlayMenu = new CMenu(menuopts, glm::vec2(0.0f, 0.0f), game);
+	game->HowToPlayMenu = new CMenu(menuopts, glm::vec2((game->ScreenSize.x /2) - 200, (-game->ScreenSize.y / 2) + 50), game);
 
 	game->howtoplayObjects.push_back(new GameObject(new RenderText(new CTextLabel("player 1: A/D to change selection, W to play a card, ", Utility::NormalFontString.data(), glm::vec2((-game->ScreenSize.x / 2) + 50, (game->ScreenSize.y / 2) - 50), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, game, ("test1"))), new IdleTick, Transform(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "vText"));
 	game->howtoplayObjects.push_back(new GameObject(new RenderText(new CTextLabel("insert how to play here", Utility::NormalFontString.data(), glm::vec2((-game->ScreenSize.x / 2) + 50, (game->ScreenSize.y / 2) - 100), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, game, ("test1"))), new IdleTick, Transform(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "vText"));
-	game->howtoplayObjects.push_back(new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/CardBack.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(-60, 0.0f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(25.0f, 40.0f, 1.0f)), "test image"));
+	game->howtoplayObjects.push_back(new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/CardBack.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(-60, 0.0f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(50.0f, 80.0f, 1.0f) ), "test image"));
 
 
 	game->lostObjects.push_back(new GameObject(new RenderText(new CTextLabel("Game Over\nYou have lost the battle againest the robots\nPress Space To Continue...", Utility::NormalFontString.data(), glm::vec2(game->ScreenSize.x * -0.9f, game->ScreenSize.y * 0.5f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, game, ("Lose Text"))), new IdleTick, Transform(glm::vec3(game->ScreenSize.x * -0.35f, 0.0f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "Lose Text"));

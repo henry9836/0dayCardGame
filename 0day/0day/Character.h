@@ -28,7 +28,7 @@ public:
 	~Character();
 
 	virtual void updateHP(float damage) { currentHP += damage; }; //implemet damage modifier
-	virtual void constantuUpdateLines(float deltaTime);
+	virtual void constantuUpdateLines(float deltaTime , int waves);
 	virtual void UpdateLines(float Diffrence);
 	virtual bool checkIfPlayable(float cost);
 	virtual float getHpBarPersent() { return currentHP / maxHP; };
@@ -79,7 +79,7 @@ public:
 	CardPile* cardPile;
 
 	void Render();
-	void Tick(float deltaTime);
+	void Tick(float deltaTime, int wave);
 	void Reset();
 
 	//render function //deck
