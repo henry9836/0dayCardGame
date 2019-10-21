@@ -129,6 +129,59 @@ void FlashRed(glm::vec3* inColor, float deltaTime) {
 	}
 }
 
+void RenderEffects() {
+	int offset = 0;
+	int moveAmount = 51;
+
+	//Player one
+	//Generating lines
+	if (game->playerOne->isGenerate || true) {
+		game->p1EffectLines->transform.position = glm::vec3(game->p1EffectPos.x + (offset*moveAmount), game->p1EffectPos.y, game->p1EffectPos.z);
+		game->p1EffectLines->Render();
+		offset ++;
+	}
+	//stopped
+	if (game->playerOne->isStopped || true) {
+		game->p1EffectStopped->transform.position = glm::vec3(game->p1EffectPos.x + (offset * moveAmount), game->p1EffectPos.y, game->p1EffectPos.z);
+		game->p1EffectStopped->Render();
+		offset++;
+	}
+
+	offset = 0;
+
+	//Player two
+	//Generating lines
+	if (game->playerTwo->isGenerate || true) {
+		game->p2EffectLines->transform.position = glm::vec3(game->p2EffectPos.x + (offset * moveAmount), game->p2EffectPos.y, game->p2EffectPos.z);
+		game->p2EffectLines->Render();
+		offset++;
+	}
+	//stopped
+	if (game->playerTwo->isStopped || true) {
+		game->p2EffectStopped->transform.position = glm::vec3(game->p2EffectPos.x + (offset * moveAmount), game->p2EffectPos.y, game->p2EffectPos.z);
+		game->p2EffectStopped->Render();
+		offset++;
+	}
+
+	offset = 0;
+
+	//AI
+	//Generating lines
+	if (game->playerAI->isGenerate || true) {
+		game->aiEffectLines->transform.position = glm::vec3(game->aiEffectPos.x, game->aiEffectPos.y - (offset * moveAmount), game->aiEffectPos.z);
+		game->aiEffectLines->Render();
+		offset++;
+	}
+	//stopped
+	if (game->playerAI->isStopped || true) {
+		game->aiEffectStopped->transform.position = glm::vec3(game->aiEffectPos.x, game->aiEffectPos.y - (offset * moveAmount), game->aiEffectPos.z);
+		game->aiEffectStopped->Render();
+		offset++;
+	}
+
+	offset = 0;
+}
+
 void RenderCards() {
 	int posOffset = 0;
 	int moveAmount = 51;
@@ -287,7 +340,9 @@ void Render() {
 			game->p2GYVisual->Render();
 		}
 
+		RenderEffects();
 		RenderCards();
+		
 
 		game->levelText->Render();
 
@@ -682,7 +737,7 @@ void populateGameObjectList() {
 	game->howtoplayObjects.push_back(new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/CardBack.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(-60, 0.0f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(25.0f, 40.0f, 1.0f)), "test image"));
 
 
-	game->lostObjects.push_back(new GameObject(new RenderText(new CTextLabel("Game Over\nYou have lost the battle againest the robots\nPress Space To Continue...", Utility::NormalFontString.data(), glm::vec2(game->ScreenSize.x * -10.0f, game->ScreenSize.y * 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, game, ("Lose Text"))), new IdleTick, Transform(glm::vec3(game->ScreenSize.x * -0.35f, 0.0f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "Lose Text"));
+	game->lostObjects.push_back(new GameObject(new RenderText(new CTextLabel("Game Over\nYou have lost the battle againest the robots\nPress Space To Continue...", Utility::NormalFontString.data(), glm::vec2(game->ScreenSize.x * -0.9f, game->ScreenSize.y * 0.5f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, game, ("Lose Text"))), new IdleTick, Transform(glm::vec3(game->ScreenSize.x * -0.35f, 0.0f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "Lose Text"));
 
 	game->levelText = new CTextLabel("Level: 1", Utility::NormalFontString.data(), glm::vec2(game->ScreenSize.x * -0.45f, game->ScreenSize.y * 0.45f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, game, ("Level Text"));
 #pragma endregion
@@ -706,6 +761,24 @@ void populateGameObjectList() {
 
 	game->gameBackground = new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/ground.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(0.0f, 0.0f, -0.9f), glm::vec3(0, 0, 0), glm::vec3(1000, 1000, 1)), "Background Layer");
 	game->background = new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/background.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(0.0f, 0.0f, -0.9f), glm::vec3(0, 0, 0), glm::vec3(1000, 1000, 1)), "Background");
+
+	//Effect Visuals
+
+	glm::vec3 effectScale = glm::vec3(30, 30, 1);
+
+	game->p1EffectLines = new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/missing.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(game->ScreenSize.x * 0.45f, game->ScreenSize.y * -0.15f, 0), glm::vec3(0, 0, 0), effectScale), "Lines Effect Visual");
+	game->p1EffectStopped = new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/missing.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(game->ScreenSize.x * 0.45f, game->ScreenSize.y * -0.15f, 0), glm::vec3(0, 0, 0), effectScale), "Stopped Effect Visual");
+	
+	game->p2EffectLines = new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/missing.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(game->ScreenSize.x * 0.45f, game->ScreenSize.y * -0.15f, 0), glm::vec3(0, 0, 0), effectScale), "Lines Effect Visual");
+	game->p2EffectStopped = new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/missing.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(game->ScreenSize.x * 0.45f, game->ScreenSize.y * -0.15f, 0), glm::vec3(0, 0, 0), effectScale), "Stopped Effect Visual");
+	
+	game->aiEffectLines = new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/missing.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(game->ScreenSize.x * 0.45f, game->ScreenSize.y * -0.15f, 0), glm::vec3(0, 0, 0), effectScale), "Lines Effect Visual");
+	game->aiEffectStopped = new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/missing.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(game->ScreenSize.x * 0.45f, game->ScreenSize.y * -0.15f, 0), glm::vec3(0, 0, 0), effectScale), "Stopped Effect Visual");
+
+	game->p1EffectPos = glm::vec3(game->ScreenSize.x * -0.45f, game->ScreenSize.y * -0.1f, 0);
+	game->p2EffectPos = glm::vec3(game->ScreenSize.x * 0.1f, game->ScreenSize.y * -0.1f, 0);
+	game->aiEffectPos = glm::vec3(game->ScreenSize.x * 0.15f, game->ScreenSize.y * 0.4f, 0);
+
 }
 
 void Exit()

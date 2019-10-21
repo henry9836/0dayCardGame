@@ -19,27 +19,29 @@ Character::~Character()
 //dounstantly ticking up increacing lines/ modifiable by lines muiltplayer
 void Character::constantuUpdateLines(float deltaTime)
 {
+	//AI cannot attack
 	if (this->isAI && isStopped == true)
 	{
-		lineStopped += deltaTime;
+		this->lineStopped += deltaTime;
 
-		if (lineStopped < 5.0f)
+		if (this->lineStopped < 5.0f)
 		{
 			return;
 		}
-		lineStopped = 0.0f;
-		isStopped = false;
+		this->lineStopped = 0.0f;
+		this->isStopped = false;
 	}
 
+	//Generate extra lines
 	if (!this->isAI && isGenerate == true)
 	{
-		generateLine += deltaTime;
+		this->generateLine += deltaTime;
 
-		if (generateLine >= 5.0f)
+		if (this->generateLine >= 5.0f)
 		{
-			LinesMult = LinesMultInit;
-			generateLine = 0.0f;
-			isGenerate = false;
+			this->LinesMult = this->LinesMultInit;
+			this->generateLine = 0.0f;
+			this->isGenerate = false;
 		}
 
 	}
