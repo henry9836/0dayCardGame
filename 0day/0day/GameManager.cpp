@@ -135,13 +135,13 @@ void RenderEffects() {
 
 	//Player one
 	//Generating lines
-	if (game->playerOne->isGenerate || true) {
+	if (game->playerOne->generateLine > 0) {
 		game->p1EffectLines->transform.position = glm::vec3(game->p1EffectPos.x + (offset*moveAmount), game->p1EffectPos.y, game->p1EffectPos.z);
 		game->p1EffectLines->Render();
 		offset ++;
 	}
 	//stopped
-	if (game->playerOne->isStopped || true) {
+	if (game->playerOne->lineStopped > 0) {
 		game->p1EffectStopped->transform.position = glm::vec3(game->p1EffectPos.x + (offset * moveAmount), game->p1EffectPos.y, game->p1EffectPos.z);
 		game->p1EffectStopped->Render();
 		offset++;
@@ -151,13 +151,13 @@ void RenderEffects() {
 
 	//Player two
 	//Generating lines
-	if (game->playerTwo->isGenerate || true) {
+	if (game->playerTwo->generateLine > 0) {
 		game->p2EffectLines->transform.position = glm::vec3(game->p2EffectPos.x + (offset * moveAmount), game->p2EffectPos.y, game->p2EffectPos.z);
 		game->p2EffectLines->Render();
 		offset++;
 	}
 	//stopped
-	if (game->playerTwo->isStopped || true) {
+	if (game->playerTwo->lineStopped > 0) {
 		game->p2EffectStopped->transform.position = glm::vec3(game->p2EffectPos.x + (offset * moveAmount), game->p2EffectPos.y, game->p2EffectPos.z);
 		game->p2EffectStopped->Render();
 		offset++;
@@ -167,13 +167,13 @@ void RenderEffects() {
 
 	//AI
 	//Generating lines
-	if (game->playerAI->isGenerate || true) {
+	if (game->playerAI->generateLine > 0) {
 		game->aiEffectLines->transform.position = glm::vec3(game->aiEffectPos.x, game->aiEffectPos.y - (offset * moveAmount), game->aiEffectPos.z);
 		game->aiEffectLines->Render();
 		offset++;
 	}
 	//stopped
-	if (game->playerAI->isStopped || true) {
+	if (game->playerAI->lineStopped > 0) {
 		game->aiEffectStopped->transform.position = glm::vec3(game->aiEffectPos.x, game->aiEffectPos.y - (offset * moveAmount), game->aiEffectPos.z);
 		game->aiEffectStopped->Render();
 		offset++;
@@ -764,7 +764,7 @@ void populateGameObjectList() {
 
 	//Effect Visuals
 
-	glm::vec3 effectScale = glm::vec3(30, 30, 1);
+	glm::vec3 effectScale = glm::vec3(20, 20, 1);
 
 	game->p1EffectLines = new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/missing.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(game->ScreenSize.x * 0.45f, game->ScreenSize.y * -0.15f, 0), glm::vec3(0, 0, 0), effectScale), "Lines Effect Visual");
 	game->p1EffectStopped = new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/missing.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(game->ScreenSize.x * 0.45f, game->ScreenSize.y * -0.15f, 0), glm::vec3(0, 0, 0), effectScale), "Stopped Effect Visual");
@@ -775,9 +775,9 @@ void populateGameObjectList() {
 	game->aiEffectLines = new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/missing.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(game->ScreenSize.x * 0.45f, game->ScreenSize.y * -0.15f, 0), glm::vec3(0, 0, 0), effectScale), "Lines Effect Visual");
 	game->aiEffectStopped = new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/missing.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(game->ScreenSize.x * 0.45f, game->ScreenSize.y * -0.15f, 0), glm::vec3(0, 0, 0), effectScale), "Stopped Effect Visual");
 
-	game->p1EffectPos = glm::vec3(game->ScreenSize.x * -0.45f, game->ScreenSize.y * -0.1f, 0);
-	game->p2EffectPos = glm::vec3(game->ScreenSize.x * 0.1f, game->ScreenSize.y * -0.1f, 0);
-	game->aiEffectPos = glm::vec3(game->ScreenSize.x * 0.15f, game->ScreenSize.y * 0.4f, 0);
+	game->p1EffectPos = glm::vec3(game->ScreenSize.x * -0.4f, game->ScreenSize.y * -0.13f, 0);
+	game->p2EffectPos = glm::vec3(game->ScreenSize.x * 0.1f, game->ScreenSize.y * -0.13f, 0);
+	game->aiEffectPos = glm::vec3(game->ScreenSize.x * 0.13f, game->ScreenSize.y * 0.4f, 0);
 
 }
 
