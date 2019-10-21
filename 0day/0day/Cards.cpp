@@ -113,10 +113,14 @@ void DefenceCard::Action(Character* _caster, Character* _target, Character* _oth
 	{
 		case DefenceCard::TAPE:
 		{
-			if (_caster->currentHP < _caster->maxHP)
+			if (_caster->currentHP + 5.0f < _caster->maxHP)
 			{
 				_caster->currentHP += 5.0f;
-			}		
+			}
+			else if (_caster->currentHP < _caster->maxHP)
+			{
+				_caster->currentHP += 5.0f;
+			}
 			break;
 		}
 		case DefenceCard::LOGIN:
@@ -172,21 +176,30 @@ void UtilityCard::Action(Character* _caster, Character* _target, Character* _oth
 
 			for (int i = 0; i < (signed int)_caster->cardPile->Hand.size(); i++)
 			{
-				damage += _caster->cardPile->Hand.at(0)->cost;
 				_caster->cardPile->GY.push_back(_caster->cardPile->Hand.at(0));
 				_caster->cardPile->Hand.erase(_caster->cardPile->Hand.begin());
 				i--;
 			}
 			for (int i = 0; i < (signed int)_otherPlayer->cardPile->Hand.size(); i++)
 			{
-				damage += _otherPlayer->cardPile->Hand.at(0)->cost;
 				_otherPlayer->cardPile->GY.push_back(_otherPlayer->cardPile->Hand.at(0));
 				_otherPlayer->cardPile->Hand.erase(_otherPlayer->cardPile->Hand.begin());
 				i--;
 			}
 
 			_caster->updateHP((float)(_caster->maxHP / 2.0f));
-			_otherPlayer->updateHP((float)(_otherPlayer->maxHP / 2.0f));
+			if (_otherPlayer->currentHP > 0.0f)
+			{
+				_otherPlayer->updateHP((float)(_otherPlayer->maxHP / 2.0f));
+			}
+			if (_caster->currentHP > _caster->maxHP)
+			{
+				_caster->currentHP = _caster->maxHP;
+			}
+			if (_otherPlayer->currentHP > _otherPlayer->maxHP)
+			{
+				_otherPlayer->currentHP = _otherPlayer->maxHP;
+			}
 
 			break;
 		}

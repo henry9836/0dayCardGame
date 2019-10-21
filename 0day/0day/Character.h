@@ -90,7 +90,7 @@ public:
 	float maxHP = 100.0f;
 	float damageMult = 1.0f;
 	float currentHP;
-	float LinesMult = 0.25f;
+	float LinesMult = 0.125f;
 	float drawcardThreshold = 2.0f;
 	float drawcardTimer = 0.0f;
 	float maxlines = 100.0f;
