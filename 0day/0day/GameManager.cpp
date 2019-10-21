@@ -591,6 +591,18 @@ void Update() {
 	}
 	case Scenes::SCENE_GAME:
 	{
+		//Sanity Checks
+		if (game->playerOne->currentHP > game->playerOne->maxHP) {
+			game->playerOne->currentHP = game->playerOne->maxHP;
+		}
+		if (game->playerTwo->currentHP > game->playerTwo->maxHP) {
+			game->playerTwo->currentHP = game->playerTwo->maxHP;
+		}
+		if (game->playerAI->currentHP > game->playerAI->maxHP) {
+			game->playerAI->currentHP = game->playerAI->maxHP;
+		}
+	
+
 		for (size_t i = 0; i < game->playgameObjects.size(); i++)
 		{
 			game->playgameObjects.at(i)->Tick(deltaTime, game->playgameObjects.at(i));
