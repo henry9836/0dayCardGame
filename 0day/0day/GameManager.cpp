@@ -633,6 +633,7 @@ void Update() {
 			game->gameover = true;
 		}
 
+		//rests level
 		if (game->playerAI->currentHP <= 0) {
 			game->gameover = false;
 			game->currentLvl++;
@@ -641,10 +642,36 @@ void Update() {
 
 			game->levelText->SetText("Level: " + to_string(game->currentLvl));
 
-			//reset hp
+
+
+			game->playerOne->maxHP = 100.0f;
+			game->playerTwo->maxHP = 100.0f;
+
 			game->playerOne->currentHP = game->playerOne->maxHP;
 			game->playerTwo->currentHP = game->playerTwo->maxHP;
 			game->playerAI->currentHP = game->playerAI->maxHP;
+
+			game->playerOne->currentLines = 0.0f;
+			game->playerTwo->currentLines = 0.0f;
+			game->playerAI->currentLines = 0.0f;
+
+			
+			for (int i = 0; i < (signed int)game->playerOne->cardPile->Hand.size(); i++)
+			{
+				game->playerOne->cardPile->GY.push_back(game->playerOne->cardPile->Hand.at(0));
+				game->playerOne->cardPile->Hand.erase(game->playerOne->cardPile->Hand.begin());
+				i--;
+			}
+			for (int i = 0; i < (signed int)game->playerTwo->cardPile->Hand.size(); i++)
+			{
+				game->playerTwo->cardPile->GY.push_back(game->playerTwo->cardPile->Hand.at(0));
+				game->playerTwo->cardPile->Hand.erase(game->playerTwo->cardPile->Hand.begin());
+				i--;
+			}
+
+			game->playerOne->moveGYToDeck();
+			game->playerTwo->moveGYToDeck();
+
 
 		}
 
