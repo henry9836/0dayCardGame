@@ -606,9 +606,9 @@ void Update() {
 
 		TickCards(deltaTime);
 
-		game->playerOne->Tick(deltaTime);
-		game->playerTwo->Tick(deltaTime);
-		game->playerAI->Tick(deltaTime);
+		game->playerOne->Tick(deltaTime, game->currentLvl);
+		game->playerTwo->Tick(deltaTime, game->currentLvl);
+		game->playerAI->Tick(deltaTime , game->currentLvl);
 
 		PlayerInputLoop();
 		CInputManager::ProcessKeyInput();
