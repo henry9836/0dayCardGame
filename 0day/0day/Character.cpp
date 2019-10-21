@@ -48,7 +48,7 @@ void Character::constantuUpdateLines(float deltaTime)
 
 	if (this->currentLines < 100.0f)
 	{
-		this->currentLines += deltaTime * LinesMult;
+		this->currentLines += deltaTime * LinesMult * 0.5f; //actual speed * mods * constant to slow gameplay down
 	}
 
 	if (this->currentLines > 100.0f)
@@ -108,7 +108,7 @@ void Character::Tick(float deltaTime)
 {
 	constantuUpdateLines(deltaTime);
 
-	drawcardTimer += deltaTime/60;
+	drawcardTimer += deltaTime/60 * 0.75f; // deltatimne * constant to slow gameplay down
 
 	if (drawcardTimer > drawcardThreshold) {
 		DrawACard();
