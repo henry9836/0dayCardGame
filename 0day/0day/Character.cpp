@@ -129,6 +129,10 @@ void Character::Tick(float deltaTime)
 				playerOne->currentHP -= baseDamage * tempdamage;
 				
 			}
+			else if (c == 1 && playerTwo->currentHP <= 0)
+			{
+				playerOne->currentHP -= baseDamage * tempdamage; 
+			}
 			else {
 				playerTwo->currentHP -= baseDamage * tempdamage;
 			}
