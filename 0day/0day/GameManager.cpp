@@ -591,6 +591,18 @@ void Update() {
 	}
 	case Scenes::SCENE_GAME:
 	{
+		//Sanity Checks
+		if (game->playerOne->currentHP > game->playerOne->maxHP) {
+			game->playerOne->currentHP = game->playerOne->maxHP;
+		}
+		if (game->playerTwo->currentHP > game->playerTwo->maxHP) {
+			game->playerTwo->currentHP = game->playerTwo->maxHP;
+		}
+		if (game->playerAI->currentHP > game->playerAI->maxHP) {
+			game->playerAI->currentHP = game->playerAI->maxHP;
+		}
+	
+
 		for (size_t i = 0; i < game->playgameObjects.size(); i++)
 		{
 			game->playgameObjects.at(i)->Tick(deltaTime, game->playgameObjects.at(i));
@@ -766,14 +778,14 @@ void populateGameObjectList() {
 
 	glm::vec3 effectScale = glm::vec3(20, 20, 1);
 
-	game->p1EffectLines = new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/missing.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(game->ScreenSize.x * 0.45f, game->ScreenSize.y * -0.15f, 0), glm::vec3(0, 0, 0), effectScale), "Lines Effect Visual");
-	game->p1EffectStopped = new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/missing.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(game->ScreenSize.x * 0.45f, game->ScreenSize.y * -0.15f, 0), glm::vec3(0, 0, 0), effectScale), "Stopped Effect Visual");
+	game->p1EffectLines = new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/keyboard.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(game->ScreenSize.x * 0.45f, game->ScreenSize.y * -0.15f, 0), glm::vec3(0, 0, 0), effectScale), "Lines Effect Visual");
+	game->p1EffectStopped = new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/lock.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(game->ScreenSize.x * 0.45f, game->ScreenSize.y * -0.15f, 0), glm::vec3(0, 0, 0), effectScale), "Stopped Effect Visual");
 	
-	game->p2EffectLines = new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/missing.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(game->ScreenSize.x * 0.45f, game->ScreenSize.y * -0.15f, 0), glm::vec3(0, 0, 0), effectScale), "Lines Effect Visual");
-	game->p2EffectStopped = new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/missing.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(game->ScreenSize.x * 0.45f, game->ScreenSize.y * -0.15f, 0), glm::vec3(0, 0, 0), effectScale), "Stopped Effect Visual");
+	game->p2EffectLines = new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/keyboard.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(game->ScreenSize.x * 0.45f, game->ScreenSize.y * -0.15f, 0), glm::vec3(0, 0, 0), effectScale), "Lines Effect Visual");
+	game->p2EffectStopped = new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/lock.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(game->ScreenSize.x * 0.45f, game->ScreenSize.y * -0.15f, 0), glm::vec3(0, 0, 0), effectScale), "Stopped Effect Visual");
 	
-	game->aiEffectLines = new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/missing.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(game->ScreenSize.x * 0.45f, game->ScreenSize.y * -0.15f, 0), glm::vec3(0, 0, 0), effectScale), "Lines Effect Visual");
-	game->aiEffectStopped = new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/missing.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(game->ScreenSize.x * 0.45f, game->ScreenSize.y * -0.15f, 0), glm::vec3(0, 0, 0), effectScale), "Stopped Effect Visual");
+	game->aiEffectLines = new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/keyboard.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(game->ScreenSize.x * 0.45f, game->ScreenSize.y * -0.15f, 0), glm::vec3(0, 0, 0), effectScale), "Lines Effect Visual");
+	game->aiEffectStopped = new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/lock.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(game->ScreenSize.x * 0.45f, game->ScreenSize.y * -0.15f, 0), glm::vec3(0, 0, 0), effectScale), "Stopped Effect Visual");
 
 	game->p1EffectPos = glm::vec3(game->ScreenSize.x * -0.4f, game->ScreenSize.y * -0.13f, 0);
 	game->p2EffectPos = glm::vec3(game->ScreenSize.x * 0.1f, game->ScreenSize.y * -0.13f, 0);
