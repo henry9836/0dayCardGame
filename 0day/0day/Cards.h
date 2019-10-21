@@ -14,7 +14,8 @@ public:
 		DDOS,
 		SQL,
 		SKULL,
-		REDCIRCLE
+		REDCIRCLE,
+		STAGER
 	};
 
 	AttackCard(RenderClass* r, TickClass* t, Transform _trans, string _name, int _cost, int _damage, AttackCard::CARDS _cardType);

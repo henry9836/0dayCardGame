@@ -35,7 +35,8 @@ public:
 	vector<GameObject*> howtoplayObjects; // instructions of how to play
 	vector<GameObject*> lostObjects; //lose screen
 	vector<Card*> deckselectionObjects; //DeckSelection
-
+	
+	//Game Scene
 	GameObject* p1DeckVisual;
 	GameObject* p1GYVisual;
 	GameObject* p2DeckVisual;
@@ -43,16 +44,35 @@ public:
 	GameObject* gameBackground;
 	GameObject* background;
 
+	//Effects
+	GameObject* p1EffectLines;
+	GameObject* p1EffectStopped;
+
+	GameObject* p2EffectLines;
+	GameObject* p2EffectStopped;
+
+	GameObject* aiEffectLines;
+	GameObject* aiEffectStopped;
+
+
 	Character* playerOne;
 	Character* playerTwo;
 	Character* playerAI;
 	
+	CTextLabel* levelText;
+
 	int currentLvl = 1;
 	bool gameover = false;
 	bool once = false;
+	bool Selectonce = false;
+	bool Gameonce = false;
 
 	glm::vec2 ScreenSize = {1700,1000};
 	glm::vec2 MousePosition;
+
+	glm::vec3 p1EffectPos;
+	glm::vec3 p2EffectPos;
+	glm::vec3 aiEffectPos;
 
 	void switchScene(Scenes newScene);
 

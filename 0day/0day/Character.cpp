@@ -19,9 +19,36 @@ Character::~Character()
 //dounstantly ticking up increacing lines/ modifiable by lines muiltplayer
 void Character::constantuUpdateLines(float deltaTime)
 {
+	//AI cannot attack
+	if (this->isAI && isStopped == true)
+	{
+		this->lineStopped += deltaTime;
+
+		if (this->lineStopped < 5000.0f)
+		{
+			return;
+		}
+		this->lineStopped = 0.0f;
+		this->isStopped = false;
+	}
+
+	//Generate extra lines
+	if (!this->isAI && isGenerate == true)
+	{
+		this->generateLine += deltaTime;
+
+		if (this->generateLine >= 5000.0f)
+		{
+			this->LinesMult = this->LinesMultInit;
+			this->generateLine = 0.0f;
+			this->isGenerate = false;
+		}
+
+	}
+
 	if (this->currentLines < 100.0f)
 	{
-		this->currentLines += deltaTime * LinesMult;
+		this->currentLines += deltaTime * LinesMult * 0.5f; //actual speed * mods * constant to slow gameplay down
 	}
 
 	if (this->currentLines > 100.0f)
@@ -81,7 +108,7 @@ void Character::Tick(float deltaTime)
 {
 	constantuUpdateLines(deltaTime);
 
-	drawcardTimer += deltaTime/60;
+	drawcardTimer += deltaTime/60 * 0.75f; // deltatimne * constant to slow gameplay down
 
 	if (drawcardTimer > drawcardThreshold) {
 		DrawACard();
@@ -89,14 +116,21 @@ void Character::Tick(float deltaTime)
 	}
 
 	if (isAI) {
-		if (currentLines > 90) {
+		if (currentLines >= 100) {
 			int c = rand() % 2;
 			wcout << "Dealing " << baseDamage << " To Player" << endl;
+			float tempdamage = damageMult;
+			if (isAttackReduced == true)
+			{
+				tempdamage = damageMult / 2.0f;
+				isAttackReduced = false;
+			}
 			if (c == 0 && playerOne->currentHP > 0) {
-				playerOne->currentHP -= baseDamage;
+				playerOne->currentHP -= baseDamage * tempdamage;
+				
 			}
 			else {
-				playerTwo->currentHP -= baseDamage;
+				playerTwo->currentHP -= baseDamage * tempdamage;
 			}
 			currentLines = 0;
 		}
@@ -118,16 +152,10 @@ void Character::Reset()
 	baseDamage = baseDamageInit;
 }
 
-
+//THIS NEEDS TO BE UPDATE TO DESTORY STUFF SO NULLPTR AND DELETE EVERYTHING IN HERE
 Human::~Human()
 {
-	maxHP = 100.0f;
-	currentHP = maxHP;
-	maxlines = 100.0f;
-	currentLines = 35.0f;
-	float damageMult = 1.0f;
-	float LinesMult = 1.0f;
-	float accuracy = 1.0f;
+
 }
 
 AI::~AI()

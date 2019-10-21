@@ -13,6 +13,8 @@ public:
 	vector<Card*> Hand;
 	vector<Card*> GY;
 
+
+
 	glm::vec3 handPos;
 
 	void shuffleDeck();
@@ -40,29 +42,36 @@ public:
 		
 		Console_OutputLog(L"Shuffling Graveyard into Deck", LOGINFO);
 
-		for (size_t i = 0; i < cardPile->GY.size(); i++)
+		for (size_t i = 0; i < this->cardPile->GY.size(); i++)
 		{
-			cardPile->Deck.push_back(cardPile->GY.at(i));
+			this->cardPile->Deck.push_back(this->cardPile->GY.at(i));
+			this->cardPile->Deck.back()->transform.rotation = glm::vec3(0, 0, 0);
+			this->cardPile->Deck.back()->transform.scale = this->defaultCardSize;
+			this->cardPile->Deck.back()->target.rotation = glm::vec3(0, 0, 0);
+			this->cardPile->Deck.back()->target.scale = this->defaultCardSize;
 		}
 
-		cardPile->GY.clear();
+		this->cardPile->GY.clear();
 
 		std::random_device rd;
 		std::mt19937 g(rd());
 
-		std::shuffle(cardPile->Deck.begin(), cardPile->Deck.end(), g);
+		std::shuffle(this->cardPile->Deck.begin(), this->cardPile->Deck.end(), g);
 
 	};
 
 	virtual void DrawACard() { 
-		if (cardPile->Hand.size() < 10) {
-			if (cardPile->Deck.size() > 0) {
-				cardPile->Hand.push_back(cardPile->Deck.back());
-				cardPile->Deck.pop_back();
-			}
-			else {
-				moveGYToDeck();
-				//Console_OutputLog(L"Cannot Deal Card As Deck Size is 0", LOGWARN);
+		//The AI does not have a hand
+		if (!this->isAI) {
+			if (this->cardPile->Hand.size() < 10) {
+				if (this->cardPile->Deck.size() > 0) {
+					this->cardPile->Hand.push_back(this->cardPile->Deck.back());
+					this->cardPile->Deck.pop_back();
+				}
+				else {
+					moveGYToDeck();
+					Console_OutputLog(L"Cannot Deal Card As Deck Size is 0, Shuffing...", LOGWARN);
+				}
 			}
 		}
 	};
@@ -87,17 +96,22 @@ public:
 	float maxlines = 100.0f;
 	float currentLines = 0.0f;
 	float baseDamage = 17.5f;
+	float lineStopped = 0.0f;
+	float generateLine = 0.0f;
 	GameObject* gameObject = nullptr;
 	Character* playerOne = nullptr;
 	Character* playerTwo = nullptr;
 	bool isAI = false;
-
+	bool isAttackReduced = false;
+	bool isStopped = false;
+	bool isGenerate = false;
+	
 
 	float accuracyInit = 1.0f;
 	float maxHPInit = 100.0f;
 	float damageMultInit = 1.0f;
 	float currentHPInit = 100.0f;
-	float LinesMultInit = 1.0f;
+	float LinesMultInit = LinesMult;
 	float drawcardThresholdInit = 1.0f;
 	float drawcardTimerInit = 0.0f;
 	float maxlinesInit = 100.0f;
@@ -112,19 +126,6 @@ public:
 
 	Human(CardPile* _cardPile, float _health, GameObject* _gameObject, bool _isAI) : Character(_cardPile, _health, _gameObject, _isAI)
 	{
-		float initalHP = 100.0f;
-		float currentHP = initalHP;
-		float currentLines = 35.0f;
-		float damageMult = 1.0f;
-		float LinesMult = 0.25;
-		float accuracy = 1.0f;
-
-		float initalHPInit = initalHP;
-		float currentHPInit = initalHP;
-		float currentLinesInit = currentLines;
-		float damageMultInit = damageMult;
-		float LinesMultInit = LinesMult;
-		float accuracyInit = accuracy;
 
 	};
 	~Human();
@@ -139,24 +140,9 @@ public:
 
 	AI(int Level, CardPile* _cardPile, float _health, GameObject* _gameObject, bool _isAI, Character* _playerOne, Character* _playerTwo) : Character(_cardPile, _health, _gameObject, _isAI)
 	{
-		float initalHP = 200.0f ;
-		float currentHP = initalHP;
-		float currentLines = 0.0f;
-		float damageMult = 1.0f;
-		float LinesMult = 0.25;
-		float rateOfLinesMult = 1.0f;
-		float accuracy = 1.0f;
 		isAI = _isAI;
 		playerOne = _playerOne;
 		playerTwo = _playerTwo;
-
-		float initalHPInit = initalHP;
-		float currentHPInit = initalHP;
-		float currentLinesInit = currentLines;
-		float damageMultInit = damageMult;
-		float LinesMultInit = LinesMult;
-		float rateOfLinesMultInit = rateOfLinesMult;
-		float accuracyInit = accuracy;
 	};
 	~AI();
 

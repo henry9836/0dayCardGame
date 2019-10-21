@@ -80,6 +80,12 @@ void AttackCard::Action(Character* _caster, Character* _target, Character* _othe
 			_target->updateHP(-50.0f * _caster->getDamageMult());
 			break;
 		}
+		case AttackCard::STAGER:
+		{
+			_target->updateHP(-15.0f * _caster->getDamageMult());
+			_caster->DrawACard();
+			break;
+		}
 		default:
 		{
 			Console_OutputLog(L"attack default case", LOGINFO);
@@ -107,18 +113,22 @@ void DefenceCard::Action(Character* _caster, Character* _target, Character* _oth
 	{
 		case DefenceCard::TAPE:
 		{
-			_target->updateAccuracy(- _target->accuracy / 100.0f);
+			if (_caster->currentHP < _caster->maxHP)
+			{
+				_caster->currentHP += 5.0f;
+			}		
 			break;
 		}
 		case DefenceCard::LOGIN:
 		{
-			//stop line generation
+			_target->isStopped = true;
+			_target->lineStopped = 0.0f;
 			break;
 		}
 		case DefenceCard::FIREWALL:
 		{
-			_target->updateAccuracy(- _target->accuracy/2.0f);
-			//until net attack
+			_target->isAttackReduced = true;
+			//until next attack
 			break;
 		}
 		case DefenceCard::CREDS:
@@ -178,7 +188,6 @@ void UtilityCard::Action(Character* _caster, Character* _target, Character* _oth
 			_caster->updateHP((float)(_caster->maxHP / 2.0f));
 			_otherPlayer->updateHP((float)(_otherPlayer->maxHP / 2.0f));
 
-
 			break;
 		}
 		case UtilityCard::FORKBOMB:
@@ -197,6 +206,9 @@ void UtilityCard::Action(Character* _caster, Character* _target, Character* _oth
 		}
 		case UtilityCard::ENHNACED:
 		{
+			_caster->isGenerate = true;
+			_caster->LinesMult *= 2;
+			_caster->generateLine = 0.0f;
 			//double lines over next 5 seconds
 			break;
 		}

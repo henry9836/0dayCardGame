@@ -43,6 +43,13 @@ Selection::Selection(std::vector<Card*> _OptVect, glm::vec3 _Pos, int _Length, f
 Selection::~Selection()
 {
 	OptionVect.clear();
+	delete indicatorPlayer1;
+	indicatorPlayer1 = nullptr;
+	delete indicatorPlayer2;
+	indicatorPlayer2 = nullptr;
+	delete Start;
+	Start = nullptr;
+	p_Game = nullptr;
 }
 
 void Selection::IncrementMenu(int _Player)
@@ -165,7 +172,7 @@ void Selection::SelectOption(unsigned int _Option1, unsigned int _Option2)
 	}
 }
 
-void Selection::Process(Character * _Player1, Character * _Player2)
+void Selection::Process(Character * _Player1, Character * _Player2, AudioSystem* audio)
 {
 	//ResetRender();
 	if (CInputManager::KeyArray['s'] == KEY_FIRST_PRESS)
@@ -196,17 +203,27 @@ void Selection::Process(Character * _Player1, Character * _Player2)
 				IncrementMenu(1);
 			}
 			else if (CInputManager::KeyArray['w'] == KEY_FIRST_PRESS) {
-				if (_Player1->cardPile->Deck.size() < 10 && MenuType == 0)
+				if (MenuType == 0)
 				{
-					//Selected card goes in deck or is removed
-					AddCard(true, _Player1, _Player2);
+					if (_Player1->cardPile->Deck.size() < 10) {
+						audio->Play(AudioSystem::BUTTONPRESS);
+						//Selected card goes in deck or is removed
+						AddCard(true, _Player1, _Player2, audio);
+					}
+					else {
+						audio->Play(AudioSystem::DENY);
+					}
 					return;
 				}
 				else if (MenuType == 1)
 				{
-					RemoveCard(true, _Player1, _Player2);
+					audio->Play(AudioSystem::BUTTONPRESS);
+					RemoveCard(true, _Player1, _Player2, audio);
 					return;
 				}
+			}
+			else {
+				//audio->Play(AudioSystem::DENY);
 			}
 		}
 	}
@@ -224,15 +241,22 @@ void Selection::Process(Character * _Player1, Character * _Player2)
 			}
 			else if (CInputManager::KeySpecialArray[GLUT_KEY_UP] == KEY_FIRST_PRESS)
 			{
-				if (_Player2->cardPile->Deck.size() < 10 && MenuType == 0)
+				if (MenuType == 0)
 				{
-					//Selected card goes in deck or is removed
-					AddCard(false, _Player1, _Player2);
+					if (_Player2->cardPile->Deck.size() < 10) {
+						//Selected card goes in deck or is removed
+						audio->Play(AudioSystem::BUTTONPRESS);
+						AddCard(false, _Player1, _Player2, audio);
+					}
+					else {
+						audio->Play(AudioSystem::DENY);
+					}
 					return;
 				}
 				else if (MenuType == 2)
 				{
-					RemoveCard(false, _Player1, _Player2);
+					audio->Play(AudioSystem::BUTTONPRESS);
+					RemoveCard(false, _Player1, _Player2, audio);
 					return;
 				}
 			}
@@ -246,13 +270,13 @@ void Selection::Render()
 	if (MenuType == 0)
 	Start->Render();
 	for (auto it : OptionVect) it->Render();
-	if (MenuType == 0 && playerOneIsOn == true || MenuType == 1 && playerOneIsOn == true)
+	if (MenuType == 0 && playerOneIsOn == true || MenuType == 1 && playerOneIsOn == true && OptionVect.size() != 0)
 		indicatorPlayer1->Render();
-	if (MenuType == 0 && playerTwoIsOn == true || MenuType == 2 && playerTwoIsOn == true)
+	if (MenuType == 0 && playerTwoIsOn == true || MenuType == 2 && playerTwoIsOn == true && OptionVect.size() != 0)
 		indicatorPlayer2->Render();
 }
 
-void Selection::RemoveCard(bool isPlayer1, Character* _Player1, Character* _Player2)
+void Selection::RemoveCard(bool isPlayer1, Character* _Player1, Character* _Player2, AudioSystem* audio)
 {
 	if (isPlayer1 && _Player1->cardPile->Deck.size() > 0)
 	{
@@ -266,10 +290,13 @@ void Selection::RemoveCard(bool isPlayer1, Character* _Player1, Character* _Play
 		CurrentOptionPlayerTwo = 0;
 		NumMenuOptions = _Player2->cardPile->Deck.size() - 1;
 	}
+	else {
+		audio->Play(AudioSystem::DENY);
+	}
 	
 }
 
-void Selection::AddCard(bool isPlayer1, Character* _Player1, Character* _Player2)
+void Selection::AddCard(bool isPlayer1, Character* _Player1, Character* _Player2, AudioSystem* audio)
 {
 	if (isPlayer1)
 	{
@@ -278,6 +305,9 @@ void Selection::AddCard(bool isPlayer1, Character* _Player1, Character* _Player2
 		{
 			_Player1->cardPile->Deck.push_back(newCard);
 		}
+		else {
+			audio->Play(AudioSystem::DENY);
+		}
 	}
 	else if (!isPlayer1)
 	{
@@ -285,6 +315,9 @@ void Selection::AddCard(bool isPlayer1, Character* _Player1, Character* _Player2
 		if (CheckCard(_Player2, newCard))
 		{
 			_Player2->cardPile->Deck.push_back(newCard);
+		}
+		else {
+			audio->Play(AudioSystem::DENY);
 		}
 	}
 }
