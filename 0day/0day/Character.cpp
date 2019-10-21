@@ -24,7 +24,7 @@ void Character::constantuUpdateLines(float deltaTime)
 	{
 		this->lineStopped += deltaTime;
 
-		if (this->lineStopped < 5.0f)
+		if (this->lineStopped < 5000.0f)
 		{
 			return;
 		}
@@ -37,7 +37,7 @@ void Character::constantuUpdateLines(float deltaTime)
 	{
 		this->generateLine += deltaTime;
 
-		if (this->generateLine >= 5.0f)
+		if (this->generateLine >= 5000.0f)
 		{
 			this->LinesMult = this->LinesMultInit;
 			this->generateLine = 0.0f;
