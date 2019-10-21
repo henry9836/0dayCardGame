@@ -737,7 +737,7 @@ void populateGameObjectList() {
 	game->howtoplayObjects.push_back(new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture("Resources/Textures/CardBack.png"), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(-60, 0.0f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(25.0f, 40.0f, 1.0f)), "test image"));
 
 
-	game->lostObjects.push_back(new GameObject(new RenderText(new CTextLabel("Game Over\nYou have lost the battle againest the robots\nPress Space To Continue...", Utility::NormalFontString.data(), glm::vec2(game->ScreenSize.x * -0.9f, game->ScreenSize.y * 0.5f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, game, ("Lose Text"))), new IdleTick, Transform(glm::vec3(game->ScreenSize.x * -0.35f, 0.0f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "Lose Text"));
+	game->lostObjects.push_back(new GameObject(new RenderText(new CTextLabel("Game Over\nYou have lost the battle againest the robots\nPress Space To Continue...", Utility::NormalFontString.data(), glm::vec2(game->ScreenSize.x * -0.25f, game->ScreenSize.y * 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, game, ("Lose Text"))), new IdleTick, Transform(glm::vec3(game->ScreenSize.x * -0.35f, 0.0f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "Lose Text"));
 
 	game->levelText = new CTextLabel("Level: 1", Utility::NormalFontString.data(), glm::vec2(game->ScreenSize.x * -0.45f, game->ScreenSize.y * 0.45f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, game, ("Level Text"));
 #pragma endregion

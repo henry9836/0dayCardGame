@@ -22,9 +22,9 @@ void Character::constantuUpdateLines(float deltaTime)
 	//AI cannot attack
 	if (this->isAI && isStopped == true)
 	{
-		this->lineStopped += deltaTime;
+		this->lineStopped += (deltaTime/60);
 
-		if (this->lineStopped < 5000.0f)
+		if (this->lineStopped < 5.0f)
 		{
 			return;
 		}
@@ -35,9 +35,9 @@ void Character::constantuUpdateLines(float deltaTime)
 	//Generate extra lines
 	if (!this->isAI && isGenerate == true)
 	{
-		this->generateLine += deltaTime;
+		this->generateLine += (deltaTime/60);
 
-		if (this->generateLine >= 5000.0f)
+		if (this->generateLine >= 5.0f)
 		{
 			this->LinesMult = this->LinesMultInit;
 			this->generateLine = 0.0f;
