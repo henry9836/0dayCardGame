@@ -112,18 +112,26 @@ namespace Utility
 
 namespace Textures
 {
-	const std::string RedRing = "Resources/Textures/REDRINGCard.png";
-	const std::string DDOS = "Resources/Textures/DDOSCard.png";
-	const std::string SQL = "Resources/Textures/SQLCard.png";
-
-	const std::string AccountTransfer = "Resources/Textures/accounttransfer.png";
-	const std::string EnterKey = "Resources/Textures/enterkey.png";
-	const std::string Enumeration = "Resources/Textures/enumeration.png";
-	const std::string FalsifiedCredentials = "Resources/Textures/FalsifiedCredentials.png";
-	const std::string ForkBomb = "Resources/Textures/forkbomb.png";
-	const std::string ModCode = "Resources/Textures/Self-Modifiying Code.png";
-	const std::string Skull = "Resources/Textures/skullonscreen.png";
-
+	const std::string ZERODAY = "Resources/Textures/CARDS/0day.png";
+	const std::string account = "Resources/Textures/CARDS/account.png";
+	const std::string circle = "Resources/Textures/CARDS/circle.png";
+	const std::string dos = "Resources/Textures/CARDS/dos.png";
+	const std::string enhnaced = "Resources/Textures/CARDS/enhanced.png";
+	const std::string enterkey = "Resources/Textures/CARDS/enterkey.png";
+	const std::string enumeration = "Resources/Textures/CARDS/enumeration.png";
+	const std::string falseified = "Resources/Textures/CARDS/false.png";
+	const std::string FB = "Resources/Textures/CARDS/FB.png";
+	const std::string firewall = "Resources/Textures/CARDS/firewall.png";
+	const std::string fuzzer = "Resources/Textures/CARDS/fuzzer.png";
+	const std::string login = "Resources/Textures/CARDS/login.png";
+	const std::string robofight = "Resources/Textures/CARDS/robofight.png";
+	const std::string selfmod = "Resources/Textures/CARDS/selfmod.png";
+	const std::string skull = "Resources/Textures/CARDS/skull.png";
+	const std::string SQL = "Resources/Textures/CARDS/SQL.png";
+	const std::string stager = "Resources/Textures/CARDS/stager.png";
+	const std::string sunglasses = "Resources/Textures/CARDS/sunglasses.png";
+	const std::string systemreset = "Resources/Textures/CARDS/systemreset.png";
+	const std::string tape = "Resources/Textures/CARDS/tape.png";
 
 	const std::string Player1Indicator = "Resources/Textures/Player1Indicator.png";
 	const std::string Player2Indicator = "Resources/Textures/Player2Indicator.png";
