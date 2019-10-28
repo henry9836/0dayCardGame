@@ -236,3 +236,7 @@ void TickObjectMoveable::Tick(float deltaTime, GameObject* _gameObject)
 
 	}
 }
+
+RenderClass::~RenderClass()
+{
+}

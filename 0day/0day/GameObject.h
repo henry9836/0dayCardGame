@@ -11,6 +11,7 @@ class Character;
 
 class RenderClass {
 public:
+	virtual ~RenderClass();
 	virtual void Render(Transform* _transform) = 0;
 	virtual void SetTexture(GLuint _tex) = 0;
 	virtual void SetShader(GLuint _shader) = 0;
