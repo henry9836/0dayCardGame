@@ -35,8 +35,15 @@ public:
 	virtual float getLinesBatPersent() { return currentLines / maxlines; };
 	float getDamageMult() { return damageMult; };
 	virtual void updateAccuracy(float modifiyer) { accuracy += modifiyer; };
-	virtual void MaxHPUpdate(float HP) { maxHP = HP; currentHP = HP; };
+	virtual void MaxHPUpdate(float HP, bool maxhealth) { maxHP = HP; if (maxhealth == true) { currentHP = HP; } else { currentHP += 25.0f; }};
 	virtual void updateLevel(int _lvl) = 0;
+
+	virtual void updateRateOfLinesMult(float deltaTime) 
+	{
+		this->LinesMult = this->LinesMult + (rateOfLinesMult * deltaTime); 
+		Console_OutputLog(to_wstring(this->LinesMult), LOGINFO);
+
+	};
 
 	virtual void moveGYToDeck() {
 		
@@ -117,6 +124,8 @@ public:
 	float maxlinesInit = 100.0f;
 	float currentLinesInit = 0.0f;
 	float baseDamageInit = 2.0f;
+	float rateOfLinesMult = 0.00001f;
+
 
 };
 
@@ -146,10 +155,9 @@ public:
 	};
 	~AI();
 
-	void updateRateOfLinesMult(float deltaTime);
 	void updateLevel(int _lvl) {
-		rateOfLinesMult = _lvl * 0.001f;
-		MaxHPUpdate(100.0f + ((_lvl * 10) * (_lvl * 10)));
+		rateOfLinesMult = _lvl * 0.00001f;
+		MaxHPUpdate(100.0f + ((_lvl * 10) * (_lvl * 10)), true);
 		baseDamage *= 1.05f;
 	};
 
@@ -158,8 +166,5 @@ public:
 
 
 
-private: 
-
-	float rateOfLinesMult = 1.0f;
 
 };

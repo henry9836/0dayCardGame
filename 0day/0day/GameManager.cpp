@@ -637,12 +637,14 @@ void Update() {
 
 		//AI Has Died
 
-		if ((game->playerOne->currentHP <= 0) && (game->playerTwo->currentHP <= 0)) {
+		if ((game->playerOne->currentHP <= 0) && (game->playerTwo->currentHP <= 0)) 
+		{
 			game->gameover = true;
 		}
 
-		//rests level
-		if (game->playerAI->currentHP <= 0) {
+		//resets level
+		if (game->playerAI->currentHP <= 0) 
+		{
 			game->gameover = false;
 			game->currentLvl++;
 			game->playerAI->updateLevel(game->currentLvl);
@@ -650,7 +652,12 @@ void Update() {
 
 			game->levelText->SetText("Level: " + to_string(game->currentLvl));
 
+			game->playerOne->damageMult = 1.0f;
+			game->playerTwo->damageMult = 1.0f;
 
+			game->playerAI->LinesMult = game->playerAI->LinesMultInit;
+			game->playerOne->damageMult = 1.0f;
+			game->playerTwo->damageMult = 1.0f;
 
 			game->playerOne->maxHP = 100.0f;
 			game->playerTwo->maxHP = 100.0f;

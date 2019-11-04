@@ -48,7 +48,7 @@ void AttackCard::Action(Character* _caster, Character* _target, Character* _othe
 				i--;
 			}
 
-			_target->updateHP((float)-damage * _caster->getDamageMult());
+			_target->updateHP(((float)-damage / 3.0f) * _caster->getDamageMult());
 			break;
 		}
 		case AttackCard::DDOS:
@@ -113,13 +113,13 @@ void DefenceCard::Action(Character* _caster, Character* _target, Character* _oth
 	{
 		case DefenceCard::TAPE:
 		{
-			if (_caster->currentHP + 5.0f < _caster->maxHP)
+			if (_caster->currentHP + 15.0f < _caster->maxHP)
 			{
-				_caster->currentHP += 5.0f;
+				_caster->currentHP += 15.0f;
 			}
 			else if (_caster->currentHP < _caster->maxHP)
 			{
-				_caster->currentHP += 5.0f;
+				_caster->currentHP = _caster->maxHP;
 			}
 			break;
 		}
@@ -143,7 +143,7 @@ void DefenceCard::Action(Character* _caster, Character* _target, Character* _oth
 		}
 		case DefenceCard::SUNGLASSES:
 		{
-			_caster->MaxHPUpdate(_caster->maxHP + 25.0f);
+			_caster->MaxHPUpdate(_caster->maxHP + 25.0f, false);
 			break;
 		}
 		default:
@@ -187,16 +187,9 @@ void UtilityCard::Action(Character* _caster, Character* _target, Character* _oth
 				i--;
 			}
 
-			_caster->updateHP((float)(_caster->maxHP / 2.0f));
+			_caster->currentHP = _caster->maxHP;
+
 			if (_otherPlayer->currentHP > 0.0f)
-			{
-				_otherPlayer->updateHP((float)(_otherPlayer->maxHP / 2.0f));
-			}
-			if (_caster->currentHP > _caster->maxHP)
-			{
-				_caster->currentHP = _caster->maxHP;
-			}
-			if (_otherPlayer->currentHP > _otherPlayer->maxHP)
 			{
 				_otherPlayer->currentHP = _otherPlayer->maxHP;
 			}
@@ -220,7 +213,7 @@ void UtilityCard::Action(Character* _caster, Character* _target, Character* _oth
 		case UtilityCard::ENHNACED:
 		{
 			_caster->isGenerate = true;
-			_caster->LinesMult *= 2;
+			_caster->LinesMult *= 3;
 			_caster->generateLine = 0.0f;
 			//double lines over next 5 seconds
 			break;

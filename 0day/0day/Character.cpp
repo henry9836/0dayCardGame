@@ -48,8 +48,13 @@ void Character::constantuUpdateLines(float deltaTime , int waves)
 
 	if (this->currentLines < 100.0f)
 	{
-		this->currentLines += deltaTime * LinesMult * 0.25f * (1+ (waves * 0.1f)); //actual speed * mods * constant to slow gameplay down
+		this->currentLines += deltaTime * LinesMult * 0.4f * (1+ (waves * 0.1f)); //actual speed * mods * constant to slow gameplay down
 	}
+
+
+	
+
+
 
 	if (this->currentLines > 100.0f)
 	{
@@ -106,9 +111,15 @@ void Character::Render()
 
 void Character::Tick(float deltaTime, int wave)
 {
-	constantuUpdateLines(deltaTime, wave);
+	if (isAI) 
+	{
+		updateRateOfLinesMult(deltaTime);
+	}
 
-	drawcardTimer += deltaTime/60 * 0.5f * (1 +(wave * 0.1f)); // deltatimne * constant to slow gameplay down * scale
+		constantuUpdateLines(deltaTime, wave);
+
+
+	drawcardTimer += deltaTime/60 * 0.35f * (1 +(wave * 0.1f)); // deltatimne * constant to slow gameplay down * scale
 
 	if (drawcardTimer > drawcardThreshold) {
 		DrawACard();
@@ -166,10 +177,7 @@ AI::~AI()
 {
 }
 
-void AI::updateRateOfLinesMult(float deltaTime)
-{
-	this->LinesMult += this->LinesMult * rateOfLinesMult * deltaTime;
-}
+
 
 CardPile::CardPile(glm::vec3 _handPos)
 {
