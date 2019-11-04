@@ -132,6 +132,7 @@ namespace Textures
 	const std::string sunglasses = "Resources/Textures/CARDS/sunglasses.png";
 	const std::string systemreset = "Resources/Textures/CARDS/systemreset.png";
 	const std::string tape = "Resources/Textures/CARDS/tape.png";
+	const std::string Page2 = "Resources/Textures/HowToPlaySelection.png";
 
 	const std::string Player1Indicator = "Resources/Textures/Player1Indicator.png";
 	const std::string Player2Indicator = "Resources/Textures/Player2Indicator.png";

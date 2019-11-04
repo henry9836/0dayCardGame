@@ -43,6 +43,7 @@ public:
 	GameObject* p2GYVisual;
 	GameObject* gameBackground;
 	GameObject* background;
+	GameObject* Page2;
 
 	//Effects
 	GameObject* p1EffectLines;
@@ -62,6 +63,7 @@ public:
 	CTextLabel* levelText;
 
 	int currentLvl = 1;
+	bool isSecondPage = false;
 	bool gameover = false;
 	bool once = false;
 	bool Selectonce = false;

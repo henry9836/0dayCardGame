@@ -17,9 +17,9 @@ public:
 	virtual void SetShader(GLuint _shader) = 0;
 };
 
-class NoRender : public RenderClass {
-
-};
+//class NoRender : public RenderClass {
+//
+//};
 
 class RenderObject : public RenderClass{
 public:

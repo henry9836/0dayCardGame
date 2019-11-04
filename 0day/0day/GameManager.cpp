@@ -350,12 +350,20 @@ void Render() {
 	}
 	case Scenes::SCENE_HOWTOPLAY:
 	{
-		game->background->Render();
-		game->HowToPlayMenu->Render();
-		for (size_t i = 0; i < game->howtoplayObjects.size(); i++)
+		if (game->isSecondPage == false)
 		{
-			game->howtoplayObjects.at(i)->Render();
+			game->background->Render();
+			for (size_t i = 0; i < game->howtoplayObjects.size(); i++)
+			{
+				game->howtoplayObjects.at(i)->Render();
+			}
 		}
+		else
+		{
+			game->Page2->Render();
+		}
+		game->HowToPlayMenu->Render();
+
 		break;
 	}
 	case Scenes::SCENE_LOSE: {
@@ -698,6 +706,9 @@ void Update() {
 		switch (tempOutput)
 		{
 		case 0:
+			game->isSecondPage = !game->isSecondPage;
+			break;
+		case 1:
 			game->currentScene = Scenes::SCENE_MAIN;
 			break;
 		default:
@@ -767,6 +778,8 @@ void populateGameObjectList() {
 #pragma region how to play menu 
 
 	std::vector<std::string> menuopts;
+
+	menuopts.push_back("Next Page");
 	menuopts.push_back("Back");
 
 	game->HowToPlayMenu = new CMenu(menuopts, glm::vec2((game->ScreenSize.x /2) - 200, (-game->ScreenSize.y / 2) + 50), game);
@@ -775,6 +788,7 @@ void populateGameObjectList() {
 	game->howtoplayObjects.push_back(new GameObject(new RenderText(new CTextLabel("Player 2: </> to change selection, Up Arrow to play a card", Utility::NormalFontString.data(), glm::vec2((-game->ScreenSize.x / 2) + 50, (game->ScreenSize.y / 2) - 100), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, game, ("test1"))), new IdleTick, Transform(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "vText"));
 	game->howtoplayObjects.push_back(new GameObject(new RenderText(new CTextLabel("Card Colour types are Red = Attack, \nBlue = Defence, Purple = Utility", Utility::NormalFontString.data(), glm::vec2((-game->ScreenSize.x / 2) + 50, (-game->ScreenSize.y / 2) + 100), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, game, ("Type of Cards Text"))), new IdleTick, Transform(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f)), "vText"));
 	game->howtoplayObjects.push_back(new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture(Textures::stager.data()), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(game->ScreenSize.x * -0.25f, 0.0f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(game->ScreenSize.x * 0.125f, game->ScreenSize.y * 0.25, 1.0f)), "test image"));
+	game->Page2 = new GameObject(new RenderObject(MeshManager::GetMesh(Object_Attributes::CARD_ENTITY), MeshManager::SetTexture(Textures::Page2.data()), game, MeshManager::GetShaderProgram(Shader_Attributes::BASIC_SHADER)), new IdleTick, Transform(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(game->ScreenSize.x * 0.5f, game->ScreenSize.y * 0.5, 1.0f)), "test image");
 
 	game->lostObjects.push_back(new GameObject(new RenderText(new CTextLabel("Game Over\nYou have lost the battle against the robots\nPress Space To Continue...", Utility::NormalFontString.data(), glm::vec2(game->ScreenSize.x * -0.25f, game->ScreenSize.y * 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, game, ("Lose Text"))), new IdleTick, Transform(glm::vec3(game->ScreenSize.x * -0.35f, 0.0f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(0, 0, 0)), "Lose Text"));
 
