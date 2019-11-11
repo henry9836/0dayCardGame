@@ -372,7 +372,7 @@ void Render() {
 		{
 			game->lostObjects.at(i)->Render();
 		}
-
+		game->levelText->Render();
 		break;
 	}
 	default:
